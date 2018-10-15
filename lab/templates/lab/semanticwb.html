@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+  {% load static %}
+  {% load mathfilters %}
+  <head>
+    <meta charset="utf-8">
+    <title>IIIS.ThU</title>
+    <link rel="stylesheet" href="{% static "css/semantic.css" %}">
+    <script src="{% static "js/jquery.min.js" %}"></script>
+    <script src="{% static "js/semantic.js" %}"></script>
+    <script src="{% static "js/search.js" %}"></script>
+  </head>
+  <body>
+    <div class="ui thin visible left sidebar inverted vertical menu">
+      <div class="header item">
+        <img src="{% static "images/logo2.png" %}">
+      </div>
+      <div class="item">
+        Doucument
+        <i class="browser icon"></i>
+      </div>
+      <div class="item">
+        Charts
+        <i class="bar chart icon"></i>
+      </div>
+      <div class="item">
+        Others
+        <i class="idea icon"></i>
+      </div>
+      <div class="item" id="search">
+        Search
+        <i class="search icon"></i>
+      </div>
+      <div class="item" id="search-bar">
+        <form action="{% url 'lab:index' %}" method="POST">
+          {% csrf_token %}
+          <input name="keyword">
+          <input type="hidden" name="page" value="1">
+        </form>
+      </div>
+      <a href="{% url 'lab:index' 'rivaroxaban' 1 %}">
+        <div class="item">
+          Gene
+          <i class="lab icon"></i>
+        </div>
+      </a>
+      <a href="{% url 'lab:index' 'prothrombinase' 1 %}">
+        <div class="item">
+          Compound
+          <i class="database icon"></i>
+        </div>
+      </a>
+      <div class="item">
+          <span  style="overflow-wrap: break-word">
+          Created by Silexon
+          </span>
+      </div>
+    </div>
+    <div class="pusher">
+
+
+      <div class="ui menu">
+        <div class="header item" id="menu">
+          Menu
+          <i class="content icon"></i>
+        </div>
+        <div class="item">
+          About us
+        </div>
+        <div class="item">
+          Location
+        </div>
+        <div class="item">
+          Others
+        </div>
+
+      </div>
+      <div class="ui container">
+        <div class="ui divided items">
+          {% for item in data %}
+            <div class="item">
+                <div class="content">
+                  {% if forloop.counter == 1 %}
+                  <div class="header">
+                    {{ keyword }}
+                  </div>
+                  {% endif %}
+                  <div class="description">
+                    <p>
+                      {{ item.name }}
+                    </p>
+                  </div>
+                  <div class="extra">
+                    <div class="ui label">
+                      score:  {{ item.avg_score | floatformat:3 }}
+                    </div>
+                    <div class="ui label">
+                      cite_num:  {{ item.cite_num }}
+                    </div>
+    
+                  </div>
+    
+                </div>
+    
+              </div>
+          {% endfor %}
+          <!-- <div class="item">
+            <div class="content">
+              <div class="header">
+                The title
+              </div>
+              <div class="description">
+                <p>
+                  Data 3
+                </p>
+              </div>
+              <div class="extra">
+                <div class="ui label">
+                  tag1
+                </div>
+                <div class="ui label">
+                  tag2
+                </div>
+
+              </div>
+
+            </div>
+
+          </div> -->
+
+        </div>
+        <div class="ui pagination menu">
+          <a class="item" href="{% url 'lab:index' keyword page|sub:1 %}" id="pagination-pre"> < </a>
+          <div class="disable item">
+            page {{ page }} of {{ num_pages }}
+          </div>
+          <a class="item" href="{% url 'lab:index' keyword page|add:1 %}" id="pagination-next"> > </a>
+        </div>
+      </div>
+
+    <script>
+      $('#menu').click(function () {
+        $('.ui.sidebar').sidebar('toggle');
+      });
+    </script>
+    </div>
+  </body>
+</html>

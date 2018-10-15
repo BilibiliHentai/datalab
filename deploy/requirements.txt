@@ -1,0 +1,5 @@
+uwsgi
+psycopg2
+django
+django-mathfilters
+pymongo
