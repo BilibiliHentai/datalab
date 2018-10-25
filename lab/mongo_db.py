@@ -9,6 +9,7 @@ class Database(object):
         self.db = self.client.get_database(db_name)
         self.authentic(username, password)
 
+
     def connect(self, host, port):
         try:
             client = MongoClient(host=host, port=port, connect=False)
@@ -18,6 +19,7 @@ class Database(object):
             print('----Connect: error')
             return None
 
+
     def authentic(self, username, password):
         try:
             self.db.authenticate(username, password)
@@ -25,8 +27,10 @@ class Database(object):
         except:
             print('----Authentic: error')
 
+
     def close(self):
         self.client.close()
+
 
     def __str__(self):
         s = ''
@@ -36,127 +40,132 @@ class Database(object):
             s += '{0}: {1} records\n'.format(table.name, table.count())
         return s
 
+
     # condition list
-    # ç­‰äº
+    # µÈÓÚ
     # { < key >: < value >}    db.col.find({"id": "DB00001"})
 
-    # å°äº
+    # Ğ¡ÓÚ
     # { < key >:{$lt: < value >}}    db.col.find({"likes": {$lt:50}})
 
-    # å°äºæˆ–ç­‰äº
+    # Ğ¡ÓÚ»òµÈÓÚ
     # { < key >:{$lte: < value >}}    db.col.find({"likes": {$lte:50}})
 
-    # å¤§äº
+    # ´óÓÚ
     # { < key >:{$gt: < value >}}    db.col.find({"likes": {$gt:50}})
 
-    # å¤§äºæˆ–ç­‰äº
+    # ´óÓÚ»òµÈÓÚ
     # { < key >:{$gte: < value >}}    db.col.find({"likes": {$gte:50}})
 
-    # ä¸ç­‰äº
+    # ²»µÈÓÚ
     # { < key >:{$ne: < value >}}    db.col.find({"likes": {$ne:50}})
 
-    def find_one(self, table_name, condition=None):
+    def _find_one(self, table_name, condition=None):
         table = self.db.get_collection(table_name)
         return table.find_one(condition)
 
-    def find(self, table_name, condition=None):
+
+    def _find(self, table_name, condition=None):
         table = self.db.get_collection(table_name)
         return table.find(condition)
+
+
+    def query_gene(self, gene_name):
+        gene_name = gene_name.lower()
+        compound_dict = {}
+
+        gene_item = self._find_one('GeneMap', {'name': gene_name})
+        try:
+            gene_id = gene_item['id']
+        except:
+            print("No record")
+            return []
+
+        pairs = self._find('CompoundGene', {'gene': gene_id})
+
+        for pair in pairs:
+            compound_id = pair['compound']
+            sent = ' '.join(pair['sent'])
+            pmid = pair['pmid']
+            score = pair['score']
+
+            if compound_id in compound_dict:
+                compound_dict[compound_id]['ref'].append((pmid, sent))
+                compound_dict[compound_id]['cite_num'] += 1
+                compound_dict[compound_id]['avg_score'] += float(score)
+            else:
+                compound_dict[compound_id] = {'name': '', 'avg_score': float(score), 'cite_num': 1, 'ref': [(pmid, sent)]}
+
+        for compound_id in compound_dict.keys():
+            compound_item = self._find_one('dictionary', {'id': compound_id})
+            compound_name = compound_item['name'][0]
+
+            compound_dict[compound_id]['name'] = compound_name
+            compound_dict[compound_id]['avg_score'] /= compound_dict[compound_id]['cite_num']
+        compound_dict_values = compound_dict.values()
+        data = list(compound_dict_values)
+        return data
+
+
+    def query_compound(self, compound_name):
+        compound_name = compound_name.lower()
+        gene_dict = {}
+
+        compound_item = self._find_one('CompoundMap', {'name': compound_name})
+        try:
+            compound_id = compound_item['id']
+        except:
+            print("No record")
+            return []
+
+        pairs = self._find('CompoundGene', {'compound': compound_id})
+
+        for pair in pairs:
+            gene_id = pair['gene']
+            sent = ' '.join(pair['sent'])
+            pmid = pair['pmid']
+            score = pair['score']
+
+            if gene_id in gene_dict:
+                gene_dict[gene_id]['ref'].append((pmid, sent))
+                gene_dict[gene_id]['cite_num'] += 1
+                gene_dict[gene_id]['avg_score'] += float(score)
+            else:
+                gene_dict[gene_id] = {'name': '', 'avg_score': float(score), 'cite_num': 1, 'ref': [(pmid, sent)]}
+
+        for gene_id in gene_dict.keys():
+            gene_item = self._find_one('dictionary', {'id': gene_id})
+            gene_name = gene_item['name'][0]
+
+            gene_dict[gene_id]['name'] = gene_name
+            gene_dict[gene_id]['avg_score'] /= gene_dict[gene_id]['cite_num']
+        gene_dict_values = gene_dict.values()
+        data = list(gene_dict_values)
+        return data
 
 
 database = Database('PMC', username='PMC', password='PMC123', host="166.111.141.147", port=27017)
 
 
-def query_gene(gene_name):
-    gene_name = gene_name.lower()
-    compound_dict = {}
-
-    gene_item = database.find_one('GeneMap', {'name': gene_name})
-    try:
-        gene_id = gene_item['id']
-    except:
-        print("No record")
-        return []
-
-    pairs = database.find('CompoundGene', {'gene': gene_id})
-
-    for pair in pairs:
-        compound_id = pair['compound']
-        sent = ' '.join(pair['sent'])
-        pmid = pair['pmid']
-        score = pair['score']
-
-        if compound_id in compound_dict:
-            compound_dict[compound_id]['ref'].append((pmid, sent))
-            compound_dict[compound_id]['cite_num'] += 1
-            compound_dict[compound_id]['avg_score'] += float(score)
-        else:
-            compound_dict[compound_id] = {'name': '', 'avg_score': float(score), 'cite_num': 1, 'ref': [(pmid, sent)]}
-
-    for compound_id in compound_dict.keys():
-        compound_item = database.find_one('dictionary', {'id': compound_id})
-        compound_name = compound_item['name'][0]
-
-        compound_dict[compound_id]['name'] = compound_name
-        compound_dict[compound_id]['avg_score'] /= compound_dict[compound_id]['cite_num']
-    compound_dict_values = compound_dict.values()
-    data = list(compound_dict_values)
-    return data
-
-
-def query_compound(compound_name):
-    compound_name = compound_name.lower()
-    gene_dict = {}
-
-    compound_item = database.find_one('CompoundMap', {'name': compound_name})
-    try:
-        compound_id = compound_item['id']
-    except:
-        print("No record")
-        return []
-
-    pairs = database.find('CompoundGene', {'compound': compound_id})
-
-    for pair in pairs:
-        gene_id = pair['gene']
-        sent = ' '.join(pair['sent'])
-        pmid = pair['pmid']
-        score = pair['score']
-
-        if gene_id in gene_dict:
-            gene_dict[gene_id]['ref'].append((pmid, sent))
-            gene_dict[gene_id]['cite_num'] += 1
-            gene_dict[gene_id]['avg_score'] += float(score)
-        else:
-            gene_dict[gene_id] = {'name': '', 'avg_score': float(score), 'cite_num': 1, 'ref': [(pmid, sent)]}
-
-    for gene_id in gene_dict.keys():
-        gene_item = database.find_one('dictionary', {'id': gene_id})
-        gene_name = gene_item['name'][0]
-
-        gene_dict[gene_id]['name'] = gene_name
-        gene_dict[gene_id]['avg_score'] /= gene_dict[gene_id]['cite_num']
-    gene_dict_values = gene_dict.values()
-    data = list(gene_dict_values)
-    return data
-
 if __name__ == '__main__':
     print('\n---------Interacted Genes for compound *rivaroxaban*---------\n')
-    genes = query_compound('rivaroxaban')
+    database = Database('PMC', username='PMC', password='PMC123', host="166.111.141.147", port=27017)
+    genes = database.query_compound('rivaroxaban')
     genes = sorted(genes, key=lambda x: x['cite_num'], reverse=True)
-    # gene['name']: åŸºå› åç§°
-    # gene['avg_score]: å¹³å‡åˆ†æ•°
-    # gene['cite_num]: å‚è€ƒæ•°ç›®
+    # gene['name']: »ùÒòÃû³Æ
+    # gene['avg_score]: Æ½¾ù·ÖÊı
+    # gene['cite_num]: ²Î¿¼ÊıÄ¿
     # gene['ref]: [(pmid,sent),(pmid,sent)...]
     for gene in genes:
         print(gene['name'], gene['avg_score'], gene['cite_num'])
 
     print('\n---------Interacted Compounds for gene *prothrombinase*---------\n')
-    compounds = query_gene('prothrombinase')
+    compounds = database.query_gene('prothrombinase')
     compounds = sorted(compounds, key=lambda x: x['cite_num'], reverse=True)
-    # compound['name']: å°åˆ†å­åç§°
-    # compound['avg_score]: å¹³å‡åˆ†æ•°
-    # compound['cite_num]: å‚è€ƒæ•°ç›®
+    # compound['name']: Ğ¡·Ö×ÓÃû³Æ
+    # compound['avg_score]: Æ½¾ù·ÖÊı
+    # compound['cite_num]: ²Î¿¼ÊıÄ¿
     # compound['ref]: [(pmid,sent),(pmid,sent)...]
     for compound in compounds:
         print(compound['name'], compound['avg_score'], compound['cite_num'])
+
