@@ -8,7 +8,7 @@ class TestData(object):
     def get_test_data(self, query_keyword):
         self.data = []
         if query_keyword in TestData.kw:
-            for i in range(100):
+            for _ in range(100):
                 self.data.append(
                     {
                         'name': self._get_random_string(),
