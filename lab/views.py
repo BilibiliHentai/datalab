@@ -30,10 +30,10 @@ def index(request, keyword='rivaroxaban', page=1):
     test_data_set = TestData()
 
     if settings.DEBUG is True:
-        # 测试用数据
+        # test data for development
         data = test_data_set.get_test_data(keyword)
     else:
-        # 实际用数据
+        # real data for production
         data = search(keyword, True)
         database.close()
 

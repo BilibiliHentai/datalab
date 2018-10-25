@@ -42,22 +42,22 @@ class Database(object):
 
 
     # condition list
-    # µÈÓÚ
+    # ï¿½ï¿½ï¿½ï¿½
     # { < key >: < value >}    db.col.find({"id": "DB00001"})
 
-    # Ð¡ÓÚ
+    # Ð¡ï¿½ï¿½
     # { < key >:{$lt: < value >}}    db.col.find({"likes": {$lt:50}})
 
-    # Ð¡ÓÚ»òµÈÓÚ
+    # Ð¡ï¿½Ú»ï¿½ï¿½ï¿½ï¿½
     # { < key >:{$lte: < value >}}    db.col.find({"likes": {$lte:50}})
 
-    # ´óÓÚ
+    # ï¿½ï¿½ï¿½ï¿½
     # { < key >:{$gt: < value >}}    db.col.find({"likes": {$gt:50}})
 
-    # ´óÓÚ»òµÈÓÚ
+    # ï¿½ï¿½ï¿½Ú»ï¿½ï¿½ï¿½ï¿½
     # { < key >:{$gte: < value >}}    db.col.find({"likes": {$gte:50}})
 
-    # ²»µÈÓÚ
+    # ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     # { < key >:{$ne: < value >}}    db.col.find({"likes": {$ne:50}})
 
     def _find_one(self, table_name, condition=None):
@@ -152,9 +152,9 @@ if __name__ == '__main__':
     database = Database('PMC', username='PMC', password='PMC123', host="166.111.141.147", port=27017)
     genes = database.query_compound('rivaroxaban')
     genes = sorted(genes, key=lambda x: x['cite_num'], reverse=True)
-    # gene['name']: »ùÒòÃû³Æ
-    # gene['avg_score]: Æ½¾ù·ÖÊý
-    # gene['cite_num]: ²Î¿¼ÊýÄ¿
+    # gene['name']: ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    # gene['avg_score]: Æ½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    # gene['cite_num]: ï¿½Î¿ï¿½ï¿½ï¿½Ä¿
     # gene['ref]: [(pmid,sent),(pmid,sent)...]
     for gene in genes:
         print(gene['name'], gene['avg_score'], gene['cite_num'])
@@ -162,9 +162,9 @@ if __name__ == '__main__':
     print('\n---------Interacted Compounds for gene *prothrombinase*---------\n')
     compounds = database.query_gene('prothrombinase')
     compounds = sorted(compounds, key=lambda x: x['cite_num'], reverse=True)
-    # compound['name']: Ð¡·Ö×ÓÃû³Æ
-    # compound['avg_score]: Æ½¾ù·ÖÊý
-    # compound['cite_num]: ²Î¿¼ÊýÄ¿
+    # compound['name']: Ð¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    # compound['avg_score]: Æ½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    # compound['cite_num]: ï¿½Î¿ï¿½ï¿½ï¿½Ä¿
     # compound['ref]: [(pmid,sent),(pmid,sent)...]
     for compound in compounds:
         print(compound['name'], compound['avg_score'], compound['cite_num'])
