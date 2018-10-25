@@ -82,12 +82,12 @@
                 <div class="content">
                   {% if forloop.counter == 1 %}
                   <div class="header">
-                    {{ keyword }}
+                    <a href="http://ctdbase.org/basicQuery.go?bqCat=all&bq={{ keyword }}" target="_blank"> {{ keyword }} </a>
                   </div>
                   {% endif %}
                   <div class="description">
                     <p>
-                      {{ item.name }}
+                       {{ item.name }}
                     </p>
                   </div>
                   <div class="extra">
