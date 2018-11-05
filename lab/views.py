@@ -52,6 +52,10 @@ def index(request, keyword='rivaroxaban', page=1):
     return render(request, 'lab/semanticwb.html', context=context)
 
 
+def statistics(request):
+    return render(request, 'lab/statistics.html')
+
+
 def search(keyword: str, set_sort: bool = True) -> list:
     data = database.query_gene(keyword)
     if not data:
