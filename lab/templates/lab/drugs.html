@@ -1,0 +1,36 @@
+<div class="ui divided items">
+  {% for item in data %}
+  <div class="item">
+    <div class="content">
+      {% if forloop.counter == 1 %}
+      <div class="header">
+        <a href="http://ctdbase.org/basicQuery.go?bqCat=all&bq={{ keyword }}" target="_blank">
+          {{ keyword }}
+        </a>
+      </div>
+      {% endif %}
+      <div class="description">
+        <p>
+          {{ item.name }}
+        </p>
+      </div>
+      <div class="extra">
+        <div class="ui label">
+          score: {{ item.avg_score | floatformat:3 }}
+        </div>
+        <div class="ui label">
+          cite_num: {{ item.cite_num }}
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+<div class="ui pagination menu">
+  <a class="item" href="{% url 'lab:drugs' keyword prev_page %}" id="pagination-pre"> < </a>
+  <div class="disable item">
+    page {{ page }} of {{ num_pages }}
+  </div>
+  <a class="item" href="{% url 'lab:drugs' keyword next_page %}" id="pagination-next"> > </a>
+</div>

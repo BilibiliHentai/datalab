@@ -38,13 +38,13 @@
           <input type="hidden" name="page" value="1">
         </form>
       </div>
-      <a href="{% url 'lab:index' 'rivaroxaban' 1 %}">
+      <a href="{% url 'lab:drugs' 'rivaroxaban' 1 %}">
         <div class="item">
           Gene
           <i class="lab icon"></i>
         </div>
       </a>
-      <a href="{% url 'lab:index' 'prothrombinase' 1 %}">
+      <a href="{% url 'lab:drugs' 'prothrombinase' 1 %}">
         <div class="item">
           Compound
           <i class="database icon"></i>
@@ -87,7 +87,9 @@
                 <div class="content">
                   {% if forloop.counter == 1 %}
                   <div class="header">
-                    <a href="http://ctdbase.org/basicQuery.go?bqCat=all&bq={{ keyword }}" target="_blank"> {{ keyword }} </a>
+                    <a href="http://ctdbase.org/basicQuery.go?bqCat=all&bq={{ keyword }}" target="_blank">
+                      {{ keyword }} 
+                    </a>
                   </div>
                   {% endif %}
                   <div class="description">
@@ -135,11 +137,11 @@
 
         </div>
         <div class="ui pagination menu">
-          <a class="item" href="{% url 'lab:index' keyword page|sub:1 %}" id="pagination-pre"> < </a>
+          <a class="item" href="{% url 'lab:drugs' keyword prev_page %}" id="pagination-pre"> < </a>
           <div class="disable item">
             page {{ page }} of {{ num_pages }}
           </div>
-          <a class="item" href="{% url 'lab:index' keyword page|add:1 %}" id="pagination-next"> > </a>
+          <a class="item" href="{% url 'lab:drugs' keyword next_page %}" id="pagination-next"> > </a>
         </div>
       </div>
 

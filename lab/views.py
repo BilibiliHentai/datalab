@@ -9,7 +9,14 @@ else:
     from lab.mongo_db import database
 
 
-def index(request, keyword='rivaroxaban', page=1):
+def index(request):
+    context = {
+        'subtemplate': 'lab/main.html',
+    }
+    return render(request, 'lab/index.html', context=context)
+
+
+def get_drugs(request, keyword='rivaroxaban', page=1):
     """all data will be returned by search, \n
     if not given, there's a default keyword.
 
@@ -38,7 +45,6 @@ def index(request, keyword='rivaroxaban', page=1):
         database.close()
 
     paginator = Paginator(data, 10)
-    print(type(page))
     if page < 1:
         page = 1
     elif page > paginator.num_pages:
@@ -48,17 +54,35 @@ def index(request, keyword='rivaroxaban', page=1):
         'keyword': keyword,
         'num_pages': paginator.num_pages,
         'page': page,
+        'next_page': page+1,
+        'prev_page': page if page == 1 else page - 1,
+        'subtemplate': 'lab/drugs.html',
     }
-    return render(request, 'lab/semanticwb.html', context=context)
+    return render(request, 'lab/index.html', context=context)
 
 
 def statistics(request):
-    return render(request, 'lab/statistics.html')
+    context = {'subtemplate': 'lab/statistics.html'}
+    return render(request, 'lab/index.html',context=context)
+
+
+def gene(request):
+    context = {'subtemplate': 'lab/gene.html'}
+    return render(request, 'lab/index.html', context=context)
+
+
+def compound(request):
+    context = {'subtemplate': 'lab/compound.html'}
+    return render(request, 'lab/index.html', context=context)
+
+
+def help(request):
+    context = {'subtemplate': 'lab/help.html'}
+    return render(request, 'lab/index.html', context=context)
 
 
 def search(keyword: str, set_sort: bool = True) -> list:
     data = database.query_gene(keyword)
     if not data:
         data = database.query_compound(keyword)
-    database.close()
     return sorted(data, key=lambda x: x['cite_num'], reverse=True)

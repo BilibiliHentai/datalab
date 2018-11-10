@@ -1,0 +1,48 @@
+<div class="ui grid">
+
+  <div class="four wide column">
+    <select class="ui dropdown">
+      <option value="">Categories</option>
+      <option value="1">type a</option>
+      <option value="0">type b</option>
+    </select>
+  </div>
+
+  <div class="four wide column"></div>
+  <div class="four wide column"></div>
+
+  <div class="four wide column">
+    <div class="ui icon input ">
+      <input type="text" placeholder="Search gene...">
+      <i class="circular search link icon"></i>
+    </div>
+  </div>
+
+</div>
+
+
+<table class="ui celled table">
+  <thead>
+    <tr>
+      <th>name</th>
+      <th>categories</th>
+      <th>protein name</th>
+      <th>对应记录条数</th>
+      <th>gene简介</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td data-label="name">rivaroxaban</td>
+      <td data-label="categories">xxx</td>
+      <td data-label="protein name">yyy</td>
+      <td data-label="对应记录条数">....</td>
+      <td data-label="gene简介">...</td>
+    </tr>
+  </tbody>
+</table>
+
+<script>
+  $('.ui.dropdown')
+    .dropdown();
+</script>
