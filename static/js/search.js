@@ -17,21 +17,4 @@ $(function(){
             form.submit()
         }     
     });
-
-    // $("#pagination-pre").click(() => {
-    //     window.location = ''
-    // })
-
 })
-
-// function fill(data) {
-
-// }
-
-
-// function ajax_get_data(url, keyword, page) {
-//     url = url + '/keyword=' + keyword + '/page=' + page
-//     $.get(url, (data, status) => {
-//         return JSON.parse(data)
-//     })
-// }
