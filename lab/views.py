@@ -63,16 +63,32 @@ def get_drugs(request, keyword='rivaroxaban', page=1):
 
 def statistics(request):
     context = {'subtemplate': 'lab/statistics.html'}
-    return render(request, 'lab/index.html',context=context)
+    return render(request, 'lab/index.html', context=context)
 
 
 def gene(request):
-    context = {'subtemplate': 'lab/gene.html'}
+    context = {
+        'gene_name': 'prothrombinase',
+        'subtemplate': 'lab/gene.html',
+    }
+    return render(request, 'lab/index.html', context=context)
+
+
+def gene_detail(request, gene_name):
+    context = {'subtemplate': 'lab/gene-detail.html'}
     return render(request, 'lab/index.html', context=context)
 
 
 def compound(request):
-    context = {'subtemplate': 'lab/compound.html'}
+    context = {
+        'compound_name': 'rivaroxaban',
+        'subtemplate': 'lab/compound.html'
+    }
+    return render(request, 'lab/index.html', context=context)
+
+
+def compound_detail(request, compound_name):
+    context = {'subtemplate': 'lab/compound-detail.html'}
     return render(request, 'lab/index.html', context=context)
 
 
