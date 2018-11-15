@@ -64,9 +64,8 @@
       </span>
     </div>
   </div>
+
   <div class="pusher">
-
-
     <div class="ui menu">
       <div class="header item" id="menu">
         Menu
@@ -87,11 +86,12 @@
         {% include subtemplate %}
     </div>
     <script>
-      // $('.ui.sidebar').sidebar('hide');
+    $(document).ready(function () {
       $('#menu').click(function () {
         $('.ui.sidebar').sidebar('toggle');
       });
-    </script>
+    });
+  </script>
   </div>
 </body>
 
