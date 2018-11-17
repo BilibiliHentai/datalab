@@ -1,13 +1,29 @@
 {% load static %}
 <div class="ui raised very padded text segment">
   <h2 class="ui header">Gene summary</h2>
-  <p>ID, score, sequence, protein, name, function, link to uniprot, known compound/drug</p>
+  <div class="ui grid">
+    <div class="four wide column">ID:</div>
+    <div class="four wide column">1</div>
+    <div class="four wide column">Score:</div>
+    <div class="four wide column">86</div>
+    <div class="four wide column">Sequence:</div>
+    <div class="four wide column">...</div>
+    <div class="four wide column">Protein name:</div>
+    <div class="four wide column">protein A</div>
+    <div class="four wide column">Function:</div>
+    <div class="four wide column">healling</div>
+    <div class="four wide column">Link to uniprot:</div>
+    <div class="four wide column">null</div>
+    <div class="four wide column">Known compound/drug:</div>
+    <div class="four wide column">...</div>
+  </div>
+  <div class="ui section divider"></div>
   <table class="ui celled table">
     <thead>
       <tr>
-        <th>compound name</th>
-        <th>actions</th>
-        <th>link to drug bank</th>
+        <th>COMPOUND NAME</th>
+        <th>ACTIONS</th>
+        <th>LINK TO DRUG BANK</th>
       </tr>
     </thead>
     <tbody>
@@ -41,111 +57,251 @@
   <table class="ui celled table">
     <thead>
       <tr>
-        <th>compound name</th>
-        <th>score</th>
-        <th>supported entries</th>
+        <th>COMPOUND NAME</th>
+        <th>SCORE</th>
+        <th>SUPPORTED ENTRIES</th>
       </tr>
     </thead>
     <tbody class="table-compound">
       <tr>
         <td data-label="compound name">...</td>
         <td data-label="score">...</td>
-        <td data-label="supported entries" class="entries" data-html="<div class='ui segment'>not decided</div>">...</td>
+        <td data-label="supported entries" class="entries" data-html="<div class='ui segment' style='
+            width: 400px;
+            height: 300px;
+            border-radius: 0;
+            background-color:#494e76;'>
+            <div class='ui header' style='background-color: #494e76'>Support Entries</div>
+            <div class='ui message' style='background-color: #acabbd; width: 370px; height: 235px; overflow: auto; word-wrap: break-word;'><p>shitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshit</p><p>123</p></div>
+            </div>">...</td>
       </tr>
       <tr>
         <td data-label="compound name">...</td>
         <td data-label="score">...</td>
-        <td data-label="supported entries" class="entries" data-html="<div class='ui segment'>not decided</div>">...</td>
+        <td data-label="supported entries" class="entries" data-html="<div class='ui segment' style='
+              width: 400px;
+              height: 300px;
+              border-radius: 0;
+              background-color:#494e76;'>
+              <div class='ui header' style='background-color: #494e76'>Support Entries</div>
+              <div class='ui message' style='background-color: #acabbd; width: 370px; height: 235px; overflow: auto; word-wrap: break-word;'><p>shitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshit</p><p>123</p></div>
+              </div>">...</td>
       </tr>
       <tr>
         <td data-label="compound name">...</td>
         <td data-label="score">...</td>
-        <td data-label="supported entries" class="entries" data-html="<div class='ui segment'>not decided</div>">...</td>
+        <td data-label="supported entries" class="entries" data-html="<div class='ui segment' style='
+                width: 400px;
+                height: 300px;
+                border-radius: 0;
+                background-color:#494e76;'>
+                <div class='ui header' style='background-color: #494e76'>Support Entries</div>
+                <div class='ui message' style='background-color: #acabbd; width: 370px; height: 235px; overflow: auto; word-wrap: break-word;'><p>shitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshit</p><p>123</p></div>
+                </div>">...</td>
       </tr>
       <tr>
         <td data-label="compound name">...</td>
         <td data-label="score">...</td>
-        <td data-label="supported entries" class="entries" data-html="<div class='ui segment'>not decided</div>">...</td>
+        <td data-label="supported entries" class="entries" data-html="<div class='ui segment' style='
+                  width: 400px;
+                  height: 300px;
+                  border-radius: 0;
+                  background-color:#494e76;'>
+                  <div class='ui header' style='background-color: #494e76'>Support Entries</div>
+                  <div class='ui message' style='background-color: #acabbd; width: 370px; height: 235px; overflow: auto; word-wrap: break-word;'><p>shitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshit</p><p>123</p></div>
+                  </div>">...</td>
       </tr>
       <tr>
         <td data-label="compound name">...</td>
         <td data-label="score">...</td>
-        <td data-label="supported entries" class="entries" data-html="<div class='ui segment'>not decided</div>">...</td>
+        <td data-label="supported entries" class="entries" data-html="<div class='ui segment' style='
+                    width: 400px;
+                    height: 300px;
+                    border-radius: 0;
+                    background-color:#494e76;'>
+                    <div class='ui header' style='background-color: #494e76'>Support Entries</div>
+                    <div class='ui message' style='background-color: #acabbd; width: 370px; height: 235px; overflow: auto; word-wrap: break-word;'><p>shitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshit</p><p>123</p></div>
+                    </div>">...</td>
       </tr>
       <tr>
         <td data-label="compound name">...</td>
         <td data-label="score">...</td>
-        <td data-label="supported entries" class="entries" data-html="<div class='ui segment'>not decided</div>">...</td>
+        <td data-label="supported entries" class="entries" data-html="<div class='ui segment' style='
+                      width: 400px;
+                      height: 300px;
+                      border-radius: 0;
+                      background-color:#494e76;'>
+                      <div class='ui header' style='background-color: #494e76'>Support Entries</div>
+                      <div class='ui message' style='background-color: #acabbd; width: 370px; height: 235px; overflow: auto; word-wrap: break-word;'><p>shitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshit</p><p>123</p></div>
+                      </div>">...</td>
       </tr>
       <tr>
         <td data-label="compound name">...</td>
         <td data-label="score">...</td>
-        <td data-label="supported entries" class="entries" data-html="<div class='ui segment'>not decided</div>">...</td>
+        <td data-label="supported entries" class="entries" data-html="<div class='ui segment' style='
+                        width: 400px;
+                        height: 300px;
+                        border-radius: 0;
+                        background-color:#494e76;'>
+                        <div class='ui header' style='background-color: #494e76'>Support Entries</div>
+                        <div class='ui message' style='background-color: #acabbd; width: 370px; height: 235px; overflow: auto; word-wrap: break-word;'><p>shitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshit</p><p>123</p></div>
+                        </div>">...</td>
       </tr>
       <tr>
         <td data-label="compound name">...</td>
         <td data-label="score">...</td>
-        <td data-label="supported entries" class="entries" data-html="<div class='ui segment'>not decided</div>">...</td>
+        <td data-label="supported entries" class="entries" data-html="<div class='ui segment' style='
+                          width: 400px;
+                          height: 300px;
+                          border-radius: 0;
+                          background-color:#494e76;'>
+                          <div class='ui header' style='background-color: #494e76'>Support Entries</div>
+                          <div class='ui message' style='background-color: #acabbd; width: 370px; height: 235px; overflow: auto; word-wrap: break-word;'><p>shitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshit</p><p>123</p></div>
+                          </div>">...</td>
       </tr>
       <tr>
         <td data-label="compound name">...</td>
         <td data-label="score">...</td>
-        <td data-label="supported entries" class="entries" data-html="<div class='ui segment'>not decided</div>">...</td>
+        <td data-label="supported entries" class="entries" data-html="<div class='ui segment' style='
+                            width: 400px;
+                            height: 300px;
+                            border-radius: 0;
+                            background-color:#494e76;'>
+                            <div class='ui header' style='background-color: #494e76'>Support Entries</div>
+                            <div class='ui message' style='background-color: #acabbd; width: 370px; height: 235px; overflow: auto; word-wrap: break-word;'><p>shitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshit</p><p>123</p></div>
+                            </div>">...</td>
       </tr>
       <tr>
         <td data-label="compound name">...</td>
         <td data-label="score">...</td>
-        <td data-label="supported entries" class="entries" data-html="<div class='ui segment'>not decided</div>">...</td>
+        <td data-label="supported entries" class="entries" data-html="<div class='ui segment' style='
+                              width: 400px;
+                              height: 300px;
+                              border-radius: 0;
+                              background-color:#494e76;'>
+                              <div class='ui header' style='background-color: #494e76'>Support Entries</div>
+                              <div class='ui message' style='background-color: #acabbd; width: 370px; height: 235px; overflow: auto; word-wrap: break-word;'><p>shitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshit</p><p>123</p></div>
+                              </div>">...</td>
       </tr>
       <tr>
         <td data-label="compound name">...</td>
         <td data-label="score">...</td>
-        <td data-label="supported entries" class="entries" data-html="<div class='ui segment'>not decided</div>">...</td>
+        <td data-label="supported entries" class="entries" data-html="<div class='ui segment' style='
+                                width: 400px;
+                                height: 300px;
+                                border-radius: 0;
+                                background-color:#494e76;'>
+                                <div class='ui header' style='background-color: #494e76'>Support Entries</div>
+                                <div class='ui message' style='background-color: #acabbd; width: 370px; height: 235px; overflow: auto; word-wrap: break-word;'><p>shitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshit</p><p>123</p></div>
+                                </div>">...</td>
       </tr>
       <tr>
         <td data-label="compound name">...</td>
         <td data-label="score">...</td>
-        <td data-label="supported entries" class="entries" data-html="<div class='ui segment'>not decided</div>">...</td>
+        <td data-label="supported entries" class="entries" data-html="<div class='ui segment' style='
+                                  width: 400px;
+                                  height: 300px;
+                                  border-radius: 0;
+                                  background-color:#494e76;'>
+                                  <div class='ui header' style='background-color: #494e76'>Support Entries</div>
+                                  <div class='ui message' style='background-color: #acabbd; width: 370px; height: 235px; overflow: auto; word-wrap: break-word;'><p>shitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshit</p><p>123</p></div>
+                                  </div>">...</td>
       </tr>
       <tr>
         <td data-label="compound name">...</td>
         <td data-label="score">...</td>
-        <td data-label="supported entries" class="entries" data-html="<div class='ui segment'>not decided</div>">...</td>
+        <td data-label="supported entries" class="entries" data-html="<div class='ui segment' style='
+                                    width: 400px;
+                                    height: 300px;
+                                    border-radius: 0;
+                                    background-color:#494e76;'>
+                                    <div class='ui header' style='background-color: #494e76'>Support Entries</div>
+                                    <div class='ui message' style='background-color: #acabbd; width: 370px; height: 235px; overflow: auto; word-wrap: break-word;'><p>shitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshit</p><p>123</p></div>
+                                    </div>">...</td>
       </tr>
       <tr>
         <td data-label="compound name">...</td>
         <td data-label="score">...</td>
-        <td data-label="supported entries" class="entries" data-html="<div class='ui segment'>not decided</div>">...</td>
+        <td data-label="supported entries" class="entries" data-html="<div class='ui segment' style='
+                                      width: 400px;
+                                      height: 300px;
+                                      border-radius: 0;
+                                      background-color:#494e76;'>
+                                      <div class='ui header' style='background-color: #494e76'>Support Entries</div>
+                                      <div class='ui message' style='background-color: #acabbd; width: 370px; height: 235px; overflow: auto; word-wrap: break-word;'><p>shitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshit</p><p>123</p></div>
+                                      </div>">...</td>
       </tr>
       <tr>
         <td data-label="compound name">...</td>
         <td data-label="score">...</td>
-        <td data-label="supported entries" class="entries" data-html="<div class='ui segment'>not decided</div>">...</td>
+        <td data-label="supported entries" class="entries" data-html="<div class='ui segment' style='
+                                        width: 400px;
+                                        height: 300px;
+                                        border-radius: 0;
+                                        background-color:#494e76;'>
+                                        <div class='ui header' style='background-color: #494e76'>Support Entries</div>
+                                        <div class='ui message' style='background-color: #acabbd; width: 370px; height: 235px; overflow: auto; word-wrap: break-word;'><p>shitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshit</p><p>123</p></div>
+                                        </div>">...</td>
       </tr>
       <tr>
         <td data-label="compound name">...</td>
         <td data-label="score">...</td>
-        <td data-label="supported entries" class="entries" data-html="<div class='ui segment'>not decided</div>">...</td>
+        <td data-label="supported entries" class="entries" data-html="<div class='ui segment' style='
+                                          width: 400px;
+                                          height: 300px;
+                                          border-radius: 0;
+                                          background-color:#494e76;'>
+                                          <div class='ui header' style='background-color: #494e76'>Support Entries</div>
+                                          <div class='ui message' style='background-color: #acabbd; width: 370px; height: 235px; overflow: auto; word-wrap: break-word;'><p>shitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshit</p><p>123</p></div>
+                                          </div>">...</td>
       </tr>
       <tr>
         <td data-label="compound name">...</td>
         <td data-label="score">...</td>
-        <td data-label="supported entries" class="entries" data-html="<div class='ui segment'>not decided</div>">...</td>
+        <td data-label="supported entries" class="entries" data-html="<div class='ui segment' style='
+                                            width: 400px;
+                                            height: 300px;
+                                            border-radius: 0;
+                                            background-color:#494e76;'>
+                                            <div class='ui header' style='background-color: #494e76'>Support Entries</div>
+                                            <div class='ui message' style='background-color: #acabbd; width: 370px; height: 235px; overflow: auto; word-wrap: break-word;'><p>shitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshit</p><p>123</p></div>
+                                            </div>">...</td>
       </tr>
       <tr>
         <td data-label="compound name">...</td>
         <td data-label="score">...</td>
-        <td data-label="supported entries" class="entries" data-html="<div class='ui segment'>not decided</div>">...</td>
+        <td data-label="supported entries" class="entries" data-html="<div class='ui segment' style='
+                                              width: 400px;
+                                              height: 300px;
+                                              border-radius: 0;
+                                              background-color:#494e76;'>
+                                              <div class='ui header' style='background-color: #494e76'>Support Entries</div>
+                                              <div class='ui message' style='background-color: #acabbd; width: 370px; height: 235px; overflow: auto; word-wrap: break-word;'><p>shitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshit</p><p>123</p></div>
+                                              </div>">...</td>
       </tr>
       <tr>
         <td data-label="compound name">...</td>
         <td data-label="score">...</td>
-        <td data-label="supported entries" class="entries" data-html="<div class='ui segment'>not decided</div>">...</td>
+        <td data-label="supported entries" class="entries" data-html="<div class='ui segment' style='
+                                                width: 400px;
+                                                height: 300px;
+                                                border-radius: 0;
+                                                background-color:#494e76;'>
+                                                <div class='ui header' style='background-color: #494e76'>Support Entries</div>
+                                                <div class='ui message' style='background-color: #acabbd; width: 370px; height: 235px; overflow: auto; word-wrap: break-word;'><p>shitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshit</p><p>123</p></div>
+                                                </div>">...</td>
       </tr>
       <tr>
         <td data-label="compound name">...</td>
         <td data-label="score">...</td>
-        <td data-label="supported entries" class="entries" data-html="<div class='ui segment'>not decided</div>">...</td>
+        <td data-label="supported entries" class="entries" data-html="<div class='ui segment' style='
+                                                  width: 400px;
+                                                  height: 300px;
+                                                  border-radius: 0;
+                                                  background-color:#494e76;'>
+                                                  <div class='ui header' style='background-color: #494e76'>Support Entries</div>
+                                                  <div class='ui message' style='background-color: #acabbd; width: 370px; height: 235px; overflow: auto; word-wrap: break-word;'><p>shitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshit</p><p>123</p></div>
+                                                  </div>">...</td>
       </tr>
     </tbody>
   </table>
@@ -174,27 +330,67 @@
         <tr>
           <td data-label="compound name">...</td>
           <td data-label="score">...</td>
-          <td data-label="supported entries" class="entries" data-html="<div class='ui segment'>not decided</div>">...</td>
+          <td data-label="supported entries" class="entries" data-html=
+          "<div class='ui segment' style='
+          width: 400px;
+          height: 300px;
+          border-radius: 0;
+          background-color:#494e76;'>
+          <div class='ui header' style='background-color: #494e76'>Support Entries</div>
+          <div class='ui message' style='background-color: #acabbd; width: 370px; height: 235px; overflow: auto; word-wrap: break-word;'><p>shitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshit</p><p>123</p></div>
+          </div>">...</td>
         </tr>
         <tr>
           <td data-label="compound name">...</td>
           <td data-label="score">...</td>
-          <td data-label="supported entries" class="entries" data-html="<div class='ui segment'>not decided</div>">...</td>
+          <td data-label="supported entries" class="entries" data-html=
+          "<div class='ui segment' style='
+          width: 400px;
+          height: 300px;
+          border-radius: 0;
+          background-color:#494e76;'>
+          <div class='ui header' style='background-color: #494e76'>Support Entries</div>
+          <div class='ui message' style='background-color: #acabbd; width: 370px; height: 235px; overflow: auto; word-wrap: break-word;'><p>shitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshit</p><p>123</p></div>
+          </div>">...</td>
         </tr>
         <tr>
           <td data-label="compound name">...</td>
           <td data-label="score">...</td>
-          <td data-label="supported entries" class="entries" data-html="<div class='ui segment'>not decided</div>">...</td>
+          <td data-label="supported entries" class="entries" data-html=
+          "<div class='ui segment' style='
+          width: 400px;
+          height: 300px;
+          border-radius: 0;
+          background-color:#494e76;'>
+          <div class='ui header' style='background-color: #494e76'>Support Entries</div>
+          <div class='ui message' style='background-color: #acabbd; width: 370px; height: 235px; overflow: auto; word-wrap: break-word;'><p>shitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshit</p><p>123</p></div>
+          </div>">...</td>
         </tr>
         <tr>
           <td data-label="compound name">...</td>
           <td data-label="score">...</td>
-          <td data-label="supported entries" class="entries" data-html="<div class='ui segment'>not decided</div>">...</td>
+          <td data-label="supported entries" class="entries" data-html=
+          "<div class='ui segment' style='
+          width: 400px;
+          height: 300px;
+          border-radius: 0;
+          background-color:#494e76;'>
+          <div class='ui header' style='background-color: #494e76'>Support Entries</div>
+          <div class='ui message' style='background-color: #acabbd; width: 370px; height: 235px; overflow: auto; word-wrap: break-word;'><p>shitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshit</p><p>123</p></div>
+          </div>">...</td>
         </tr>
         <tr>
           <td data-label="compound name">...</td>
           <td data-label="score">...</td>
-          <td data-label="supported entries" class="entries" data-html="<div class='ui segment'>not decided</div>">...</td>
+          <td data-label="supported entries" class="entries" data-html=
+          "<div class='ui segment' style='
+          width: 400px;
+          height: 300px;
+          border-radius: 0;
+          background-color:#494e76;'>
+          <div class='ui header' style='background-color: #494e76'>Support Entries</div>
+          <div class='ui message' style='background-color: #acabbd; width: 370px; height: 235px; overflow: auto; word-wrap: break-word;'><p>shitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshit</p><p>123</p></div>
+          </div>">...</td>
         </tr>
         `
       );
@@ -206,7 +402,5 @@
 
 </script>
 <style>
-  .ui.input.float-searchbar {
-    font-size: 0.5em;
-  }
+
 </style>

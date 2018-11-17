@@ -35177,6 +35177,7 @@ html.ios body {
 /* } */
 
 
+
 #search {
   cursor: pointer;
 }
@@ -35187,4 +35188,68 @@ html.ios body {
 #search-bar input {
   color: black;
   max-width: 95%;
+}
+
+.ui.segment {
+  background-color: #28293d;
+  color: #87889c;
+}
+.ui.segment .header {
+  color: #ffffff;
+}
+
+.ui.menu {
+  background-color: #28293d;
+}
+
+.ui.menu .item {
+  color: #ffffff;
+}
+
+.ui.table.celled {
+  background-color: #28293d;
+}
+
+.ui.table.celled * {
+  background-color: #28293d;
+  color: #87889c;
+
+}
+
+.ui.table.celled th {
+  font-weight: 1000;
+}
+
+.ui.table.celled tr td {
+  border-bottom: 1px solid #3f344f;
+  border-top: none;
+  border-left:none;
+  border-collapse: collapse;
+}
+
+/* .ui.icon.input {
+  background-color: #c6bddd;
+} */
+
+/* .ui.icon.input * {
+  background-color: #c6bddd;
+} */
+
+/* .ui.input.float-searchbar * {
+  font-size: 0.8em;
+} */
+.ui.input.float-searchbar {
+  font-size: 0.5em;
+}
+
+.pusher {
+  background-color: #1f1e2e;
+}
+
+body.pushable > .pusher {
+  background-color: #1f1e2e;
+}
+
+body {
+  background-color: #1f1e2e;
 }

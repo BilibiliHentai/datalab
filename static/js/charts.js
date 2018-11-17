@@ -19,7 +19,11 @@ function score_chart(container_id) {
       text: 'score',
       // subtext: 'By ',
       sublink: 'https://github.com/ecomfe/echarts-stat',
-      left: 'center'
+      left: 'center',
+      textStyle: {
+        color: '#ffffff',
+        fontSize: '32'
+      }
     },
     tooltip: {
       trigger: 'axis',
@@ -27,16 +31,26 @@ function score_chart(container_id) {
         type: 'cross'
       }
     },
+
     xAxis: {
       name: 'compound',
       type: 'category',
       data: ['compoundA', 'compoundB', 'compoundC', 'compoundD', 'compoundE', 'compoundF', 'compoundG'],
       splitLine: {
         lineStyle: {
-          type: 'dashed'
+          type: 'dashed',
         }
       },
+      axisLine: {
+        lineStyle: {
+          color: '#87889c'
+        }
+      },
+      axisLabel: {
+        fontSize: '16'
+      }
     },
+
     yAxis: {
       name: 'score',
       type: 'value',
@@ -44,6 +58,14 @@ function score_chart(container_id) {
         lineStyle: {
           type: 'dashed'
         }
+      },
+      axisLine: {
+        lineStyle: {
+          color: '#87889c'
+        }
+      },
+      axisLabel: {
+        fontSize: '16'
       }
     },
     series: [{
@@ -59,6 +81,9 @@ function score_chart(container_id) {
           }
         }
       },
+      itemStyle: {
+        color: '#4297c3'
+      },
       data: data
     }, {
       name: 'line',
@@ -66,6 +91,9 @@ function score_chart(container_id) {
       showSymbol: false,
       smooth: true,
       data: data,
+      lineStyle: {
+        color: '#535eb8'
+      },
       markPoint: {
         itemStyle: {
           normal: {

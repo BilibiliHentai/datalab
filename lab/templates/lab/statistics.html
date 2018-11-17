@@ -130,14 +130,33 @@
   option = {
     xAxis: {
       type: 'category',
-      data: ['rivaroxaban', 'prothrombinase', '_', '_', '_', '_', '_']
+      data: ['rivaroxaban', 'prothrombinase', '_', '_', '_', '_', '_'],
+      axisLine: {
+        lineStyle: {
+          color: '#87889c'
+        }
+      },
+      axisLabel: {
+        fontSize: '16'
+      }
     },
     yAxis: {
-      type: 'value'
+      type: 'value',
+      axisLine: {
+        lineStyle: {
+          color: '#87889c'
+        }
+      },
+      axisLabel: {
+        fontSize: '16'
+      }
     },
     series: [{
       data: [120, 200, 150, 80, 70, 110, 130],
-      type: 'bar'
+      type: 'bar',
+      itemStyle: {
+        color: '#4297c3'
+      }
     }]
   };
   ;
@@ -145,6 +164,7 @@
     myChart.setOption(option, true);
   }
 </script>
-
-
-
+<script>
+  $('.ui.dropdown')
+    .dropdown();
+</script>
