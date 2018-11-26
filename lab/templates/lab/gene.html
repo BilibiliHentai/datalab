@@ -1,50 +1,54 @@
-<div class="ui segment">
-  <div class="ui header center">SEARCH FOR THE GENE YOU ARE LOOKING FOR:</div>
-    <div class="ui grid">
+<div class="ui segment padded">
+  <h2 class="ui header center">SEARCH FOR THE GENE YOU ARE LOOKING FOR:</h2>
 
-      <div class="four wide column">
-        <select class="ui dropdown">
-          <option value="">Categories</option>
-          <option value="1">type a</option>
-          <option value="0">type b</option>
-        </select>
-      </div>
-
-      <div class="four wide column"></div>
-      <div class="four wide column"></div>
-
-      <div class="four wide column">
-        <div class="ui icon input ">
-          <input type="text" placeholder="Search gene...">
-          <i class="circular search link icon"></i>
-        </div>
-      </div>
-    </div>
+  <div class="ui icon input ">
+    <input type="text" placeholder="Search gene...">
+    <i class="circular search link icon"></i>
   </div>
+  <div class="ui segment">
+    <a class="ui tag label">New</a>
+    <a class="ui tag label">Upcoming</a>
+    <a class="ui tag label">Featured</a>
+  </div>
+</div>
 
-
+<div class="ui raised very padded text segment">
   <table class="ui celled table">
     <thead>
       <tr>
         <th>NAME</th>
         <th>CATEGORIES</th>
         <th>PROTEIN NAME</th>
-        <th>对应记录条数</th>
-        <th>GENE简介</th>
+        <th>ASSOCIATE COMPOUND NUMBER</th>
       </tr>
     </thead>
     <tbody>
       <tr>
-        <td data-label="name"><a href="{% url 'lab:gene-detail' gene_name %}">prothrombinase</a></td>
-        <td data-label="categories">xxx</td>
-        <td data-label="protein name">yyy</td>
-        <td data-label="对应记录条数">....</td>
-        <td data-label="gene简介">...</td>
+        <td data-label="NAME"><a href="{% url 'lab:gene-detail' gene_name %}">prothrombinase</a></td>
+        <td data-label="CATEGORIES">xxx</td>
+        <td data-label="PROTEIN NAME">yyy</td>
+        <td data-label="ASSOCIATE COMPOUND NUMBER">12</td>
       </tr>
     </tbody>
   </table>
+</div>
+<script>
+  $('.ui.dropdown')
+    .dropdown();
 
-  <script>
-    $('.ui.dropdown')
-      .dropdown();
-  </script>
+  // $('.ui.label').click(function () {
+  //   if ($(this).hasClass('tag-click')) {
+  //     $(this).removeClass('tag-click')
+  //     $(this).css({
+  //       'background-color': 'transparent',
+  //       'border-color': '#ffffff'
+  //     })
+  //   } else {
+  //     $(this).addClass('tag-click')
+  //     $(this).css({
+  //       'background-color': '#42a7c3',
+  //       'border-color': '#42a7c3'
+  //     })
+  //   }
+  // })
+</script>

@@ -8,7 +8,7 @@
  * http://opensource.org/licenses/MIT
  *
  */
-@import url('https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic&subset=latin');
+/*@import url('https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic&subset=latin');
 /*!
  * # Semantic UI 2.1.7 - Reset
  * http://github.com/semantic-org/semantic-ui/
@@ -611,7 +611,7 @@ p:last-child {
 --------------------*/
 
 a {
-  color: #4183c4;
+  color: #ffffff;
   text-decoration: none;
 }
 
@@ -30248,7 +30248,7 @@ a.ui.nag {
   content: '';
   width: 0.75em;
   height: 0.75em;
-  background: #ffffff;
+  background-color: #ffffff;
   -webkit-transform: rotate(45deg);
   -ms-transform: rotate(45deg);
   transform: rotate(45deg);
@@ -35168,14 +35168,6 @@ html.ios body {
 /*******************************
          Site Overrides
 *******************************/
-/* .ui.thin.left.sidebar.inverted.vertical.menu.uncover.visible .item{
-  cursor: pointer;
-} */
-
-/* .ui.menu .item {
-  cursor: pointer; */
-/* } */
-
 
 
 #search {
@@ -35193,13 +35185,20 @@ html.ios body {
 .ui.segment {
   background-color: #28293d;
   color: #87889c;
+  border-radius: 15px;
 }
 .ui.segment .header {
   color: #ffffff;
+  font-family: AvenirBlack;
+}
+
+.ui.segment p {
+  font-family: AvenirLight;
 }
 
 .ui.menu {
   background-color: #28293d;
+  font-family: AvenirLight;
 }
 
 .ui.menu .item {
@@ -35218,6 +35217,7 @@ html.ios body {
 
 .ui.table.celled th {
   font-weight: 1000;
+  font-family: AvenirRoman;
 }
 
 .ui.table.celled tr td {
@@ -35225,31 +35225,124 @@ html.ios body {
   border-top: none;
   border-left:none;
   border-collapse: collapse;
+  font-family: AvenirLight;
 }
 
-/* .ui.icon.input {
-  background-color: #c6bddd;
-} */
+.ui.statistic .value {
+  color: #ffffff;
+  font-family: AvenirRoman;
+}
 
-/* .ui.icon.input * {
-  background-color: #c6bddd;
-} */
+.ui.statistic .label {
+  color: #87889c;
+  font-family: AvenirLight;
+}
 
-/* .ui.input.float-searchbar * {
-  font-size: 0.8em;
-} */
 .ui.input.float-searchbar {
   font-size: 0.5em;
 }
 
-.pusher {
-  background-color: #1f1e2e;
+.ui.segment input {
+  width: 700px;
+  border-radius: 15px;
+  background-color: #acabbd;
 }
 
-body.pushable > .pusher {
-  background-color: #1f1e2e;
+.ui.tag.label {
+  background-color: transparent;
+  border-color: #ffffff;
+  color: #87889c;
+  font-family: AvenirLight;
+}
+
+.ui.tag.label:hover {
+  background-color: #42a7c3;
+  border-color: #42a7c3;
+}
+
+@font-face {
+  font-family: 'AvenirLight';
+  src: url('../fonts/AvenirLTStd-Light.eot');
+  src: url('../fonts/AvenirLTStd-Light.woff2') format('woff2'),
+       url('../fonts/AvenirLTStd-Light.woff') format('woff'),
+       url('../fonts/AvenirLTStd-Light.ttf') format('truetype'),
+       url('../fonts/AvenirLTStd-Light.svg#AvenirLTStd-Light') format('svg'),
+       url('../fonts/AvenirLTStd-Light.eot?#iefix') format('embedded-opentype');
+}
+
+@font-face {
+  font-family: 'AvenirRoman';
+  src: url('../fonts/Avenir-Roman.eot');
+  src: url('../fonts/Avenir-Roman.woff2') format('woff2'),
+       url('../fonts/Avenir-Roman.woff') format('woff'),
+       url('../fonts/Avenir-Roman.ttf') format('truetype'),
+       url('../fonts/Avenir-Roman.svg#Avenir-Roman') format('svg'),
+       url('../fonts/Avenir-Roman.eot?#iefix') format('embedded-opentype');
+}
+
+@font-face {
+	font-family: 'BAUHS93';
+	src: url('../fonts/BAUHS93.eot');
+	src: local('BAUHS93'), url('../fonts/BAUHS93.woff') format('woff'), url('../fonts/BAUHS93.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'AvenirBlack';
+  src: url('../fonts/Avenir LT 95 Black.eot');
+  src: url('../fonts/Avenir LT 95 Black.woff2') format('woff2'),
+       url('../fonts/Avenir LT 95 Black.eot?#iefix') format('embedded-opentype');
+}
+
+.bauhs93 {
+  font-family: bauhs93;
+}
+
+.avenir-black {
+  font-family: AvenirBlack;
+}
+
+.avenir-roman {
+  font-family:AvenirRoman;
+}
+
+#textdti {
+  font-weight: 500;
+  font-size: 2em;
 }
 
 body {
   background-color: #1f1e2e;
+}
+
+.ui.popup {
+  padding:0;
+  border: 1px solid #494e76;
+  /* border-radius: 30px; */
+}
+
+.ui.popup:before {
+  position: absolute;
+  content: '';
+  width: 0;
+  height: 0;
+  background-color: #ffffff;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+  z-index: 2;
+  box-shadow: 1px 1px 0px 0px #bababc;
+}
+
+#click-for-more {
+  cursor: pointer;
+  color: #87889c;
+}
+
+#click-for-more:hover {
+  cursor: pointer;
+  color: #1e70bf;
+}
+
+.ui.grid {
+  font-family: AvenirRoman
 }

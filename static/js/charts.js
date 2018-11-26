@@ -1,4 +1,4 @@
-function score_chart(container_id) {
+function score_chart(container_id, title) {
   let dom = document.getElementById(container_id);
   let myChart = echarts.init(dom);
   let app = {};
@@ -16,13 +16,14 @@ function score_chart(container_id) {
 
   option = {
     title: {
-      text: 'score',
+      text: title,
       // subtext: 'By ',
       sublink: 'https://github.com/ecomfe/echarts-stat',
-      left: 'center',
+      left: 'left',
+      top: 0,
       textStyle: {
         color: '#ffffff',
-        fontSize: '32'
+        fontSize: '26',
       }
     },
     tooltip: {
@@ -52,7 +53,7 @@ function score_chart(container_id) {
     },
 
     yAxis: {
-      name: 'score',
+      name: 'counts',
       type: 'value',
       splitLine: {
         lineStyle: {

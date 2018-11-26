@@ -1,36 +1,43 @@
 {% load static %}
 <div class="ui raised very padded text segment">
-  <h2 class="ui header">Gene summary</h2>
+  <h2 class="ui header">Gene</h2>
   <div class="ui grid">
     <div class="four wide column">ID:</div>
-    <div class="four wide column">1</div>
-    <div class="four wide column">Score:</div>
-    <div class="four wide column">86</div>
-    <div class="four wide column">Sequence:</div>
-    <div class="four wide column">...</div>
+    <div class="twelve wide column">1280</div>
     <div class="four wide column">Protein name:</div>
-    <div class="four wide column">protein A</div>
-    <div class="four wide column">Function:</div>
-    <div class="four wide column">healling</div>
+    <div class="twelve wide column">...</div>
+    <div class="four wide column">Category:</div>
+    <div class="twelve wide column">...</div>
     <div class="four wide column">Link to uniprot:</div>
-    <div class="four wide column">null</div>
-    <div class="four wide column">Known compound/drug:</div>
-    <div class="four wide column">...</div>
+    <div class="twelve wide column">...</div>
+    <div class="four wide column">GO term:</div>
+    <div class="twelve wide column">Name: heart contraction; Oncology: biological_process</div>
   </div>
-  <div class="ui section divider"></div>
+</div>
+
+<div class="ui raised very padded text segment">
   <table class="ui celled table">
+    <h2 class="ui header">
+      Known Compounds
+    </h2>
     <thead>
       <tr>
         <th>COMPOUND NAME</th>
-        <th>ACTIONS</th>
         <th>LINK TO DRUG BANK</th>
       </tr>
     </thead>
     <tbody>
       <tr>
-        <td data-label="compound name">...</td>
-        <td data-label="actions">...</td>
-        <td data-label="link to drug bank">...</td>
+        <td data-label="COMPOUND NAME">...</td>
+        <td data-label="LINK TO DRUG BANK">...</td>
+      </tr>
+      <tr>
+        <td data-label="COMPOUND NAME">...</td>
+        <td data-label="LINK TO DRUG BANK">...</td>
+      </tr>
+      <tr>
+        <td data-label="COMPOUND NAME">...</td>
+        <td data-label="LINK TO DRUG BANK">...</td>
       </tr>
     </tbody>
   </table>
@@ -42,17 +49,9 @@
 
 <div class="ui raised very padded text segment">
   <h2 class="ui header">
-    Corresponding compounds details
-    <span style="float:right;">
-      <div class="ui search">
-        <div class="ui icon input float-searchbar">
-          <input class="prompt" type="text" placeholder="Search compound...">
-          <i class="search icon"></i>
-        </div>
-        <div class="results"></div>
-      </div>
-    </span>
+    Associated Compounds
   </h2>
+
 
   <table class="ui celled table">
     <thead>
@@ -72,239 +71,164 @@
             border-radius: 0;
             background-color:#494e76;'>
             <div class='ui header' style='background-color: #494e76'>Support Entries</div>
-            <div class='ui message' style='background-color: #acabbd; width: 370px; height: 235px; overflow: auto; word-wrap: break-word;'><p>shitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshit</p><p>123</p></div>
+            <div class='ui message' style='background-color: #acabbd; width: 370px; height: 235px; overflow: auto; word-wrap: break-word;'>
+              <div class='ui divided selection list'>
+                <a class='item'>
+                  Kumquats<p>Pumbed ID: 28123</p>
+                </a>
+                <a class='item'>
+                  Ice Cream
+                </a>
+                <a class='item'>
+                  Orange
+                </a>
+                <a class='item'>
+                  Poodle
+                </a>
+              </div>              
+            </div>
             </div>">...</td>
       </tr>
       <tr>
         <td data-label="compound name">...</td>
         <td data-label="score">...</td>
         <td data-label="supported entries" class="entries" data-html="<div class='ui segment' style='
-              width: 400px;
-              height: 300px;
-              border-radius: 0;
-              background-color:#494e76;'>
-              <div class='ui header' style='background-color: #494e76'>Support Entries</div>
-              <div class='ui message' style='background-color: #acabbd; width: 370px; height: 235px; overflow: auto; word-wrap: break-word;'><p>shitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshit</p><p>123</p></div>
-              </div>">...</td>
+          width: 400px;
+          height: 300px;
+          border-radius: 0;
+          background-color:#494e76;'>
+          <div class='ui header' style='background-color: #494e76'>Support Entries</div>
+          <div class='ui message' style='background-color: #acabbd; width: 370px; height: 235px; overflow: auto; word-wrap: break-word;'>
+            <div class='ui divided selection list'>
+              <a class='item'>
+                Kumquats<p>Pumbed ID: 28123</p>
+              </a>
+              <a class='item'>
+                Ice Cream<p>Pumbed ID:28321</p>
+              </a>
+              <a class='item'>
+                Orange<p>Pumbed ID:28321</p>
+              </a>
+              <a class='item'>
+                Poodle<p>Pumbed ID:28321</p>
+              </a>
+            </div>                
+          </div>
+          </div>">...</td>
       </tr>
       <tr>
         <td data-label="compound name">...</td>
         <td data-label="score">...</td>
         <td data-label="supported entries" class="entries" data-html="<div class='ui segment' style='
-                width: 400px;
-                height: 300px;
-                border-radius: 0;
-                background-color:#494e76;'>
-                <div class='ui header' style='background-color: #494e76'>Support Entries</div>
-                <div class='ui message' style='background-color: #acabbd; width: 370px; height: 235px; overflow: auto; word-wrap: break-word;'><p>shitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshit</p><p>123</p></div>
-                </div>">...</td>
+          width: 400px;
+          height: 300px;
+          border-radius: 0;
+          background-color:#494e76;'>
+          <div class='ui header' style='background-color: #494e76'>Support Entries</div>
+          <div class='ui message' style='background-color: #acabbd; width: 370px; height: 235px; overflow: auto; word-wrap: break-word;'>
+            <div class='ui divided selection list'>
+              <a class='item'>
+                Kumquats<p>Pumbed ID: 28123</p>
+              </a>
+              <a class='item'>
+                Ice Cream<p>Pumbed ID:28321</p>
+              </a>
+              <a class='item'>
+                Orange<p>Pumbed ID:28321</p>
+              </a>
+              <a class='item'>
+                Poodle<p>Pumbed ID:28321</p>
+              </a>
+            </div>                
+          </div>
+          </div>">...</td>
       </tr>
       <tr>
         <td data-label="compound name">...</td>
         <td data-label="score">...</td>
         <td data-label="supported entries" class="entries" data-html="<div class='ui segment' style='
-                  width: 400px;
-                  height: 300px;
-                  border-radius: 0;
-                  background-color:#494e76;'>
-                  <div class='ui header' style='background-color: #494e76'>Support Entries</div>
-                  <div class='ui message' style='background-color: #acabbd; width: 370px; height: 235px; overflow: auto; word-wrap: break-word;'><p>shitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshit</p><p>123</p></div>
-                  </div>">...</td>
+          width: 400px;
+          height: 300px;
+          border-radius: 0;
+          background-color:#494e76;'>
+          <div class='ui header' style='background-color: #494e76'>Support Entries</div>
+          <div class='ui message' style='background-color: #acabbd; width: 370px; height: 235px; overflow: auto; word-wrap: break-word;'>
+            <div class='ui divided selection list'>
+              <a class='item'>
+                Kumquats<p>Pumbed ID: 28123</p>
+              </a>
+              <a class='item'>
+                Ice Cream<p>Pumbed ID:28321</p>
+              </a>
+              <a class='item'>
+                Orange<p>Pumbed ID:28321</p>
+              </a>
+              <a class='item'>
+                Poodle<p>Pumbed ID:28321</p>
+              </a>
+            </div>                
+          </div>
+          </div>">...</td>
       </tr>
       <tr>
         <td data-label="compound name">...</td>
         <td data-label="score">...</td>
         <td data-label="supported entries" class="entries" data-html="<div class='ui segment' style='
-                    width: 400px;
-                    height: 300px;
-                    border-radius: 0;
-                    background-color:#494e76;'>
-                    <div class='ui header' style='background-color: #494e76'>Support Entries</div>
-                    <div class='ui message' style='background-color: #acabbd; width: 370px; height: 235px; overflow: auto; word-wrap: break-word;'><p>shitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshit</p><p>123</p></div>
-                    </div>">...</td>
+          width: 400px;
+          height: 300px;
+          border-radius: 0;
+          background-color:#494e76;'>
+          <div class='ui header' style='background-color: #494e76'>Support Entries</div>
+          <div class='ui message' style='background-color: #acabbd; width: 370px; height: 235px; overflow: auto; word-wrap: break-word;'>
+            <div class='ui divided selection list'>
+              <a class='item'>
+                Kumquats<p>Pumbed ID: 28123</p>
+              </a>
+              <a class='item'>
+                Ice Cream<p>Pumbed ID:28321</p>
+              </a>
+              <a class='item'>
+                Orange<p>Pumbed ID:28321</p>
+              </a>
+              <a class='item'>
+                Poodle<p>Pumbed ID:28321</p>
+              </a>
+            </div>                
+          </div>
+          </div>">...</td>
       </tr>
       <tr>
         <td data-label="compound name">...</td>
         <td data-label="score">...</td>
         <td data-label="supported entries" class="entries" data-html="<div class='ui segment' style='
-                      width: 400px;
-                      height: 300px;
-                      border-radius: 0;
-                      background-color:#494e76;'>
-                      <div class='ui header' style='background-color: #494e76'>Support Entries</div>
-                      <div class='ui message' style='background-color: #acabbd; width: 370px; height: 235px; overflow: auto; word-wrap: break-word;'><p>shitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshit</p><p>123</p></div>
-                      </div>">...</td>
-      </tr>
-      <tr>
-        <td data-label="compound name">...</td>
-        <td data-label="score">...</td>
-        <td data-label="supported entries" class="entries" data-html="<div class='ui segment' style='
-                        width: 400px;
-                        height: 300px;
-                        border-radius: 0;
-                        background-color:#494e76;'>
-                        <div class='ui header' style='background-color: #494e76'>Support Entries</div>
-                        <div class='ui message' style='background-color: #acabbd; width: 370px; height: 235px; overflow: auto; word-wrap: break-word;'><p>shitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshit</p><p>123</p></div>
-                        </div>">...</td>
-      </tr>
-      <tr>
-        <td data-label="compound name">...</td>
-        <td data-label="score">...</td>
-        <td data-label="supported entries" class="entries" data-html="<div class='ui segment' style='
-                          width: 400px;
-                          height: 300px;
-                          border-radius: 0;
-                          background-color:#494e76;'>
-                          <div class='ui header' style='background-color: #494e76'>Support Entries</div>
-                          <div class='ui message' style='background-color: #acabbd; width: 370px; height: 235px; overflow: auto; word-wrap: break-word;'><p>shitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshit</p><p>123</p></div>
-                          </div>">...</td>
-      </tr>
-      <tr>
-        <td data-label="compound name">...</td>
-        <td data-label="score">...</td>
-        <td data-label="supported entries" class="entries" data-html="<div class='ui segment' style='
-                            width: 400px;
-                            height: 300px;
-                            border-radius: 0;
-                            background-color:#494e76;'>
-                            <div class='ui header' style='background-color: #494e76'>Support Entries</div>
-                            <div class='ui message' style='background-color: #acabbd; width: 370px; height: 235px; overflow: auto; word-wrap: break-word;'><p>shitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshit</p><p>123</p></div>
-                            </div>">...</td>
-      </tr>
-      <tr>
-        <td data-label="compound name">...</td>
-        <td data-label="score">...</td>
-        <td data-label="supported entries" class="entries" data-html="<div class='ui segment' style='
-                              width: 400px;
-                              height: 300px;
-                              border-radius: 0;
-                              background-color:#494e76;'>
-                              <div class='ui header' style='background-color: #494e76'>Support Entries</div>
-                              <div class='ui message' style='background-color: #acabbd; width: 370px; height: 235px; overflow: auto; word-wrap: break-word;'><p>shitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshit</p><p>123</p></div>
-                              </div>">...</td>
-      </tr>
-      <tr>
-        <td data-label="compound name">...</td>
-        <td data-label="score">...</td>
-        <td data-label="supported entries" class="entries" data-html="<div class='ui segment' style='
-                                width: 400px;
-                                height: 300px;
-                                border-radius: 0;
-                                background-color:#494e76;'>
-                                <div class='ui header' style='background-color: #494e76'>Support Entries</div>
-                                <div class='ui message' style='background-color: #acabbd; width: 370px; height: 235px; overflow: auto; word-wrap: break-word;'><p>shitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshit</p><p>123</p></div>
-                                </div>">...</td>
-      </tr>
-      <tr>
-        <td data-label="compound name">...</td>
-        <td data-label="score">...</td>
-        <td data-label="supported entries" class="entries" data-html="<div class='ui segment' style='
-                                  width: 400px;
-                                  height: 300px;
-                                  border-radius: 0;
-                                  background-color:#494e76;'>
-                                  <div class='ui header' style='background-color: #494e76'>Support Entries</div>
-                                  <div class='ui message' style='background-color: #acabbd; width: 370px; height: 235px; overflow: auto; word-wrap: break-word;'><p>shitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshit</p><p>123</p></div>
-                                  </div>">...</td>
-      </tr>
-      <tr>
-        <td data-label="compound name">...</td>
-        <td data-label="score">...</td>
-        <td data-label="supported entries" class="entries" data-html="<div class='ui segment' style='
-                                    width: 400px;
-                                    height: 300px;
-                                    border-radius: 0;
-                                    background-color:#494e76;'>
-                                    <div class='ui header' style='background-color: #494e76'>Support Entries</div>
-                                    <div class='ui message' style='background-color: #acabbd; width: 370px; height: 235px; overflow: auto; word-wrap: break-word;'><p>shitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshit</p><p>123</p></div>
-                                    </div>">...</td>
-      </tr>
-      <tr>
-        <td data-label="compound name">...</td>
-        <td data-label="score">...</td>
-        <td data-label="supported entries" class="entries" data-html="<div class='ui segment' style='
-                                      width: 400px;
-                                      height: 300px;
-                                      border-radius: 0;
-                                      background-color:#494e76;'>
-                                      <div class='ui header' style='background-color: #494e76'>Support Entries</div>
-                                      <div class='ui message' style='background-color: #acabbd; width: 370px; height: 235px; overflow: auto; word-wrap: break-word;'><p>shitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshit</p><p>123</p></div>
-                                      </div>">...</td>
-      </tr>
-      <tr>
-        <td data-label="compound name">...</td>
-        <td data-label="score">...</td>
-        <td data-label="supported entries" class="entries" data-html="<div class='ui segment' style='
-                                        width: 400px;
-                                        height: 300px;
-                                        border-radius: 0;
-                                        background-color:#494e76;'>
-                                        <div class='ui header' style='background-color: #494e76'>Support Entries</div>
-                                        <div class='ui message' style='background-color: #acabbd; width: 370px; height: 235px; overflow: auto; word-wrap: break-word;'><p>shitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshit</p><p>123</p></div>
-                                        </div>">...</td>
-      </tr>
-      <tr>
-        <td data-label="compound name">...</td>
-        <td data-label="score">...</td>
-        <td data-label="supported entries" class="entries" data-html="<div class='ui segment' style='
-                                          width: 400px;
-                                          height: 300px;
-                                          border-radius: 0;
-                                          background-color:#494e76;'>
-                                          <div class='ui header' style='background-color: #494e76'>Support Entries</div>
-                                          <div class='ui message' style='background-color: #acabbd; width: 370px; height: 235px; overflow: auto; word-wrap: break-word;'><p>shitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshit</p><p>123</p></div>
-                                          </div>">...</td>
-      </tr>
-      <tr>
-        <td data-label="compound name">...</td>
-        <td data-label="score">...</td>
-        <td data-label="supported entries" class="entries" data-html="<div class='ui segment' style='
-                                            width: 400px;
-                                            height: 300px;
-                                            border-radius: 0;
-                                            background-color:#494e76;'>
-                                            <div class='ui header' style='background-color: #494e76'>Support Entries</div>
-                                            <div class='ui message' style='background-color: #acabbd; width: 370px; height: 235px; overflow: auto; word-wrap: break-word;'><p>shitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshit</p><p>123</p></div>
-                                            </div>">...</td>
-      </tr>
-      <tr>
-        <td data-label="compound name">...</td>
-        <td data-label="score">...</td>
-        <td data-label="supported entries" class="entries" data-html="<div class='ui segment' style='
-                                              width: 400px;
-                                              height: 300px;
-                                              border-radius: 0;
-                                              background-color:#494e76;'>
-                                              <div class='ui header' style='background-color: #494e76'>Support Entries</div>
-                                              <div class='ui message' style='background-color: #acabbd; width: 370px; height: 235px; overflow: auto; word-wrap: break-word;'><p>shitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshit</p><p>123</p></div>
-                                              </div>">...</td>
-      </tr>
-      <tr>
-        <td data-label="compound name">...</td>
-        <td data-label="score">...</td>
-        <td data-label="supported entries" class="entries" data-html="<div class='ui segment' style='
-                                                width: 400px;
-                                                height: 300px;
-                                                border-radius: 0;
-                                                background-color:#494e76;'>
-                                                <div class='ui header' style='background-color: #494e76'>Support Entries</div>
-                                                <div class='ui message' style='background-color: #acabbd; width: 370px; height: 235px; overflow: auto; word-wrap: break-word;'><p>shitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshit</p><p>123</p></div>
-                                                </div>">...</td>
-      </tr>
-      <tr>
-        <td data-label="compound name">...</td>
-        <td data-label="score">...</td>
-        <td data-label="supported entries" class="entries" data-html="<div class='ui segment' style='
-                                                  width: 400px;
-                                                  height: 300px;
-                                                  border-radius: 0;
-                                                  background-color:#494e76;'>
-                                                  <div class='ui header' style='background-color: #494e76'>Support Entries</div>
-                                                  <div class='ui message' style='background-color: #acabbd; width: 370px; height: 235px; overflow: auto; word-wrap: break-word;'><p>shitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshit</p><p>123</p></div>
-                                                  </div>">...</td>
+          width: 400px;
+          height: 300px;
+          border-radius: 0;
+          background-color:#494e76;'>
+          <div class='ui header' style='background-color: #494e76'>Support Entries</div>
+          <div class='ui message' style='background-color: #acabbd; width: 370px; height: 235px; overflow: auto; word-wrap: break-word;'>
+            <div class='ui divided selection list'>
+              <a class='item'>
+                Kumquats<p>Pumbed ID: 28123</p>
+              </a>
+              <a class='item'>
+                Ice Cream<p>Pumbed ID:28321</p>
+              </a>
+              <a class='item'>
+                Orange<p>Pumbed ID:28321</p>
+              </a>
+              <a class='item'>
+                Poodle<p>Pumbed ID:28321</p>
+              </a>
+            </div>                
+          </div>
+          </div>">...</td>
       </tr>
     </tbody>
   </table>
+  <div class="ui center aligned grid">
+    <div class="sixteen wide column"><a id="click-for-more">CLICK FOR MORE<p><i class="angle double down icon"></i></p></a></div>
+  </div>
 </div>
 
 
@@ -322,83 +246,143 @@
   $('.table-compound .entries').popup({
     on: 'hover'
   });
-  score_chart("chart");
-  $(window).on('scroll', function () {
-    if ($(window).scrollTop() + $(window).height() >= $(document).height() - 1) {
-      $('.table-compound').append(
-        `
-        <tr>
-          <td data-label="compound name">...</td>
-          <td data-label="score">...</td>
-          <td data-label="supported entries" class="entries" data-html=
-          "<div class='ui segment' style='
+
+  score_chart('chart', 'Score Distribution');
+
+  // $('body').on('hover', '.entries', function() {
+  //   $('.entries').popup(
+  //     {on: 'hover'}
+  //   )
+  // })
+  $('body').on('click', '#click-for-more', function () {
+    $('.table:eq(1)').find('tbody').append(
+      `
+      <tr>
+        <td data-label="compound name">...</td>
+        <td data-label="score">...</td>
+        <td data-label="supported entries" class="entries" data-html="<div class='ui segment' style='
           width: 400px;
           height: 300px;
           border-radius: 0;
           background-color:#494e76;'>
           <div class='ui header' style='background-color: #494e76'>Support Entries</div>
-          <div class='ui message' style='background-color: #acabbd; width: 370px; height: 235px; overflow: auto; word-wrap: break-word;'><p>shitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshit</p><p>123</p></div>
+          <div class='ui message' style='background-color: #acabbd; width: 370px; height: 235px; overflow: auto; word-wrap: break-word;'>
+            <div class='ui divided selection list'>
+              <a class='item'>
+                Kumquats<p>Pumbed ID: 28123</p>
+              </a>
+              <a class='item'>
+                Ice Cream<p>Pumbed ID:28321</p>
+              </a>
+              <a class='item'>
+                Orange<p>Pumbed ID:28321</p>
+              </a>
+              <a class='item'>
+                Poodle<p>Pumbed ID:28321</p>
+              </a>
+            </div>                
+          </div>
           </div>">...</td>
-        </tr>
-        <tr>
-          <td data-label="compound name">...</td>
-          <td data-label="score">...</td>
-          <td data-label="supported entries" class="entries" data-html=
-          "<div class='ui segment' style='
-          width: 400px;
-          height: 300px;
-          border-radius: 0;
-          background-color:#494e76;'>
-          <div class='ui header' style='background-color: #494e76'>Support Entries</div>
-          <div class='ui message' style='background-color: #acabbd; width: 370px; height: 235px; overflow: auto; word-wrap: break-word;'><p>shitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshit</p><p>123</p></div>
-          </div>">...</td>
-        </tr>
-        <tr>
-          <td data-label="compound name">...</td>
-          <td data-label="score">...</td>
-          <td data-label="supported entries" class="entries" data-html=
-          "<div class='ui segment' style='
-          width: 400px;
-          height: 300px;
-          border-radius: 0;
-          background-color:#494e76;'>
-          <div class='ui header' style='background-color: #494e76'>Support Entries</div>
-          <div class='ui message' style='background-color: #acabbd; width: 370px; height: 235px; overflow: auto; word-wrap: break-word;'><p>shitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshit</p><p>123</p></div>
-          </div>">...</td>
-        </tr>
-        <tr>
-          <td data-label="compound name">...</td>
-          <td data-label="score">...</td>
-          <td data-label="supported entries" class="entries" data-html=
-          "<div class='ui segment' style='
-          width: 400px;
-          height: 300px;
-          border-radius: 0;
-          background-color:#494e76;'>
-          <div class='ui header' style='background-color: #494e76'>Support Entries</div>
-          <div class='ui message' style='background-color: #acabbd; width: 370px; height: 235px; overflow: auto; word-wrap: break-word;'><p>shitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshit</p><p>123</p></div>
-          </div>">...</td>
-        </tr>
-        <tr>
-          <td data-label="compound name">...</td>
-          <td data-label="score">...</td>
-          <td data-label="supported entries" class="entries" data-html=
-          "<div class='ui segment' style='
-          width: 400px;
-          height: 300px;
-          border-radius: 0;
-          background-color:#494e76;'>
-          <div class='ui header' style='background-color: #494e76'>Support Entries</div>
-          <div class='ui message' style='background-color: #acabbd; width: 370px; height: 235px; overflow: auto; word-wrap: break-word;'><p>shitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshit</p><p>123</p></div>
-          </div>">...</td>
-        </tr>
-        `
-      );
-      $('.entries').popup({
-        on: 'hover'
-      });
-    }
-  });
+    </tr>
+    `
+    )
+
+    $('.entries').popup({
+      on: 'hover'
+    });
+  })
+
+  // $(window).on('scroll', function () {
+  //   if ($(window).scrollTop() + $(window).height() >= $(document).height() - 1) {
+  //     $('.table-compound').append(
+  //       `
+  //       <tr>
+  //         <td data-label="compound name">...</td>
+  //         <td data-label="score">...</td>
+  //         <td data-label="supported entries" class="entries" data-html=
+  //         "<div class='ui segment' style='
+  //         width: 400px;
+  //         height: 300px;
+  //         border-radius: 0;
+  //         background-color:#494e76;'>
+  //         <div class='ui header' style='background-color: #494e76'>Support Entries</div>
+  //         <div class='ui message' style='background-color: #acabbd; width: 370px; height: 235px; overflow: auto; word-wrap: break-word;'>
+  //           <div class='ui divided selection list'>
+  //             <a class='item'>
+  //               Kumquats<p>Pumbed ID: 28123</p>
+  //             </a>
+  //             <a class='item'>
+  //               Ice Cream<p>Pumbed ID:28321</p>
+  //             </a>
+  //             <a class='item'>
+  //               Orange<p>Pumbed ID:28321</p>
+  //             </a>
+  //             <a class='item'>
+  //               Poodle<p>Pumbed ID:28321</p>
+  //             </a>
+  //             </div>   
+  //         </div>
+  //         </div>">...</td>
+  //       </tr>
+  //       <tr>
+  //         <td data-label="compound name">...</td>
+  //         <td data-label="score">...</td>
+  //         <td data-label="supported entries" class="entries" data-html=
+  //         "<div class='ui segment' style='
+  //         width: 400px;
+  //         height: 300px;
+  //         border-radius: 0;
+  //         background-color:#494e76;'>
+  //         <div class='ui header' style='background-color: #494e76'>Support Entries</div>
+  //         <div class='ui message' style='background-color: #acabbd; width: 370px; height: 235px; overflow: auto; word-wrap: break-word;'><p>shitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshit</p><p>123</p></div>
+  //         </div>">...</td>
+  //       </tr>
+  //       <tr>
+  //         <td data-label="compound name">...</td>
+  //         <td data-label="score">...</td>
+  //         <td data-label="supported entries" class="entries" data-html=
+  //         "<div class='ui segment' style='
+  //         width: 400px;
+  //         height: 300px;
+  //         border-radius: 0;
+  //         background-color:#494e76;'>
+  //         <div class='ui header' style='background-color: #494e76'>Support Entries</div>
+  //         <div class='ui message' style='background-color: #acabbd; width: 370px; height: 235px; overflow: auto; word-wrap: break-word;'><p>shitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshit</p><p>123</p></div>
+  //         </div>">...</td>
+  //       </tr>
+  //       <tr>
+  //         <td data-label="compound name">...</td>
+  //         <td data-label="score">...</td>
+  //         <td data-label="supported entries" class="entries" data-html=
+  //         "<div class='ui segment' style='
+  //         width: 400px;
+  //         height: 300px;
+  //         border-radius: 0;
+  //         background-color:#494e76;'>
+  //         <div class='ui header' style='background-color: #494e76'>Support Entries</div>
+  //         <div class='ui message' style='background-color: #acabbd; width: 370px; height: 235px; overflow: auto; word-wrap: break-word;'><p>shitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshit</p><p>123</p></div>
+  //         </div>">...</td>
+  //       </tr>
+  //       <tr>
+  //         <td data-label="compound name">...</td>
+  //         <td data-label="score">...</td>
+  //         <td data-label="supported entries" class="entries" data-html=
+  //         "<div class='ui segment' style='
+  //         width: 400px;
+  //         height: 300px;
+  //         border-radius: 0;
+  //         background-color:#494e76;'>
+  //         <div class='ui header' style='background-color: #494e76'>Support Entries</div>
+  //         <div class='ui message' style='background-color: #acabbd; width: 370px; height: 235px; overflow: auto; word-wrap: break-word;'><p>shitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshit</p><p>123</p></div>
+  //         </div>">...</td>
+  //       </tr>
+  //       `
+  //     );
+      // $('.entries').popup({
+      //   on: 'hover'
+      // });
+  //   }
+  // });
 
 </script>
 <style>
