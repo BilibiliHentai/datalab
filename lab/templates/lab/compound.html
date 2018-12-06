@@ -1,45 +1,35 @@
-<div class="ui grid">
+<div class="ui segment padded">
+    <h2 class="ui header center">SEARCH FOR THE COMPOUND YOU ARE LOOKING FOR:</h2>
 
-    <div class="four wide column">
-        <select class="ui dropdown">
-            <option value="">Categories</option>
-            <option value="1">type a</option>
-            <option value="0">type b</option>
-        </select>
+    <div class="ui icon input ">
+        <input type="text" placeholder="Search compound...">
+        <i class="circular search link icon"></i>
     </div>
-
-    <div class="four wide column"></div>
-    <div class="four wide column"></div>
-
-    <div class="four wide column">
-        <div class="ui icon input ">
-            <input type="text" placeholder="Search compound...">
-            <i class="circular search link icon"></i>
-        </div>
+    <div class="ui segment">
+        <a class="ui tag label">New</a>
+        <a class="ui tag label">Upcoming</a>
+        <a class="ui tag label">Featured</a>
     </div>
-
 </div>
 
-
-<table class="ui celled table">
-    <thead>
-        <tr>
-            <th>name</th>
-            <th>categories</th>
-            <th>对应记录条数</th>
-            <th>化合物简介</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td data-label="name">compound</td>
-            <td data-label="categories">xxx</td>
-            <td data-label="对应记录条数">....</td>
-            <td data-label="化合物简介">...</td>
-        </tr>
-    </tbody>
-</table>
-
+<div class="ui raised very padded text segment">
+    <table class="ui celled table">
+        <thead>
+            <tr>
+                <th>NAME</th>
+                <th>CATEGORIES</th>
+                <th>ASSOCIATE GENE NUMBER</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td data-label="NAME"><a href="{% url 'lab:compound-detail' compound_name %}">rivaroxaban</a></td>
+                <td data-label="CATEGORIES">xxx</td>
+                <td data-label="ASSOCIATE GENE NUMBER">12</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
 <script>
     $('.ui.dropdown')
         .dropdown();

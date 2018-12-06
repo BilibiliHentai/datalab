@@ -13,86 +13,31 @@
 </head>
 
 <body>
-  <div class="ui thin left sidebar inverted vertical menu">
-    <a href="{% url 'lab:index' %}">
-      <div class="header item">
-        <img src="{% static "images/logo2.png" %}">
-      </div>
-    </a>
-    <a class="item">
-      Doucument
-      <i class="browser icon"></i>
-    </a>
-    <a class="item">
-      Charts
-      <i class="bar chart icon"></i>
-    </a>
-    <a class="item">
-      Others
-      <i class="idea icon"></i>
-    </a>
-    <a class="item" id="search">
-      Search
-      <i class="search icon"></i>
-    </a>
-    <a class="item" id="search-bar">
-      <form action="{% url 'lab:index' %}" method="POST">
-        {% csrf_token %}
-        <input name="keyword">
-        <input type="hidden" name="page" value="1">
-      </form>
-    </a>
-    <a class="item" href="{% url 'lab:gene' %}">
-      Gene
-      <i class="lab icon"></i>
-    </a>
-    <a class="item" href="{% url 'lab:compound' %}">
-      Compound
-      <i class="database icon"></i>
-    </a>
-    <a class="item" href="{% url 'lab:statistics' %}">
-      Statistics
-      <i class="chart pie icon"></i>
-    </a>
-    <a class="item" href="{% url 'lab:help' %}">
-      help
-      <i class="info icon"></i>
-    </a>
-    <div class="item">
-      <span style="overflow-wrap: break-word">
-        Created by Silexon
-      </span>
-    </div>
-  </div>
-  <div class="pusher">
-
-
     <div class="ui menu">
-      <div class="header item" id="menu">
-        Menu
-        <i class="content icon"></i>
+      <div class="header item">
+        <a href="{% url 'lab:index' %}"><p><strong id="textdti" class="bauhs93">TextDTI </strong> POWERED BY SILEXON</p></a>
       </div>
       <div class="item">
-        About us
       </div>
-      <div class="item">
-        Location
-      </div>
-      <div class="item">
-        Others
-      </div>
+      <div class="right menu">
+        <div class="item" id="menu">
+          <a href="{% url 'lab:gene' %}">gene</a>
+        </div>
+        <div class="item">
+          <a href="{% url 'lab:compound' %}">compound</a>
+        </div>
+        <div class="item">
+          <a href="{% url 'lab:statistics' %}">statistics</a>
+        </div>
+        <div class="item">
+          <a href="{% url 'lab:help' %}">help</a>
+        </div>
+      </div> 
     </div>
     <!-- main content -->
     <div class="ui container">
         {% include subtemplate %}
     </div>
-    <script>
-      // $('.ui.sidebar').sidebar('hide');
-      $('#menu').click(function () {
-        $('.ui.sidebar').sidebar('toggle');
-      });
-    </script>
-  </div>
 </body>
 
 </html>

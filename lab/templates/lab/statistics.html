@@ -1,118 +1,44 @@
-<select class="ui dropdown">
-  <option value="">gene type</option>
-  <option value="all">All</option>
-  <option value="1">Type A</option>
-  <option value="0">Type B</option>
-</select>
-<table class="ui celled table">
-  <thead>
-    <tr>
-      <th>Total number of genes</th>
-      <th>score</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>
-        Cell
-        <!-- <div class="ui ribbon label">First</div> -->
-      </td>
-      <td>Cell</td>
-    </tr>
-    <tr>
-      <td>Cell</td>
-      <td>Cell</td>
-    </tr>
-    <tr>
-      <td>Cell</td>
-      <td>Cell</td>
-    </tr>
-    <tr>
-      <td>Cell</td>
-      <td>Cell</td>
-    </tr>
-  </tbody>
-  <tfoot>
-    <tr>
-      <th colspan="3">
-        <div class="ui right floated pagination menu">
-          <a class="icon item">
-            <i class="left chevron icon"></i>
-          </a>
-          <a class="item">1</a>
-          <a class="item">2</a>
-          <a class="item">3</a>
-          <a class="item">4</a>
-          <a class="icon item">
-            <i class="right chevron icon"></i>
-          </a>
+{% load static %}
+<div class="ui segment padded">
+    <div class="ui equal width grid stackable center aligned internally celled">
+      <div class="row">
+        <div class="column">
+          <div class="ui statistic">
+            <div class="value">
+              346
+            </div>
+            <div class="label">
+              Total gene number
+            </div>
+          </div>
         </div>
-      </th>
-    </tr>
-  </tfoot>
-</table>
-
-
-<select class="ui dropdown">
-  <option value="">Compound type</option>
-  <option value="all">All</option>
-  <option value="1">Type A</option>
-  <option value="0">Type B</option>
-</select>
-<table class="ui celled table">
-  <thead>
-    <tr>
-      <th>Total number of compounds</th>
-      <th>score</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>
-        Cell
-        <!-- <div class="ui ribbon label">First</div> -->
-      </td>
-      <td>Cell</td>
-    </tr>
-    <tr>
-      <td>Cell</td>
-      <td>Cell</td>
-    </tr>
-    <tr>
-      <td>Cell</td>
-      <td>Cell</td>
-    </tr>
-    <tr>
-      <td>Cell</td>
-      <td>Cell</td>
-    </tr>
-    <tr>
-      <td>Cell</td>
-      <td>Cell</td>
-    </tr>
-  </tbody>
-  <tfoot>
-    <tr>
-      <th colspan="3">
-        <div class="ui right floated pagination menu">
-          <a class="icon item">
-            <i class="left chevron icon"></i>
-          </a>
-          <a class="item">1</a>
-          <a class="item">2</a>
-          <a class="item">3</a>
-          <a class="item">4</a>
-          <a class="icon item">
-            <i class="right chevron icon"></i>
-          </a>
+        <div class="column">
+          <div class="ui statistic">
+            <div class="value">
+              1,259
+            </div>
+            <div class="label">
+              Total compound number
+            </div>
+          </div>
         </div>
-      </th>
-    </tr>
-  </tfoot>
-</table>
+        <div class="column">
+          <div class="ui statistic">
+            <div class="value">
+              259
+            </div>
+            <div class="label">
+              related publication number
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-
-<div id="container" style="height: 500PX"></div>
+<div class="ui segment padded">
+  <div id="container" style="height: 500PX"></div>
+</div>
 <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/echarts.min.js"></script>
 <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts-gl/echarts-gl.min.js"></script>
 <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts-stat/ecStat.min.js"></script>
@@ -122,29 +48,7 @@
 <script type="text/javascript" src="https://api.map.baidu.com/api?v=2.0&ak=ZUONbpqGBsYGXNIYHicvbAbM"></script>
 <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/extension/bmap.min.js"></script>
 <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/simplex.js"></script>
-<script type="text/javascript">
-  var dom = document.getElementById("container");
-  var myChart = echarts.init(dom);
-  var app = {};
-  option = null;
-  option = {
-    xAxis: {
-      type: 'category',
-      data: ['rivaroxaban', 'prothrombinase', '_', '_', '_', '_', '_']
-    },
-    yAxis: {
-      type: 'value'
-    },
-    series: [{
-      data: [120, 200, 150, 80, 70, 110, 130],
-      type: 'bar'
-    }]
-  };
-  ;
-  if (option && typeof option === "object") {
-    myChart.setOption(option, true);
-  }
+<script type="text/javascript" src="{% static 'js/charts.js' %}"></script>
+<script>
+  score_chart('container', 'Score Distribution')
 </script>
-
-
-
