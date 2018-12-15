@@ -1,7 +1,7 @@
 {% load static %}
 <div class="ui raised very padded text segment">
   <h2 class="ui header">Gene</h2>
-  <div class="ui grid">
+  <div id="gene-detail" class="ui grid">
     <div class="four wide column">ID:</div>
     <div class="twelve wide column">1280</div>
     <div class="four wide column">Protein name:</div>
@@ -242,148 +242,106 @@
 <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/extension/bmap.min.js"></script>
 <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/simplex.js"></script>
 <script type="text/javascript" src="{% static 'js/charts.js' %}"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script>
-  $('.table-compound .entries').popup({
-    on: 'hover'
-  });
+  $(document).ready(function () {
 
-  score_chart('chart', 'Score Distribution');
-
-  // $('body').on('hover', '.entries', function() {
-  //   $('.entries').popup(
-  //     {on: 'hover'}
-  //   )
-  // })
-  $('body').on('click', '#click-for-more', function () {
-    $('.table:eq(1)').find('tbody').append(
-      `
-      <tr>
-        <td data-label="compound name">...</td>
-        <td data-label="score">...</td>
-        <td data-label="supported entries" class="entries" data-html="<div class='ui segment' style='
-          width: 400px;
-          height: 300px;
-          border-radius: 0;
-          background-color:#494e76;'>
-          <div class='ui header' style='background-color: #494e76'>Support Entries</div>
-          <div class='ui message' style='background-color: #acabbd; width: 370px; height: 235px; overflow: auto; word-wrap: break-word;'>
-            <div class='ui divided selection list'>
-              <a class='item'>
-                Kumquats<p>Pumbed ID: 28123</p>
-              </a>
-              <a class='item'>
-                Ice Cream<p>Pumbed ID:28321</p>
-              </a>
-              <a class='item'>
-                Orange<p>Pumbed ID:28321</p>
-              </a>
-              <a class='item'>
-                Poodle<p>Pumbed ID:28321</p>
-              </a>
-            </div>                
-          </div>
-          </div>">...</td>
-    </tr>
-    `
-    )
-
-    $('.entries').popup({
+    $('.table-compound .entries').popup({
       on: 'hover'
     });
+
+    score_chart('chart', 'Score Distribution');
+
+    $('body').on('click', '#click-for-more', function () {
+      tbody = $('.table:eq(1)').find('tbody');
+      for (i = 0; i < 10; i++) {
+        tbody.append(`
+        <tr>
+          <td data-label="compound name">...</td>
+          <td data-label="score">...</td>
+          <td data-label="supported entries" class="entries" data-html="<div class='ui segment' style='
+            width: 400px;
+            height: 300px;
+            border-radius: 0;
+            background-color:#494e76;'>
+            <div class='ui header' style='background-color: #494e76'>Support Entries</div>
+            <div class='ui message' style='background-color: #acabbd; width: 370px; height: 235px; overflow: auto; word-wrap: break-word;'>
+              <div class='ui divided selection list'>
+                <a class='item'>
+                  Kumquats<p>Pumbed ID: 28123</p>
+                </a>
+                <a class='item'>
+                  Ice Cream<p>Pumbed ID:28321</p>
+                </a>
+                <a class='item'>
+                  Orange<p>Pumbed ID:28321</p>
+                </a>
+                <a class='item'>
+                  Poodle<p>Pumbed ID:28321</p>
+                </a>
+              </div>                
+            </div>
+            </div>">...</td>
+        </tr>
+        `)
+      }
+      // $('.table:eq(1)').find('tbody').append(
+      //   `
+      //   <tr>
+      //     <td data-label="compound name">...</td>
+      //     <td data-label="score">...</td>
+      //     <td data-label="supported entries" class="entries" data-html="<div class='ui segment' style='
+      //       width: 400px;
+      //       height: 300px;
+      //       border-radius: 0;
+      //       background-color:#494e76;'>
+      //       <div class='ui header' style='background-color: #494e76'>Support Entries</div>
+      //       <div class='ui message' style='background-color: #acabbd; width: 370px; height: 235px; overflow: auto; word-wrap: break-word;'>
+      //         <div class='ui divided selection list'>
+      //           <a class='item'>
+      //             Kumquats<p>Pumbed ID: 28123</p>
+      //           </a>
+      //           <a class='item'>
+      //             Ice Cream<p>Pumbed ID:28321</p>
+      //           </a>
+      //           <a class='item'>
+      //             Orange<p>Pumbed ID:28321</p>
+      //           </a>
+      //           <a class='item'>
+      //             Poodle<p>Pumbed ID:28321</p>
+      //           </a>
+      //         </div>                
+      //       </div>
+      //       </div>">...</td>
+      // </tr>
+      // `
+      // )
+
+      $('.entries').popup({
+        on: 'hover'
+      });
+    })
+
+    axios.get('/')
+      .then(function (response) {
+        content = `
+    <div class="four wide column">ID:</div>
+    <div class="twelve wide column">1280</div>
+    <div class="four wide column">Protein name:</div>
+    <div class="twelve wide column">...</div>
+    <div class="four wide column">Category:</div>
+    <div class="twelve wide column">...</div>
+    <div class="four wide column">Link to uniprot:</div>
+    <div class="twelve wide column">...</div>
+    <div class="four wide column">GO term:</div>
+    <div class="twelve wide column">Name: heart contraction; Oncology: biological_process</div>
+    `
+        // $('#gene-detail').append(content);
+      })
+      .catch(function (error) {
+        log(error);
+      });
   })
-
-  // $(window).on('scroll', function () {
-  //   if ($(window).scrollTop() + $(window).height() >= $(document).height() - 1) {
-  //     $('.table-compound').append(
-  //       `
-  //       <tr>
-  //         <td data-label="compound name">...</td>
-  //         <td data-label="score">...</td>
-  //         <td data-label="supported entries" class="entries" data-html=
-  //         "<div class='ui segment' style='
-  //         width: 400px;
-  //         height: 300px;
-  //         border-radius: 0;
-  //         background-color:#494e76;'>
-  //         <div class='ui header' style='background-color: #494e76'>Support Entries</div>
-  //         <div class='ui message' style='background-color: #acabbd; width: 370px; height: 235px; overflow: auto; word-wrap: break-word;'>
-  //           <div class='ui divided selection list'>
-  //             <a class='item'>
-  //               Kumquats<p>Pumbed ID: 28123</p>
-  //             </a>
-  //             <a class='item'>
-  //               Ice Cream<p>Pumbed ID:28321</p>
-  //             </a>
-  //             <a class='item'>
-  //               Orange<p>Pumbed ID:28321</p>
-  //             </a>
-  //             <a class='item'>
-  //               Poodle<p>Pumbed ID:28321</p>
-  //             </a>
-  //             </div>   
-  //         </div>
-  //         </div>">...</td>
-  //       </tr>
-  //       <tr>
-  //         <td data-label="compound name">...</td>
-  //         <td data-label="score">...</td>
-  //         <td data-label="supported entries" class="entries" data-html=
-  //         "<div class='ui segment' style='
-  //         width: 400px;
-  //         height: 300px;
-  //         border-radius: 0;
-  //         background-color:#494e76;'>
-  //         <div class='ui header' style='background-color: #494e76'>Support Entries</div>
-  //         <div class='ui message' style='background-color: #acabbd; width: 370px; height: 235px; overflow: auto; word-wrap: break-word;'><p>shitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshit</p><p>123</p></div>
-  //         </div>">...</td>
-  //       </tr>
-  //       <tr>
-  //         <td data-label="compound name">...</td>
-  //         <td data-label="score">...</td>
-  //         <td data-label="supported entries" class="entries" data-html=
-  //         "<div class='ui segment' style='
-  //         width: 400px;
-  //         height: 300px;
-  //         border-radius: 0;
-  //         background-color:#494e76;'>
-  //         <div class='ui header' style='background-color: #494e76'>Support Entries</div>
-  //         <div class='ui message' style='background-color: #acabbd; width: 370px; height: 235px; overflow: auto; word-wrap: break-word;'><p>shitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshit</p><p>123</p></div>
-  //         </div>">...</td>
-  //       </tr>
-  //       <tr>
-  //         <td data-label="compound name">...</td>
-  //         <td data-label="score">...</td>
-  //         <td data-label="supported entries" class="entries" data-html=
-  //         "<div class='ui segment' style='
-  //         width: 400px;
-  //         height: 300px;
-  //         border-radius: 0;
-  //         background-color:#494e76;'>
-  //         <div class='ui header' style='background-color: #494e76'>Support Entries</div>
-  //         <div class='ui message' style='background-color: #acabbd; width: 370px; height: 235px; overflow: auto; word-wrap: break-word;'><p>shitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshit</p><p>123</p></div>
-  //         </div>">...</td>
-  //       </tr>
-  //       <tr>
-  //         <td data-label="compound name">...</td>
-  //         <td data-label="score">...</td>
-  //         <td data-label="supported entries" class="entries" data-html=
-  //         "<div class='ui segment' style='
-  //         width: 400px;
-  //         height: 300px;
-  //         border-radius: 0;
-  //         background-color:#494e76;'>
-  //         <div class='ui header' style='background-color: #494e76'>Support Entries</div>
-  //         <div class='ui message' style='background-color: #acabbd; width: 370px; height: 235px; overflow: auto; word-wrap: break-word;'><p>shitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshitshit</p><p>123</p></div>
-  //         </div>">...</td>
-  //       </tr>
-  //       `
-  //     );
-      // $('.entries').popup({
-      //   on: 'hover'
-      // });
-  //   }
-  // });
-
 </script>
 <style>
 
