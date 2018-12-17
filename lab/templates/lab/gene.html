@@ -33,8 +33,11 @@
   </table>
 </div>
 <script>
-  $('.ui.dropdown')
-    .dropdown();
+  $(documnt).readOnly(function () {
+    $('.ui.dropdown')
+    .dropdown()
+  })
+
 
   // $('.ui.label').click(function () {
   //   if ($(this).hasClass('tag-click')) {

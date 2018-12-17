@@ -4,20 +4,22 @@ from random import random, randint
 class TestData(object):
     kw = ['holy', 'shit', 'ok', 'jesus', 'rivaroxaban', 'prothrombinase']
 
-
-    def get_test_data(self, query_keyword):
+    def __init__(self):
         self.data = []
-        if query_keyword in TestData.kw:
-            for _ in range(100):
-                self.data.append(
-                    {
-                        'name': self._get_random_string(),
-                        'avg_score': random(),
-                        'cite_num': randint(1,20),
-                    }
-                )
-        return self.data
 
+    def get_test_data(self, query_keyword=None, data_sum=20):
+
+        for _ in range(data_sum):
+            self.data.append(
+                {
+                    'name': query_keyword if query_keyword is not None and query_keyword in TestData.kw else self._get_random_string(),
+                    'score': random(),
+                    'cite_num': randint(1,20),
+                    'paris': [self._get_random_string() for x in range(10)],
+                    'supporting_entries': [self._get_random_string() for x in range(10)],
+                }
+            )
+        return self.data
 
     def _get_random_string(self):
         characters = 'abcdefghicklmnopgrstuvwxyz'

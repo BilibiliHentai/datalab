@@ -1,40 +1,40 @@
 {% load static %}
 <div class="ui segment padded">
-    <div class="ui equal width grid stackable center aligned internally celled">
-      <div class="row">
-        <div class="column">
-          <div class="ui statistic">
-            <div class="value">
-              346
-            </div>
-            <div class="label">
-              Total gene number
-            </div>
+  <div class="ui equal width grid stackable center aligned internally celled">
+    <div class="row">
+      <div class="column">
+        <div class="ui statistic">
+          <div class="value">
+            {{ gene_sum }}
+          </div>
+          <div class="label">
+            Total gene number
           </div>
         </div>
-        <div class="column">
-          <div class="ui statistic">
-            <div class="value">
-              1,259
-            </div>
-            <div class="label">
-              Total compound number
-            </div>
+      </div>
+      <div class="column">
+        <div class="ui statistic">
+          <div class="value">
+            {{ compound_sum }}
+          </div>
+          <div class="label">
+            Total compound number
           </div>
         </div>
-        <div class="column">
-          <div class="ui statistic">
-            <div class="value">
-              259
-            </div>
-            <div class="label">
-              related publication number
-            </div>
+      </div>
+      <div class="column">
+        <div class="ui statistic">
+          <div class="value">
+            {{ related_publication_sum }}
+          </div>
+          <div class="label">
+            related publication number
           </div>
         </div>
       </div>
     </div>
   </div>
+</div>
 
 <div class="ui segment padded">
   <div id="container" style="height: 500PX"></div>
@@ -42,13 +42,34 @@
 <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/echarts.min.js"></script>
 <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts-gl/echarts-gl.min.js"></script>
 <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts-stat/ecStat.min.js"></script>
-<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/extension/dataTool.min.js"></script>
+<script type="text/javascript"
+        src="http://echarts.baidu.com/gallery/vendors/echarts/extension/dataTool.min.js"></script>
 <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/map/js/china.js"></script>
 <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/map/js/world.js"></script>
 <script type="text/javascript" src="https://api.map.baidu.com/api?v=2.0&ak=ZUONbpqGBsYGXNIYHicvbAbM"></script>
 <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/extension/bmap.min.js"></script>
 <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/simplex.js"></script>
 <script type="text/javascript" src="{% static 'js/charts.js' %}"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script>
-  score_chart('container', 'Score Distribution')
+  $(document).ready(function () {
+    let scores_frequency = ''
+    let scores = []
+    axios.get('/get_score_frequency')
+        .then(function (response) {
+          scores_frequency = response.data
+          scores = Object.keys(scores_frequency)
+          let x_data = scores
+          let y_data = []
+
+          for (let i = 0; i < scores.length; i++) {
+            y_data.push(scores_frequency[scores[i]])
+          }
+          score_chart('container', 'Score Distribution', x_data, y_data)
+              .catch(function (error) {
+                log(error)
+              })
+        })
+  })
+
 </script>

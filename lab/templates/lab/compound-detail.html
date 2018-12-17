@@ -4,13 +4,13 @@
   <div class="ui grid">
     <div class="four wide column">ID:</div>
     <div class="twelve wide column">1</div>
-    <div class="four wide column">Categories:</div>
-    <div class="twelve wide column">...</div>
-    <div class="four wide column">CTD definition:</div>
-    <div class="twelve wide column">...</div>
     <div class="four wide column">Link to CTD:</div>
     <div class="twelve wide column">...</div>
-    <div class="four wide column">Known target:</div>
+    <div class="four wide column">Categories:</div>
+    <div class="twelve wide column">...</div>
+    <div class="four wide column">Link to drugbank:</div>
+    <div class="twelve wide column">...</div>
+    <div class="four wide column">Indication:</div>
     <div class="twelve wide column">target A</div>
   </div>
 </div>
@@ -24,13 +24,13 @@
   DTI/DDI info
   <!-- </div> -->
   <h2 class="ui header">
-    Known Compounds
+    Known Targets
   </h2>
   <table class="ui celled table">
     <thead>
       <tr>
         <th>COMPOUND NAME</th>
-        <th>LINK TO DRUG BANK</th>
+        <th>LINK TO UNIPROT</th>
       </tr>
     </thead>
     <tbody>
@@ -501,13 +501,13 @@
     })
 
     function dti() {
-      $('h2:eq(1)').text('Known Compounds')
+      $('h2:eq(1)').text('Known Targets')
       $('.table:eq(0)').html(
         `
         <thead>
           <tr>
             <th>COMPOUND NAME</th>
-            <th>LINK TO DRUG BANK</th>
+            <th>LINK TO UNIPROT</th>
           </tr>
         </thead>
         <tbody>

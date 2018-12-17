@@ -1,7 +1,12 @@
-from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.shortcuts import render
-from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+from collections import Counter
+from django.core.paginator import Paginator
+from django.http import JsonResponse
+from django.shortcuts import render
+import copy
+
 from data_lab import settings
+from utils.read_json_data import Reader
 
 if settings.DEBUG is True:
     from .TestData import TestData
@@ -10,8 +15,16 @@ else:
 
 
 def index(request):
+    reader = Reader()
+    reader.read()
+    total_numbers = reader.get_total_number()
+    data = reader.get_score_sorted_data()
     context = {
         'subtemplate': 'lab/main.html',
+        'data': data,
+        'gene_sum': total_numbers['total_gene_number'],
+        'compound_sum': total_numbers['total_compound_number'],
+        'related_publication_sum': total_numbers['total_related_publication'],
     }
     return render(request, 'lab/index.html', context=context)
 
@@ -54,7 +67,7 @@ def get_drugs(request, keyword='rivaroxaban', page=1):
         'keyword': keyword,
         'num_pages': paginator.num_pages,
         'page': page,
-        'next_page': page+1,
+        'next_page': page + 1,
         'prev_page': page if page == 1 else page - 1,
         'subtemplate': 'lab/drugs.html',
     }
@@ -62,14 +75,33 @@ def get_drugs(request, keyword='rivaroxaban', page=1):
 
 
 def statistics(request):
-    context = {'subtemplate': 'lab/statistics.html'}
+    reader = Reader()
+    reader.read()
+    total_numbers = reader.get_total_number()
+    context = {
+        'subtemplate': 'lab/statistics.html',
+        'gene_sum': total_numbers['total_gene_number'],
+        'compound_sum': total_numbers['total_compound_number'],
+        'related_publication_sum': total_numbers['total_related_publication'],
+    }
     return render(request, 'lab/index.html', context=context)
 
 
 def gene(request):
+    # if gene_name is None:
+    #     gene_name = 'prothrombinase'
+    # else:
+    #     gene_name = 'prothrombinase'
+    #     data = database.query_gene(gene_name)
+    #     protein_name = 'protein'
+    #     categories = 'categories'
+    #     associate_compound_sum = len(data)
     context = {
-        'gene_name': 'prothrombinase',
         'subtemplate': 'lab/gene.html',
+        'gene_name': 'www',
+        # 'categories': categories,
+        # 'protein_name': protein_name,
+        # 'associate_compound_sum': associate_compound_sum,
     }
     return render(request, 'lab/index.html', context=context)
 
@@ -97,8 +129,20 @@ def help(request):
     return render(request, 'lab/index.html', context=context)
 
 
-def search(keyword: str, set_sort: bool = True) -> list:
-    data = database.query_gene(keyword)
-    if not data:
-        data = database.query_compound(keyword)
-    return sorted(data, key=lambda x: x['cite_num'], reverse=True)
+def sortdata(data, reverse: bool = True) -> list:
+    return sorted(data, key=lambda x: x['score'], reverse=True)
+
+
+def get_score_frequency(request):
+    reader = Reader()
+    reader.read()
+    scores = reader.get_all_score()
+    scores.sort()
+    temp_scores = copy.deepcopy(scores)
+    for i,v in enumerate(temp_scores):
+        scores[i] = round(v, 2)
+    scores_frequency = Counter()
+    result = {'scores': scores}
+    for i in scores:
+        scores_frequency[i] += 1
+    return JsonResponse(scores_frequency)

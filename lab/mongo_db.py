@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals, print_function, division
+from typing import Callable, List
 from pymongo import MongoClient
 
 
@@ -40,7 +41,6 @@ class Database(object):
             s += '{0}: {1} records\n'.format(table.name, table.count())
         return s
 
-
     # condition list
     # ����
     # { < key >: < value >}    db.col.find({"id": "DB00001"})
@@ -64,11 +64,9 @@ class Database(object):
         table = self.db.get_collection(table_name)
         return table.find_one(condition)
 
-
     def _find(self, table_name, condition=None):
         table = self.db.get_collection(table_name)
         return table.find(condition)
-
 
     def query_gene(self, gene_name):
         gene_name = gene_name.lower()
@@ -106,7 +104,6 @@ class Database(object):
         data = list(compound_dict_values)
         return data
 
-
     def query_compound(self, compound_name):
         compound_name = compound_name.lower()
         gene_dict = {}
@@ -142,6 +139,53 @@ class Database(object):
         gene_dict_values = gene_dict.values()
         data = list(gene_dict_values)
         return data
+
+    def get_gene(self, sum:int, sort:Callable[[List], str]) -> list:
+        data = []
+        gene_collection = self.db['GeneMap']
+        compound_dict = {}
+        for gene_item in gene_collection.find():
+
+            try:
+                gene_id = gene_item['id']
+            except:
+                print("No record")
+                return []
+
+            pairs = self._find('CompoundGene', {'gene': gene_id})
+
+            for pair in pairs:
+                compound_id = pair['compound']
+                sent = ' '.join(pair['sent'])
+                pmid = pair['pmid']
+                score = pair['score']
+
+                if compound_id in compound_dict:
+                    compound_dict[compound_id]['ref'].append((pmid, sent))
+                    compound_dict[compound_id]['cite_num'] += 1
+                    compound_dict[compound_id]['avg_score'] += float(score)
+                else:
+                    compound_dict[compound_id] = {'name': '', 'avg_score': float(score), 'cite_num': 1, 'ref': [(pmid, sent)]}
+
+            for compound_id in compound_dict.keys():
+                compound_item = self._find_one('dictionary', {'id': compound_id})
+                compound_name = compound_item['name'][0]
+
+                compound_dict[compound_id]['name'] = compound_name
+                compound_dict[compound_id]['avg_score'] /= compound_dict[compound_id]['cite_num']
+            compound_dict_values = compound_dict.values()
+            # TODO
+            data.append(list(compound_dict_values))
+        return data
+
+    def get_compound(self):
+        return self.db['CompoundMap']
+
+    def get_gene_sum(self):
+        return len(self.db['GeneMap'])
+
+    def get_compound_sum(self):
+        return len(self.db['CompoundMap'])
 
 
 database = Database('PMC', username='PMC', password='PMC123', host="166.111.141.147", port=27017)

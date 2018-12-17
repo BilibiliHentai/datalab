@@ -16,7 +16,7 @@
       <div class="column">
         <div class="ui statistic">
           <div class="value">
-            346
+            {{ gene_sum }}
           </div>
           <div class="label">
             Total gene number
@@ -26,7 +26,7 @@
       <div class="column">
         <div class="ui statistic">
           <div class="value">
-            1,259
+            {{ compound_sum }}
           </div>
           <div class="label">
             Total compound number
@@ -36,7 +36,7 @@
       <div class="column">
         <div class="ui statistic">
           <div class="value">
-            259
+            {{ related_publication_sum }}
           </div>
           <div class="label">
             related publication number
@@ -60,126 +60,14 @@
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <td data-label="gene">rivaroxaban</td>
-        <td data-label="compound">prothrombinase</td>
-        <td data-label="score">20</td>
-        <td data-label="supporting entries">....</td>
-      </tr>
-      <tr>
-        <td data-label="gene">rivaroxaban</td>
-        <td data-label="compound">prothrombinase</td>
-        <td data-label="score">20</td>
-        <td data-label="supporting entries">....</td>
-      </tr>
-      <tr>
-        <td data-label="gene">rivaroxaban</td>
-        <td data-label="compound">prothrombinase</td>
-        <td data-label="score">20</td>
-        <td data-label="supporting entries">....</td>
-      </tr>
-      <tr>
-        <td data-label="gene">rivaroxaban</td>
-        <td data-label="compound">prothrombinase</td>
-        <td data-label="score">20</td>
-        <td data-label="supporting entries">....</td>
-      </tr>
-      <tr>
-        <td data-label="gene">rivaroxaban</td>
-        <td data-label="compound">prothrombinase</td>
-        <td data-label="score">20</td>
-        <td data-label="supporting entries">....</td>
-      </tr>
-      <tr>
-        <td data-label="gene">rivaroxaban</td>
-        <td data-label="compound">prothrombinase</td>
-        <td data-label="score">20</td>
-        <td data-label="supporting entries">....</td>
-      </tr>
-      <tr>
-        <td data-label="gene">rivaroxaban</td>
-        <td data-label="compound">prothrombinase</td>
-        <td data-label="score">20</td>
-        <td data-label="supporting entries">....</td>
-      </tr>
-      <tr>
-        <td data-label="gene">rivaroxaban</td>
-        <td data-label="compound">prothrombinase</td>
-        <td data-label="score">20</td>
-        <td data-label="supporting entries">....</td>
-      </tr>
-      <tr>
-        <td data-label="gene">rivaroxaban</td>
-        <td data-label="compound">prothrombinase</td>
-        <td data-label="score">20</td>
-        <td data-label="supporting entries">....</td>
-      </tr>
-      <tr>
-        <td data-label="gene">rivaroxaban</td>
-        <td data-label="compound">prothrombinase</td>
-        <td data-label="score">20</td>
-        <td data-label="supporting entries">....</td>
-      </tr>
-      <tr>
-        <td data-label="gene">rivaroxaban</td>
-        <td data-label="compound">prothrombinase</td>
-        <td data-label="score">20</td>
-        <td data-label="supporting entries">....</td>
-      </tr>
-      <tr>
-        <td data-label="gene">rivaroxaban</td>
-        <td data-label="compound">prothrombinase</td>
-        <td data-label="score">20</td>
-        <td data-label="supporting entries">....</td>
-      </tr>
-      <tr>
-        <td data-label="gene">rivaroxaban</td>
-        <td data-label="compound">prothrombinase</td>
-        <td data-label="score">20</td>
-        <td data-label="supporting entries">....</td>
-      </tr>
-      <tr>
-        <td data-label="gene">rivaroxaban</td>
-        <td data-label="compound">prothrombinase</td>
-        <td data-label="score">20</td>
-        <td data-label="supporting entries">....</td>
-      </tr>
-      <tr>
-        <td data-label="gene">rivaroxaban</td>
-        <td data-label="compound">prothrombinase</td>
-        <td data-label="score">20</td>
-        <td data-label="supporting entries">....</td>
-      </tr>
-      <tr>
-        <td data-label="gene">rivaroxaban</td>
-        <td data-label="compound">prothrombinase</td>
-        <td data-label="score">20</td>
-        <td data-label="supporting entries">....</td>
-      </tr>
-      <tr>
-        <td data-label="gene">rivaroxaban</td>
-        <td data-label="compound">prothrombinase</td>
-        <td data-label="score">20</td>
-        <td data-label="supporting entries">....</td>
-      </tr>
-      <tr>
-        <td data-label="gene">rivaroxaban</td>
-        <td data-label="compound">prothrombinase</td>
-        <td data-label="score">20</td>
-        <td data-label="supporting entries">....</td>
-      </tr>
-      <tr>
-        <td data-label="gene">rivaroxaban</td>
-        <td data-label="compound">prothrombinase</td>
-        <td data-label="score">20</td>
-        <td data-label="supporting entries">....</td>
-      </tr>
-      <tr>
-        <td data-label="gene">rivaroxaban</td>
-        <td data-label="compound">prothrombinase</td>
-        <td data-label="score">20</td>
-        <td data-label="supporting entries">....</td>
-      </tr>
+    {% for foo in data %}
+        <tr>
+          <td data-label="gene">{{ foo.gene_name }}</td>
+          <td data-label="compound">{{ foo.compound_name }}</td>
+          <td data-label="score">{{ foo.score }}</td>
+          <td data-label="supporting entries">{{ foo.supporting_entries_number }}</td>
+        </tr>
+    {% endfor %}
     </tbody>
   </table>
 </div>

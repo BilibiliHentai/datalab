@@ -12,4 +12,5 @@ urlpatterns = [
     path('compound/<str:compound_name>', views.compound_detail, name="compound-detail"),
     path('statistics', views.statistics, name='statistics'),
     path('help', views.help, name='help'),
+    path('get_score_frequency', views.get_score_frequency, name='score-frequency')
 ]
