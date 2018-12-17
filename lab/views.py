@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from collections import Counter
+from collections import Counter, OrderedDict
 from django.core.paginator import Paginator
 from django.http import JsonResponse
 from django.shortcuts import render
@@ -13,6 +13,14 @@ if settings.DEBUG is True:
 else:
     from lab.mongo_db import database
 
+class OrderedCounter(Counter, OrderedDict):
+    'Counter that remembers the order elements are first encountered'
+
+    def __repr__(self):
+        return '%s(%r)' % (self.__class__.__name__, OrderedDict(self))
+
+    def __reduce__(self):
+        return self.__class__, (OrderedDict(self),)
 
 def index(request):
     reader = Reader()
@@ -141,8 +149,9 @@ def get_score_frequency(request):
     temp_scores = copy.deepcopy(scores)
     for i,v in enumerate(temp_scores):
         scores[i] = round(v, 2)
-    scores_frequency = Counter()
-    result = {'scores': scores}
+    scores_frequency = OrderedCounter()
     for i in scores:
         scores_frequency[i] += 1
+    for key in scores_frequency.keys():
+        print(key)
     return JsonResponse(scores_frequency)

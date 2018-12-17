@@ -28,7 +28,7 @@ class Reader():
             row.update({'score': i['predict_score']})
             row.update({'supporting_entries_number': len(i['supporting_entry'])})
             rows.append(row)
-        print(rows)
+        # print(rows)
         return rows
 
     def get_total_number(self) -> dict:
