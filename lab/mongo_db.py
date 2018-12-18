@@ -174,7 +174,6 @@ class Database(object):
                 compound_dict[compound_id]['name'] = compound_name
                 compound_dict[compound_id]['avg_score'] /= compound_dict[compound_id]['cite_num']
             compound_dict_values = compound_dict.values()
-            # TODO
             data.append(list(compound_dict_values))
         return data
 

@@ -1,12 +1,12 @@
 from django.shortcuts import render
 from collections import Counter
-from django.core.paginator import Paginator
 from django.http import JsonResponse
 from django.shortcuts import render
 import copy
 
 from data_lab import settings
-from utils.read_json_data import Reader
+from utils.read_json_data import JsonReader
+from utils.read_xml_data import XmlReader
 
 if settings.DEBUG is True:
     from .TestData import TestData
@@ -15,7 +15,7 @@ else:
 
 
 def index(request):
-    reader = Reader()
+    reader = JsonReader()
     reader.read()
     total_numbers = reader.get_total_number()
     data = reader.get_score_sorted_data()
@@ -75,7 +75,7 @@ def get_drugs(request, keyword='rivaroxaban', page=1):
 
 
 def statistics(request):
-    reader = Reader()
+    reader = JsonReader()
     reader.read()
     total_numbers = reader.get_total_number()
     context = {
@@ -107,14 +107,20 @@ def gene(request):
 
 
 def gene_detail(request, gene_name):
-    context = {'subtemplate': 'lab/gene-detail.html'}
+    context = {
+        'subtemplate': 'lab/gene-detail.html',
+    }
     return render(request, 'lab/index.html', context=context)
 
 
-def compound(request):
+def compound(request, category=None):
+    reader = XmlReader()
+    reader.read()
+    categories = reader.gather_categories()
     context = {
-        'compound_name': 'rivaroxaban',
-        'subtemplate': 'lab/compound.html'
+        'subtemplate': 'lab/compound.html',
+        'categories': sorted(categories),
+
     }
     return render(request, 'lab/index.html', context=context)
 
@@ -134,15 +140,48 @@ def sortdata(data, reverse: bool = True) -> list:
 
 
 def get_score_frequency(request):
-    reader = Reader()
+    reader = JsonReader()
     reader.read()
     scores = reader.get_all_score()
     scores.sort()
     temp_scores = copy.deepcopy(scores)
-    for i,v in enumerate(temp_scores):
+    for i, v in enumerate(temp_scores):
         scores[i] = round(v, 2)
     scores_frequency = Counter()
     result = {'scores': scores}
     for i in scores:
         scores_frequency[i] += 1
     return JsonResponse(scores_frequency)
+
+
+def get_compound_by_name(request, compound_name):
+    reader = XmlReader()
+    reader.read()
+    rows = []
+    for datum in reader.data:
+        if compound_name == datum['drug_name']:
+            rows.append({
+                'id': datum['drugbank_id'],
+                'name': datum['drug_name'],
+                'categories': datum['categories'],
+                'associate_gene_number': len(datum['targets'])
+            })
+    return JsonResponse({'data': rows})
+
+
+def get_compound_by_category(request, category):
+    reader = XmlReader()
+    reader.read()
+    data = reader.data # a list of dict
+    rows = []
+    if category is not None:
+        for datum in data:
+            if category in datum['categories']:
+                row = {
+                    'id': datum['drugbank_id'],
+                    'name': datum['drug_name'],
+                    'categories': datum['categories'],
+                    'associate_gene_number': len(datum['targets'])
+                }
+                rows.append(row)
+    return JsonResponse({'data': rows})

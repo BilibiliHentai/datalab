@@ -1,36 +1,69 @@
 <div class="ui segment padded">
-    <h2 class="ui header center">SEARCH FOR THE COMPOUND YOU ARE LOOKING FOR:</h2>
+  <h2 class="ui header center">SEARCH FOR THE COMPOUND YOU ARE LOOKING FOR:</h2>
 
-    <div class="ui icon input ">
-        <input type="text" placeholder="Search compound...">
-        <i class="circular search link icon"></i>
-    </div>
-    <div class="ui segment">
-        <a class="ui tag label">New</a>
-        <a class="ui tag label">Upcoming</a>
-        <a class="ui tag label">Featured</a>
-    </div>
+  <div class="ui icon input ">
+    <input id="compound-name" type="text" placeholder="Search compound...">
+    <i id="search-icon" class="circular search link icon"></i>
+  </div>
+  <div class="ui segment">
+    {% for category in categories %}
+      <a class="ui tag label">{{ category }}</a>
+    {% endfor %}
+  </div>
 </div>
 
 <div class="ui raised very padded text segment">
-    <table class="ui celled table">
-        <thead>
-            <tr>
-                <th>NAME</th>
-                <th>CATEGORIES</th>
-                <th>ASSOCIATE GENE NUMBER</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td data-label="NAME"><a href="{% url 'lab:compound-detail' compound_name %}">rivaroxaban</a></td>
-                <td data-label="CATEGORIES">xxx</td>
-                <td data-label="ASSOCIATE GENE NUMBER">12</td>
-            </tr>
-        </tbody>
-    </table>
+  <table id="content-table" class="ui celled table">
+    <thead>
+    <tr>
+      <th>NAME</th>
+      <th>CATEGORIES</th>
+      <th>ASSOCIATE GENE NUMBER</th>
+    </tr>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
 </div>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script>
-    $('.ui.dropdown')
-        .dropdown();
+  $(document).ready(function () {
+    $('.ui.tag.label').click(function() {
+      let url = '/get_compound_by_category/' + $(this).text()
+      axios.get(url)
+          .then(function (response) {
+            $('#content-table').find('tbody').html(get_represent_data(response.data))
+          })
+          .catch(function (error) {
+            log(error)
+          })
+    })
+
+    $('#search-icon').click(function () {
+      let url = '/get_compound_by_name/' + $('#compound-name').val()
+      axios.get(url)
+          .then(function (response) {
+            $('#content-table').find('tbody').html(get_represent_data(response.data))
+          })
+          .catch(function (error) {
+            log(error)
+          })
+    })
+
+    function get_represent_data(dataObj) {
+      let data = dataObj.data
+      let formatted_data = ''
+      for (let i=0; i<data.length; i++){
+        let categories = data[i].categories.join(', ')
+        formatted_data += `
+              <tr>
+                <td data-label="NAME"><a href="/compound_detail/${data[i].id}">${data[i].name}</a></td>
+                <td data-label="CATEGORIES">${categories}</td>
+                <td data-label="ASSOCIATE GENE NUMBER">${data[i].associate_gene_number}</td>
+              </tr>
+            `
+      }
+      return formatted_data
+    }
+  })
 </script>

@@ -1,7 +1,7 @@
 import json
 
 PATH = '/home/naroah/Documents/part-time job/score_distribution.json'
-class Reader():
+class JsonReader():
     def __init__(self, path=PATH):
         self.path = path
 
@@ -54,6 +54,6 @@ class Reader():
 
 
 if __name__ == '__main__':
-    reader = Reader()
+    reader = JsonReader()
     reader.read()
     reader.get_total_number()

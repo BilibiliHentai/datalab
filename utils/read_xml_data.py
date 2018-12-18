@@ -5,10 +5,11 @@ import xml.dom.minidom
 import xml.sax
 # import xmltodict
 import json
+import os
 from time import sleep
 
 
-class dataHandler(xml.sax.ContentHandler):
+class XmlDataHandler(xml.sax.ContentHandler):
     def __init__(self):
         self.all_target = {}
         self.drugs = []
@@ -16,11 +17,11 @@ class dataHandler(xml.sax.ContentHandler):
             'drugbank_id': '',
             'drug_name': '',
             'targets': '',
-            'links_to_drugbank': '', # url in link
-            'link_to_CTD': '', # cas-number
-            'uniprot': '', # uniprot-id
+            'links_to_drugbank': '',  # url in link
+            'link_to_CTD': '',  # cas-number
+            'uniprot': '',  # uniprot-id
             'indication': '',
-            'categories': [], # group
+            'categories': [],  # group
         }
         self.links_to_drugbank = []
         self.splited_link = ''
@@ -55,7 +56,7 @@ class dataHandler(xml.sax.ContentHandler):
             self.outer_scope = ''
         if tag == 'transporters':
             self.drugs.append(self.drug)
-            print(self.drug)
+            # print(self.drug)
             self.reset()
         if tag == 'target':
             self.targets.append(self.target)
@@ -81,7 +82,7 @@ class dataHandler(xml.sax.ContentHandler):
             elif self.outer_scope == 'drug':
                 self.drug['drug_name'] = content
         elif self.current_data == 'id':
-                self.target['target_id'] = content
+            self.target['target_id'] = content
         elif self.current_data == 'cas-number':
             self.drug['link_to_CTD'] = content
         elif self.current_data == 'url':
@@ -99,11 +100,11 @@ class dataHandler(xml.sax.ContentHandler):
             'drugbank_id': '',
             'drug_name': '',
             'targets': '',
-            'links_to_drugbank': '', # url in link
-            'link_to_CTD': '', # cas-number
-            'uniprot': '', # uniprot-id
+            'links_to_drugbank': '',  # url in link
+            'link_to_CTD': '',  # cas-number
+            'uniprot': '',  # uniprot-id
             'indication': '',
-            'categories': [], # group
+            'categories': [],  # group
         }
         self.links_to_drugbank = []
         self.splited_link = ''
@@ -116,25 +117,49 @@ class dataHandler(xml.sax.ContentHandler):
         self.has_drug_bank_id = False
         self.current_data = ""
 
-    # def endDocument(self):
-    #     with open('targets.json', 'w')as f:
-    #         f.write(json.dumps(self.all_target))
+    def endDocument(self):
+        with open('extracted_data_from_xml.json', 'w')as f:
+            f.write(json.dumps(self.drugs))
 
     def testprint(self, content):
         print(content)
         sleep(0.5)
 
-if (__name__ == "__main__"):
-    path = "/home/naroah/Documents/part-time job/full database.xml"
-    # 创建一个 XMLReader
-    parser = xml.sax.make_parser()
-    # turn off namepsaces
-    parser.setFeature(xml.sax.handler.feature_namespaces, 0)
 
-    # 重写 ContextHandler
-    Handler = dataHandler()
-    parser.setContentHandler(Handler)
+class XmlReader():
+    def __init__(self, path='/home/naroah/Documents/part-time job/full database.xml'):
+        self.data = ''  # list of dict
+        self.path = path
 
-    parser.parse(path)
+    def extract_data_from_xml(self):
+        """
+        parse data and dump it to a json file in the cwd.
+        """
+        # 创建一个 XMLReader
+        parser = xml.sax.make_parser()
+        # turn off namepsaces
+        parser.setFeature(xml.sax.handler.feature_namespaces, 0)
+
+        # 重写 ContextHandler
+        handler = XmlDataHandler()
+        parser.setContentHandler(handler)
+
+        parser.parse(self.path)
+
+    def read(self):
+        # print(os.path.dirname(os.path.abspath(__file__)))
+        with open('extracted_data_from_xml.json', 'r') as f:
+            self.data = json.load(f)
 
 
+    def gather_categories(self):
+        categories = set()
+        [categories.add(j) for i in self.data for j in i['categories']]
+        return categories
+
+
+if __name__ == "__main__":
+    reader = XmlReader("/home/naroah/Documents/part-time job/full database.xml")
+    # reader.extract_data_from_xml()
+    reader.read()
+    reader.gather_categories()
