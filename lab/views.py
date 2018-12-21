@@ -1,24 +1,19 @@
-from django.shortcuts import render
 from collections import Counter, OrderedDict
 from django.http import JsonResponse
 from django.shortcuts import render
 import copy
 
-from data_lab import settings
 from utils.read_json_data import JsonReader
 from utils.read_xml_data import XmlReader
 
-if settings.DEBUG is True:
-    from .TestData import TestData
-else:
-    from lab.mongo_db import database
-
+JSON_READER = JsonReader()
+JSON_READER.read()
+XML_READER = XmlReader()
+XML_READER.read()
 
 def index(request):
-    reader = JsonReader()
-    reader.read()
-    total_numbers = reader.get_total_number()
-    data = reader.get_score_sorted_data()
+    total_numbers = JSON_READER.get_total_number()
+    data = JSON_READER.get_score_sorted_data()
     context = {
         'subtemplate': 'lab/main.html',
         'data': data,
@@ -29,55 +24,53 @@ def index(request):
     return render(request, 'lab/index.html', context=context)
 
 
-def get_drugs(request, keyword='rivaroxaban', page=1):
-    """all data will be returned by search, \n
-    if not given, there's a default keyword.
-
-    Arguments:
-        request {} -- none
-
-    Keyword Arguments:
-        keyword {str} -- [name of gene or compound] (default: {'rivaroxaban'})
-        page {int} -- [for pagination] (default: {1})
-
-    Returns:
-        [HttpResponse] -- none
-    """
-
-    if request.method == 'POST':
-        keyword = request.POST.get('keyword', 'rivaroxaban')
-        page = int(request.POST.get('page', 1))
-    test_data_set = TestData()
-
-    if settings.DEBUG is True:
-        # test data for development
-        data = test_data_set.get_test_data(keyword)
-    else:
-        # real data for production
-        data = search(keyword, True)
-        database.close()
-
-    paginator = Paginator(data, 10)
-    if page < 1:
-        page = 1
-    elif page > paginator.num_pages:
-        page = paginator.num_pages
-    context = {
-        'data': paginator.get_page(page),
-        'keyword': keyword,
-        'num_pages': paginator.num_pages,
-        'page': page,
-        'next_page': page + 1,
-        'prev_page': page if page == 1 else page - 1,
-        'subtemplate': 'lab/drugs.html',
-    }
-    return render(request, 'lab/index.html', context=context)
+# def get_drugs(request, keyword='rivaroxaban', page=1):
+#     """all data will be returned by search, \n
+#     if not given, there's a default keyword.
+#
+#     Arguments:
+#         request {} -- none
+#
+#     Keyword Arguments:
+#         keyword {str} -- [name of gene or compound] (default: {'rivaroxaban'})
+#         page {int} -- [for pagination] (default: {1})
+#
+#     Returns:
+#         [HttpResponse] -- none
+#     """
+#
+#     if request.method == 'POST':
+#         keyword = request.POST.get('keyword', 'rivaroxaban')
+#         page = int(request.POST.get('page', 1))
+#     test_data_set = TestData()
+#
+#     if settings.DEBUG is True:
+#         # test data for development
+#         data = test_data_set.get_test_data(keyword)
+#     else:
+#         # real data for production
+#         data = search(keyword, True)
+#         database.close()
+#
+#     paginator = Paginator(data, 10)
+#     if page < 1:
+#         page = 1
+#     elif page > paginator.num_pages:
+#         page = paginator.num_pages
+#     context = {
+#         'data': paginator.get_page(page),
+#         'keyword': keyword,
+#         'num_pages': paginator.num_pages,
+#         'page': page,
+#         'next_page': page + 1,
+#         'prev_page': page if page == 1 else page - 1,
+#         'subtemplate': 'lab/drugs.html',
+#     }
+#     return render(request, 'lab/index.html', context=context)
 
 
 def statistics(request):
-    reader = JsonReader()
-    reader.read()
-    total_numbers = reader.get_total_number()
+    total_numbers = JSON_READER.get_total_number()
     context = {
         'subtemplate': 'lab/statistics.html',
         'gene_sum': total_numbers['total_gene_number'],
@@ -114,9 +107,8 @@ def gene_detail(request, gene_name):
 
 
 def compound(request, category=None):
-    reader = XmlReader()
-    reader.read()
-    categories = reader.gather_categories()
+    categories = set()
+    [categories.add(j) for i in XML_READER.get_data() for j in i['categories']]
     context = {
         'subtemplate': 'lab/compound.html',
         'categories': sorted(categories),
@@ -125,8 +117,16 @@ def compound(request, category=None):
     return render(request, 'lab/index.html', context=context)
 
 
-def compound_detail(request, compound_name):
-    context = {'subtemplate': 'lab/compound-detail.html'}
+def compound_detail(request, compound_id):
+    for i in XML_READER.get_data():
+        if i['drugbank_id'] == compound_id:
+            compound = i
+
+    context = {
+        'subtemplate': 'lab/compound-detail.html',
+        'compound': compound,
+        'range': range(10)
+    }
     return render(request, 'lab/index.html', context=context)
 
 
@@ -136,30 +136,24 @@ def help(request):
 
 
 def sortdata(data, reverse: bool = True) -> list:
-    return sorted(data, key=lambda x: x['score'], reverse=True)
+    return sorted(data, key=lambda x: x['score'], reverse=reverse)
 
 
 def get_score_frequency(request):
-    reader = JsonReader()
-    reader.read()
-    scores = reader.get_all_score()
+    scores = JSON_READER.get_all_score()
     scores.sort()
     temp_scores = copy.deepcopy(scores)
-    for i,v in enumerate(temp_scores):
+    for i, v in enumerate(temp_scores):
         scores[i] = round(v, 2)
     scores_frequency = OrderedCounter()
     for i in scores:
         scores_frequency[i] += 1
-    for key in scores_frequency.keys():
-        print(key)
     return JsonResponse(scores_frequency)
 
 
 def get_compound_by_name(request, compound_name):
-    reader = XmlReader()
-    reader.read()
     rows = []
-    for datum in reader.data:
+    for datum in XML_READER.get_data():
         if compound_name == datum['drug_name']:
             rows.append({
                 'id': datum['drugbank_id'],
@@ -171,9 +165,7 @@ def get_compound_by_name(request, compound_name):
 
 
 def get_compound_by_category(request, category):
-    reader = XmlReader()
-    reader.read()
-    data = reader.data # a list of dict
+    data = XML_READER.get_data()  # a list of dict
     rows = []
     if category is not None:
         for datum in data:
@@ -188,8 +180,38 @@ def get_compound_by_category(request, category):
     return JsonResponse({'data': rows})
 
 
+def get_known_targets(request, compound_id):
+    """
+    for dti known targets
+    :param request:
+    :param compound_id:
+    :return: JsonResponse
+    """
+    data = XML_READER.get_data()
+    for datum in data:
+        if datum['drugbank_id'] == compound_id:
+            return JsonResponse({
+                'targets': datum['targets']
+            })
+    return JsonResponse({'targets': None})
+
+
+def get_associated_targets(request, compound_id):
+    data = JSON_READER.get_data()
+    for datum in data:
+        if compound_id == datum['drug_id']:
+            print(datum)
+            return JsonResponse({
+                'targets': [x['target'] for x in datum['supporting_entry']],
+                'score': datum['predict_score'],
+                'supported_entries': datum['supporting_entry']
+            })
+    return JsonResponse(None)
+
+
+# a python recipe
 class OrderedCounter(Counter, OrderedDict):
-    'Counter that remembers the order elements are first encountered'
+    """Counter that remembers the order elements are first encountered"""
 
     def __repr__(self):
         return '%s(%r)' % (self.__class__.__name__, OrderedDict(self))

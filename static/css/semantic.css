@@ -35346,3 +35346,15 @@ body {
 .ui.grid {
   font-family: AvenirRoman
 }
+
+.ui.modal .header {
+    background-color: #494e76;
+}
+
+.ui.modal .content {
+    background-color: #acabbd;
+}
+
+.entries {
+    cursor: pointer;
+}

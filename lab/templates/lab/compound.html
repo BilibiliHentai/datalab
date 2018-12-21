@@ -25,7 +25,7 @@
     </tbody>
   </table>
 </div>
-<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="https://cdn.staticfile.org/axios/0.19.0-beta.1/axios.js"></script>
 <script>
   $(document).ready(function () {
     $('.ui.tag.label').click(function() {
@@ -37,7 +37,7 @@
           .catch(function (error) {
             log(error)
           })
-    })
+    });
 
     $('#search-icon').click(function () {
       let url = '/get_compound_by_name/' + $('#compound-name').val()
@@ -48,7 +48,7 @@
           .catch(function (error) {
             log(error)
           })
-    })
+    });
 
     function get_represent_data(dataObj) {
       let data = dataObj.data
@@ -57,7 +57,7 @@
         let categories = data[i].categories.join(', ')
         formatted_data += `
               <tr>
-                <td data-label="NAME"><a href="/compound_detail/${data[i].id}">${data[i].name}</a></td>
+                <td class="compound-name" data-label="NAME"><a href="/compound_detail/${data[i].id}">${data[i].name}</a></td>
                 <td data-label="CATEGORIES">${categories}</td>
                 <td data-label="ASSOCIATE GENE NUMBER">${data[i].associate_gene_number}</td>
               </tr>

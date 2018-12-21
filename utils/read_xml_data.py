@@ -5,7 +5,7 @@ import xml.dom.minidom
 import xml.sax
 # import xmltodict
 import json
-import os
+import copy
 from time import sleep
 
 
@@ -16,10 +16,10 @@ class XmlDataHandler(xml.sax.ContentHandler):
         self.drug = {
             'drugbank_id': '',
             'drug_name': '',
-            'targets': '',
+            'targets': [],
             'links_to_drugbank': '',  # url in link
             'link_to_CTD': '',  # cas-number
-            'uniprot': '',  # uniprot-id
+            'uniprot_ids': [],  # uniprot-id
             'indication': '',
             'categories': [],  # group
         }
@@ -56,10 +56,9 @@ class XmlDataHandler(xml.sax.ContentHandler):
             self.outer_scope = ''
         if tag == 'transporters':
             self.drugs.append(self.drug)
-            # print(self.drug)
             self.reset()
         if tag == 'target':
-            self.targets.append(self.target)
+            self.targets.append(copy.deepcopy(self.target))
             self.all_target.update({self.target['target_id']: self.target['target_name']})
         if tag == 'targets':
             self.drug['targets'] = self.targets
@@ -68,7 +67,6 @@ class XmlDataHandler(xml.sax.ContentHandler):
             self.drug['links_to_drugbank'] = self.links_to_drugbank
         if tag == 'link':
             self.links_to_drugbank.append(self.splited_link)
-            # self.testprint(self.splited_link)
             self.splited_link = ''
             self.outer_scope == ''
 
@@ -91,7 +89,7 @@ class XmlDataHandler(xml.sax.ContentHandler):
         elif self.current_data == 'indication':
             self.drug['indication'] = content
         elif self.current_data == 'uniprot-id':
-            self.drug['uniprot'] = content
+            self.drug['uniprot_ids'].append(content)
         elif self.current_data == 'group':
             self.drug['categories'].append(content)
 
@@ -99,10 +97,10 @@ class XmlDataHandler(xml.sax.ContentHandler):
         self.drug = {
             'drugbank_id': '',
             'drug_name': '',
-            'targets': '',
+            'targets': [],
             'links_to_drugbank': '',  # url in link
             'link_to_CTD': '',  # cas-number
-            'uniprot': '',  # uniprot-id
+            'uniprot_ids': [],  # uniprot-id
             'indication': '',
             'categories': [],  # group
         }
@@ -120,18 +118,17 @@ class XmlDataHandler(xml.sax.ContentHandler):
     def endDocument(self):
         with open('extracted_data_from_xml.json', 'w')as f:
             f.write(json.dumps(self.drugs))
-
     def testprint(self, content):
         print(content)
         sleep(0.5)
 
 
-class XmlReader():
-    def __init__(self, path='/home/naroah/Documents/part-time job/full database.xml'):
+class XmlReader:
+    def __init__(self):
         self.data = ''  # list of dict
-        self.path = path
 
-    def extract_data_from_xml(self):
+    @staticmethod
+    def extract_data_from_xml(path):
         """
         parse data and dump it to a json file in the cwd.
         """
@@ -144,22 +141,24 @@ class XmlReader():
         handler = XmlDataHandler()
         parser.setContentHandler(handler)
 
-        parser.parse(self.path)
+        parser.parse(path)
 
     def read(self):
         # print(os.path.dirname(os.path.abspath(__file__)))
         with open('extracted_data_from_xml.json', 'r') as f:
             self.data = json.load(f)
 
-
-    def gather_categories(self):
-        categories = set()
-        [categories.add(j) for i in self.data for j in i['categories']]
-        return categories
+    def get_data(self):
+        return self.data
 
 
 if __name__ == "__main__":
-    reader = XmlReader("/home/naroah/Documents/part-time job/full database.xml")
-    # reader.extract_data_from_xml()
-    reader.read()
-    reader.gather_categories()
+    print('Enter xml file path:')
+    input_ = input()
+    if input_ != '':
+        path = input_
+    else:
+        path = '/home/naroah/Documents/part-time job/full database.xml'
+    print('Extracting...')
+    XmlReader.extract_data_from_xml(path)
+    print('Done')
