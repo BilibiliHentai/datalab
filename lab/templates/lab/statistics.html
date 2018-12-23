@@ -37,7 +37,7 @@
 </div>
 
 <div class="ui segment padded">
-  <div id="container" style="height: 500PX"></div>
+  <div id="chart-container" style="height: 500PX"></div>
 </div>
 <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/echarts.min.js"></script>
 <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts-gl/echarts-gl.min.js"></script>
@@ -53,8 +53,8 @@
   <script src="https://cdn.staticfile.org/axios/0.19.0-beta.1/axios.js"></script>
 <script>
   $(document).ready(function () {
-    let scores_frequency = ''
-    let scores = []
+    let scores_frequency = '';
+    let scores = [];
     axios.get('/get_score_frequency')
         .then(function (response) {
           scores_frequency = response.data
@@ -65,11 +65,11 @@
           for (let i = 0; i < scores.length; i++) {
             y_data.push(scores_frequency[scores[i]])
           }
-          score_chart('container', 'Score Distribution', x_data, y_data)
+          score_chart('chart-container', 'Score Distribution', x_data, y_data)
               .catch(function (error) {
                 log(error)
               })
         })
-  })
+  });
 
 </script>

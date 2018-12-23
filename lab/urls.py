@@ -11,11 +11,19 @@ urlpatterns = [
     # path('search_compound/<str:compound_name>', views.compound, name='compound'),
     path('compound', views.compound, name='compound'),
     path('compound/<str:category>', views.compound, name='compound'),
+    path('gene_detail/<str:gene_id>', views.gene_detail, name='gene-detail'),
+    path('compound_detail/<str:compound_id>', views.compound_detail, name="compound-detail"),
     path('get_compound_by_name/<str:compound_name>', views.get_compound_by_name, name='get-compound-by-name'),
+    path('get_gene_by_name/<str:gene_name>', views.get_gene_by_name, name='get-gene-by-name'),
     path('get_compound_by_category/<str:category>', views.get_compound_by_category, name='get-compound-by-category'),
     path('get_known_targets/<str:compound_id>', views.get_known_targets, name='get-known-targets'),
     path('get_associated_targets/<str:compound_id>', views.get_associated_targets, name='get-associated-targets'),
-    path('compound_detail/<str:compound_id>', views.compound_detail, name="compound-detail"),
+    path('get_associated_compounds/<str:gene_id>', views.get_associated_compounds, name='get-associated-compounds'),
+    path(
+        'get_supported_entries_by_target_id/<str:target_id>',
+        views.get_supported_entries_by_target_id,
+        name='get_supported_entries_by_target_id'
+    ),
     path('statistics', views.statistics, name='statistics'),
     path('help', views.help, name='help'),
     path('get_score_frequency', views.get_score_frequency, name='score-frequency')

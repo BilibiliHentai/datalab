@@ -11,6 +11,7 @@ JSON_READER.read()
 XML_READER = XmlReader()
 XML_READER.read()
 
+
 def index(request):
     total_numbers = JSON_READER.get_total_number()
     data = JSON_READER.get_score_sorted_data()
@@ -22,51 +23,6 @@ def index(request):
         'related_publication_sum': total_numbers['total_related_publication'],
     }
     return render(request, 'lab/index.html', context=context)
-
-
-# def get_drugs(request, keyword='rivaroxaban', page=1):
-#     """all data will be returned by search, \n
-#     if not given, there's a default keyword.
-#
-#     Arguments:
-#         request {} -- none
-#
-#     Keyword Arguments:
-#         keyword {str} -- [name of gene or compound] (default: {'rivaroxaban'})
-#         page {int} -- [for pagination] (default: {1})
-#
-#     Returns:
-#         [HttpResponse] -- none
-#     """
-#
-#     if request.method == 'POST':
-#         keyword = request.POST.get('keyword', 'rivaroxaban')
-#         page = int(request.POST.get('page', 1))
-#     test_data_set = TestData()
-#
-#     if settings.DEBUG is True:
-#         # test data for development
-#         data = test_data_set.get_test_data(keyword)
-#     else:
-#         # real data for production
-#         data = search(keyword, True)
-#         database.close()
-#
-#     paginator = Paginator(data, 10)
-#     if page < 1:
-#         page = 1
-#     elif page > paginator.num_pages:
-#         page = paginator.num_pages
-#     context = {
-#         'data': paginator.get_page(page),
-#         'keyword': keyword,
-#         'num_pages': paginator.num_pages,
-#         'page': page,
-#         'next_page': page + 1,
-#         'prev_page': page if page == 1 else page - 1,
-#         'subtemplate': 'lab/drugs.html',
-#     }
-#     return render(request, 'lab/index.html', context=context)
 
 
 def statistics(request):
@@ -81,34 +37,25 @@ def statistics(request):
 
 
 def gene(request):
-    # if gene_name is None:
-    #     gene_name = 'prothrombinase'
-    # else:
-    #     gene_name = 'prothrombinase'
-    #     data = database.query_gene(gene_name)
-    #     protein_name = 'protein'
-    #     categories = 'categories'
-    #     associate_compound_sum = len(data)
     context = {
         'subtemplate': 'lab/gene.html',
-        'gene_name': 'www',
-        # 'categories': categories,
-        # 'protein_name': protein_name,
-        # 'associate_compound_sum': associate_compound_sum,
     }
     return render(request, 'lab/index.html', context=context)
 
 
-def gene_detail(request, gene_name):
+def gene_detail(request, gene_id):
+    genes = XML_READER.get_genes()
+    gene = genes.get(gene_id, None)
     context = {
         'subtemplate': 'lab/gene-detail.html',
+        'gene': gene
     }
     return render(request, 'lab/index.html', context=context)
 
 
 def compound(request, category=None):
     categories = set()
-    [categories.add(j) for i in XML_READER.get_data() for j in i['categories']]
+    [categories.add(j) for i in XML_READER.get_drugs() for j in i['categories']]
     context = {
         'subtemplate': 'lab/compound.html',
         'categories': sorted(categories),
@@ -118,7 +65,8 @@ def compound(request, category=None):
 
 
 def compound_detail(request, compound_id):
-    for i in XML_READER.get_data():
+    compound = None
+    for i in XML_READER.get_drugs():
         if i['drugbank_id'] == compound_id:
             compound = i
 
@@ -153,7 +101,7 @@ def get_score_frequency(request):
 
 def get_compound_by_name(request, compound_name):
     rows = []
-    for datum in XML_READER.get_data():
+    for datum in XML_READER.get_drugs():
         if compound_name == datum['drug_name']:
             rows.append({
                 'id': datum['drugbank_id'],
@@ -164,8 +112,16 @@ def get_compound_by_name(request, compound_name):
     return JsonResponse({'data': rows})
 
 
+def get_gene_by_name(request, gene_name):
+    rows = []
+    for k, v in XML_READER.get_genes().items():
+        if gene_name == v['name']:
+            rows.append(v)
+    return JsonResponse({'data': rows})
+
+
 def get_compound_by_category(request, category):
-    data = XML_READER.get_data()  # a list of dict
+    data = XML_READER.get_drugs()  # a list of dict
     rows = []
     if category is not None:
         for datum in data:
@@ -187,7 +143,7 @@ def get_known_targets(request, compound_id):
     :param compound_id:
     :return: JsonResponse
     """
-    data = XML_READER.get_data()
+    data = XML_READER.get_drugs()
     for datum in data:
         if datum['drugbank_id'] == compound_id:
             return JsonResponse({
@@ -200,13 +156,36 @@ def get_associated_targets(request, compound_id):
     data = JSON_READER.get_data()
     for datum in data:
         if compound_id == datum['drug_id']:
-            print(datum)
             return JsonResponse({
                 'targets': [x['target'] for x in datum['supporting_entry']],
                 'score': datum['predict_score'],
                 'supported_entries': datum['supporting_entry']
             })
     return JsonResponse(None)
+
+
+def get_associated_compounds(request, gene_id):
+    gene = XML_READER.get_genes()[gene_id]
+    compounds = gene['compounds']
+    useful_compounds = []
+    for compound in compounds:
+        for datum in JSON_READER.get_data():
+            if datum['drug_id'] == compound['drugbank_id']:
+                compound['target_id'] = datum['target_id']
+                compound['score'] = datum['predict_score']
+                compound['supported_entries'] = datum['supporting_entry']
+                useful_compounds.append(copy.deepcopy(compound))
+    return JsonResponse({
+        'compounds': useful_compounds
+    })
+
+
+def get_supported_entries_by_target_id(request, target_id):
+    for datum in JSON_READER.get_data():
+        if datum['target_id'] == target_id:
+            print(datum['supporting_entry'])
+            return JsonResponse({'supported_entries': datum['supporting_entry']})
+    return JsonResponse({'': ''})
 
 
 # a python recipe
