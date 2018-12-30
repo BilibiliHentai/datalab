@@ -41,7 +41,7 @@
     {# } );#}
 
     $('#search-icon').click(function () {
-      let url = '/get_gene_by_name/' + $('#gene-name').val();
+      let url = '/get_genes_by_name/' + $('#gene-name').val();
       axios.get(url)
           .then(function (response) {
             $('#content-table').find('tbody').html(get_represent_data(response.data))

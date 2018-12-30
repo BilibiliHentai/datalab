@@ -40,6 +40,12 @@
     </tr>
     </thead>
     <tbody id="known-targets-tbody">
+        {% for target in compound.targets %}
+      <tr>
+        <td data-label="COMPOUND NAME">{{ target.target_name }}</td>
+        <td data-label="LINK TO DRUGBANK">{{ compound.links_to_drugbank.0 }}</td>
+      </tr>
+    {% endfor %}
     </tbody>
   </table>
 </div>
@@ -64,10 +70,10 @@
     <tbody id="gene-tbody">
     </tbody>
   </table>
-  <div class="ui center aligned grid">
-    <div class="sixteen wide column"><a id="click-for-more">CLICK FOR MORE<p><i class="angle double down icon"></i></p>
-    </a></div>
-  </div>
+{#  <div class="ui center aligned grid">#}
+{#    <div class="sixteen wide column"><a id="click-for-more">CLICK FOR MORE<p><i class="angle double down icon"></i></p>#}
+{#    </a></div>#}
+{#  </div>#}
 </div>
 
 <div id="supporting-entries-modal" class="ui modal">
@@ -99,24 +105,24 @@
     $('.ui.checkbox').checkbox('set checked');
     $('.ui.checkbox').checkbox('set unchecked');
 
-    axios.get('/get_known_targets/' + $('#compound-id').text())
-        .then(function (response) {
-          let jsonObj = response.data;
-          let targets = jsonObj.targets;
-          let representation_data = '';
-          for (let i = 0; i < targets.length; i++) {
-            representation_data += `
-              <tr>
-              <td data-label="COMPOUND NAME">${targets[i].target_name}</td>
-              <td data-label="LINK TO UNIPROT">{{ compound.uniprot_ids.0 }}</td>
-              </tr>
-            `
-            $('#known-targets-tbody').html(representation_data);
-          }
-        })
-        .catch(function (error) {
-          log(error)
-        });
+    {#axios.get('/get_known_targets/' + $('#compound-id').text())#}
+    {#    .then(function (response) {#}
+    {#      let jsonObj = response.data;#}
+    {#      let targets = jsonObj.targets;#}
+    {#      let representation_data = '';#}
+    {#      for (let i = 0; i < targets.length; i++) {#}
+    {#        representation_data += `#}
+    {#          <tr>#}
+    {#          <td data-label="COMPOUND NAME">${targets[i].target_name}</td>#}
+    {#          <td data-label="LINK TO UNIPROT">{{ compound.uniprot_ids.0 }}</td>#}
+    {#          </tr>#}
+    {#        `#}
+    {#        $('#known-targets-tbody').html(representation_data);#}
+    {#      }#}
+    {#    })#}
+    {#    .catch(function (error) {#}
+    {#      log(error)#}
+    {#    });#}
 
     axios.get('/get_score_frequency')
         .then(function (response) {
@@ -136,46 +142,20 @@
 
     axios.get('/get_associated_targets/' + $('#compound-id').text())
         .then(function (response) {
-          let dataJsonObj = response.data
+          let targets = response.data.targets
           let supportingEntriesTemplate = ''
           let template = ''
-          log(dataJsonObj.targets.length);
-          for (let i = 0; i < dataJsonObj.targets.length; i++) {
+          log(targets.length);
+          for (let i = 0; i < targets.length; i++) {
             template += `
                 <tr>
-                  <td data-label="gene name">${dataJsonObj.targets[i]}</td>
-                  <td data-label="score">${dataJsonObj.score}</td>
-                  <td data-label="supported entries" class="entries" data-html="<div class='ui segment' style='
-                    width: 400px;
-                    height: 300px;
-                    border-radius: 0;
-                    background-color:#494e76;'>
-                    <div class='ui header' style='background-color: #494e76'>Support Entries</div>
-                    <div class='ui message' style='background-color: #acabbd; width: 370px; height: 235px; overflow: auto; word-wrap: break-word;'>
-                      <div class='ui divided selection list'>
-                        <a class='item'>
-                          Kumquats<p>Pumbed ID: 28123</p>
-                        </a>
-                        <a class='item'>
-                          Ice Cream<p>Pumbed ID:28321</p>
-                        </a>
-                        <a class='item'>
-                          Orange<p>Pumbed ID:28321</p>
-                        </a>
-                        <a class='item'>
-                          Poodle<p>Pumbed ID:28321</p>
-                        </a>
-                      </div>
-                    </div>
-                    </div>">${dataJsonObj.supported_entries.length}</td>
+                  <td data-label="gene name">${targets[i].target_name}</td>
+                  <td data-label="score">${targets[i].predict_score}</td>
+                  <td data-label="supported entries" id="${targets[i].target_id}_${targets[i].drug_id}" class="entries">${targets[i].supporting_entry.length}</td>
                 </tr>
               `
-            supportingEntriesTemplate += `
-            <strong>Pubmed ID:${dataJsonObj.supported_entries[i].pmid}</strong><p>${dataJsonObj.supported_entries[i].sentence}</p>
-          `
           }
           $('.table:eq(1)').find('tbody').append(template);
-          $('#supporting-entries-modal .content').html(supportingEntriesTemplate);
         }).catch(function (error) {
       log(error)
     });
@@ -227,58 +207,24 @@
     });
 
     $('body').on('click', '.entries', function () {
-      $('.ui.modal').modal('show');
+      let ids = $(this).attr('id')
+      let target_id = ids.split('_')[0]
+      let drug_id = ids.split('_')[1]
+      axios.get('/get_supported_entries_by_ids/' + target_id + '/' + drug_id)
+          .then(function (response) {
+            let supported_entries = response.data.supporting_entry
+            let supportingEntriesTemplate = '';
+            for (let i=0; i<supported_entries.length; i++){
+              supportingEntriesTemplate += `
+                      <strong>Pubmed ID:${supported_entries[i].pmid}</strong><p>${supported_entries[i].sentence}</p>
+                      `
+            }
+            $('#supporting-entries-modal .content').html(supportingEntriesTemplate);
+            $('.ui.modal').modal('show');
+          }).catch(function (error) {
+            log(error)
+      })
     });
-
-
-    {#$('#click-for-more').click(function () {#}
-    {#  axios.get('/get_associated_targets/' + $('#compound-id').text())#}
-    {#      .then(function (response) {#}
-    {#        let dataJsonObj = response.data#}
-    {#        let template = ''#}
-    {#        for (let i = 0; i < dataJsonObj.targets.length; i++) {#}
-    {#          template += `#}
-    {#            <tr>#}
-    {#              <td data-label="gene name">${dataJsonObj.targets[i]}</td>#}
-    {#              <td data-label="score">${dataJsonObj.score}</td>#}
-    {#              <td data-label="supported entries" class="entries" data-html="<div class='ui segment' style='#}
-    {#                width: 400px;#}
-    {#                height: 300px;#}
-    {#                border-radius: 0;#}
-    {#                background-color:#494e76;'>#}
-    {#                <div class='ui header' style='background-color: #494e76'>Support Entries</div>#}
-    {#                <div class='ui message' style='background-color: #acabbd; width: 370px; height: 235px; overflow: auto; word-wrap: break-word;'>#}
-    {#                  <div class='ui divided selection list'>#}
-    {#                    <a class='item'>#}
-    {#                      Kumquats<p>Pumbed ID: 28123</p>#}
-    {#                    </a>#}
-    {#                    <a class='item'>#}
-    {#                      Ice Cream<p>Pumbed ID:28321</p>#}
-    {#                    </a>#}
-    {#                    <a class='item'>#}
-    {#                      Orange<p>Pumbed ID:28321</p>#}
-    {#                    </a>#}
-    {#                    <a class='item'>#}
-    {#                      Poodle<p>Pumbed ID:28321</p>#}
-    {#                    </a>#}
-    {#                  </div>#}
-    {#                </div>#}
-    {#                </div>">${dataJsonObj.supported_entries}</td>#}
-    {#            </tr>#}
-    {#          `#}
-    {#        }#}
-    {#        $('.table:eq(1)').find('tbody').append(template);#}
-    {#      }).catch(function (error) {#}
-    {#    log(error)#}
-    {#  })#}
-    {#  $('.table:eq(1)').find('tbody').append(#}
-    {##}
-    {#  );#}
-    {##}
-    {#  $('.entries').popup({#}
-    {#    on: 'hover'#}
-    {#  });#}
-    {# });#}
 
     function dti() {
       $('h2:eq(1)').text('Known Targets');

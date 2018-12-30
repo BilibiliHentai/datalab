@@ -58,10 +58,10 @@
     <tbody class="table-compound">
     </tbody>
   </table>
-  <div class="ui center aligned grid">
-    <div class="sixteen wide column"><a id="click-for-more">CLICK FOR MORE<p><i class="angle double down icon"></i></p>
-    </a></div>
-  </div>
+{#  <div class="ui center aligned grid">#}
+{#    <div class="sixteen wide column"><a id="click-for-more">CLICK FOR MORE<p><i class="angle double down icon"></i></p>#}
+{#    </a></div>#}
+{#  </div>#}
 </div>
 <div id="supporting-entries-modal" class="ui modal">
   <div class="header">Supporting entries</div>
@@ -117,14 +117,14 @@
           let template = ''
           for (let i = 0; i < compounds.length; i++) {
             {#log(compounds[i].drug_name + compounds[i].score + compounds[i].supported_entries.length)#}
-            if (typeof (compounds[i].supported_entries) !== 'undefined') {
-              supported_entries = compounds[i].supported_entries.length
+            if (typeof (compounds[i].supporting_entry) !== 'undefined') {
+              supported_entries = compounds[i].supporting_entry.length
             }
             template += `
                 <tr>
-                  <td data-label="COMPOUND NAME">${compounds[i].drug_name}</td>
-                  <td data-label="SCORE">${compounds[i].score}</td>
-                  <td data-label="SUPPORTED ENTRIES" class="entries" id="${compounds[i].target_id}">${supported_entries}</td>
+                  <td data-label="COMPOUND NAME">${compounds[i].compound_name}</td>
+                  <td data-label="SCORE">${compounds[i].predict_score}</td>
+                  <td data-label="SUPPORTED ENTRIES" class="entries" id="${compounds[i].drug_id}">${supported_entries}</td>
                 </tr>
             `
           }
@@ -134,9 +134,9 @@
     });
 
     $('body').on('click', '.entries', function () {
-      axios.get('/get_supported_entries_by_target_id/' + $(this).attr('id'))
+      axios.get('/get_supported_entries_by_drug_id/' + $(this).attr('id'))
           .then(function (response) {
-            let supported_entries = response.data.supported_entries
+            let supported_entries = response.data.supporting_entry
             let supportingEntriesTemplate = '';
             for (let i=0; i<supported_entries.length; i++){
               supportingEntriesTemplate += `

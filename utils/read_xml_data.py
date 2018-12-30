@@ -42,7 +42,6 @@ class XmlDataHandler(xml.sax.ContentHandler):
             'target_name': '',
         }
         self.outer_scope = ""
-        self.has_drug_bank_id = False
         self.current_data = ""
 
     # 元素开始事件处理
@@ -59,8 +58,6 @@ class XmlDataHandler(xml.sax.ContentHandler):
 
     # 元素结束事件处理
     def endElement(self, tag):
-        if tag == 'name':
-            self.has_drug_bank_id = False
         self.current_data = ''
         if tag == 'links':
             self.outer_scope = ''
@@ -135,7 +132,6 @@ class XmlDataHandler(xml.sax.ContentHandler):
             'target_name': '',
         }
         self.outer_scope = ""
-        self.has_drug_bank_id = False
         self.current_data = ""
 
     def reset_gene(self):
@@ -155,7 +151,10 @@ class XmlDataHandler(xml.sax.ContentHandler):
             f.write(json.dumps(self.drugs))
             print('done extract drug')
         with open('extracted_genes_from_xml.json', 'w') as f:
-            f.write(json.dumps(self.genes))
+            genes = []
+            for k, v in self.genes.items():
+                genes.append(v)
+            f.write(json.dumps(genes))
             print('done extract gene')
 
     def testprint(self, content):
