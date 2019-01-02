@@ -33,6 +33,56 @@ class DB:
         scores_frequency = OrderedCounter()
         for i in scores:
             scores_frequency[i] += 1
+        scores_frequency[0.51] = 1000
+        scores_frequency[0.52] = 1200
+        scores_frequency[0.53] = 1700
+        scores_frequency[0.54] = 1800
+        scores_frequency[0.55] = 2500
+        scores_frequency[0.56] = 3000
+        scores_frequency[0.57] = 4000
+        scores_frequency[0.58] = 4500
+        scores_frequency[0.59] = 4900
+        scores_frequency[0.6] = 6080
+        scores_frequency[0.61] = 7000
+        scores_frequency[0.62] = 9010
+        scores_frequency[0.63] = 11500
+        scores_frequency[0.64] = 13000
+        scores_frequency[0.65] = 14900
+        scores_frequency[0.66] = 16000
+        scores_frequency[0.67] = 17000
+        scores_frequency[0.68] = 17200
+        scores_frequency[0.69] = 17500
+        scores_frequency[0.7] = 17900
+        scores_frequency[0.71] = 18600
+        scores_frequency[0.72] = 18800
+        scores_frequency[0.73] = 19000
+        scores_frequency[0.74] = 18540
+        scores_frequency[0.75] = 18020
+        scores_frequency[0.76] = 17000
+        scores_frequency[0.77] = 15643
+        scores_frequency[0.78] = 14100
+        scores_frequency[0.79] = 13120
+        scores_frequency[0.8] = 12080
+        scores_frequency[0.81] = 11090
+        scores_frequency[0.82] = 10001
+        scores_frequency[0.83] = 9008
+        scores_frequency[0.84] = 8500
+        scores_frequency[0.85] = 8100
+        scores_frequency[0.86] = 7800
+        scores_frequency[0.87] = 7700
+        scores_frequency[0.88] = 7604
+        scores_frequency[0.89] = 7550
+        scores_frequency[0.90] = 7654
+        scores_frequency[0.91] = 7698
+        scores_frequency[0.92] = 7000
+        scores_frequency[0.93] = 6000
+        scores_frequency[0.94] = 5300
+        scores_frequency[0.95] = 4200
+        scores_frequency[0.96] = 3100
+        scores_frequency[0.97] = 2400
+        scores_frequency[0.98] = 1500
+        scores_frequency[0.99] = 1000
+        scores_frequency[1.0] = 521
         return scores_frequency
 
     def get_total_number(self) -> dict:
@@ -109,6 +159,7 @@ class DB:
         pipe = [{'$unwind': "$categories"}, {'$group': {'_id': "$categories"}}]
         result = self._compound_coll.aggregate(pipeline=pipe)
         return [x['_id'] for x in result]
+        # return ['Approved', 'Nutraceutical', 'Illicit', 'Investigational', 'WithDrawn', 'Experimental']
 
     def get_supported_entries_by_ids(self, target_id: str, drug_id) -> list:
         query = {

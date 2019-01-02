@@ -9,7 +9,7 @@
     <div class="four wide column">Category:</div>
     <div class="twelve wide column"></div>
     <div class="four wide column">Link to uniprot:</div>
-    <div class="twelve wide column">{{ gene.link_to_uniprot }}</div>
+    <div class="twelve wide column"><a target="_blank" href="{{ gene.link_to_uniprot }}">{{ gene.link_to_uniprot }}</a></div>
     <div class="four wide column">GO term:</div>
     <div class="twelve wide column"></div>
   </div>
@@ -30,7 +30,7 @@
     {% for compound in gene.compounds %}
       <tr>
         <td data-label="COMPOUND NAME">{{ compound.drug_name }}</td>
-        <td data-label="LINK TO DRUGBANK">{{ compound.links_to_drugbank.0 }}</td>
+        <td data-label="LINK TO DRUGBANK"><a target="_blank" href="http://www.drugbank.ca/drugs/{{ compound.drugbank_id }}">www.drugbank.ca/drugs/{{ compound.drugbank_id }}</a></td>
       </tr>
     {% endfor %}
     </tbody>

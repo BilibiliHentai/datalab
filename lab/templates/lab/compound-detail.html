@@ -17,7 +17,7 @@
       {% endfor %}
     </div>
     <div class="four wide column">Link to drugbank:</div>
-    <div class="twelve wide column">{{ compound.links_to_drugbank.0 }}</div>
+    <div class="twelve wide column"><a target="_blank" href="http://www.drugbank.ca/drugs/{{ compound.drugbank_id }}">www.drugbank.ca/drugs/{{ compound.drugbank_id }}</a></div>
     <div class="four wide column">Indication:</div>
     <div class="twelve wide column">{{ compound.indication }}</div>
   </div>
@@ -43,7 +43,7 @@
         {% for target in compound.targets %}
       <tr>
         <td data-label="COMPOUND NAME">{{ target.target_name }}</td>
-        <td data-label="LINK TO DRUGBANK">{{ compound.links_to_drugbank.0 }}</td>
+        <td data-label="LINK TO DRUGBANK"><a target="_blank" href="https://www.uniprot.org/uniprot/?query=gene%3A{{ target.target_name }}">www.uniprot.org/uniprot/?query=gene%3A{{ target.target_name }}</a></td>
       </tr>
     {% endfor %}
     </tbody>

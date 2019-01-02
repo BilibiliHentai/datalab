@@ -3,14 +3,9 @@ from django.http import JsonResponse
 from django.shortcuts import render
 import copy
 
-from utils.read_json_data import JsonReader
-from utils.read_xml_data import XmlReader
 from .mongo_models import DB
 
-JSON_READER = JsonReader()
-JSON_READER.read()
-XML_READER = XmlReader()
-XML_READER.read()
+
 db = DB()
 
 
@@ -136,7 +131,6 @@ def get_known_targets(request, compound_id):
 
 def get_associated_targets(request, compound_id):
     targets = db.get_associated_targets(compound_id)
-    print(targets)
     return JsonResponse({'targets': targets})
 
 
@@ -153,14 +147,3 @@ def get_supported_entries_by_ids(request, target_id, drug_id):
 def get_supported_entries_by_drug_id(request, drug_id):
     supported_entries = db.get_supported_entries_by_drug_id(drug_id)
     return JsonResponse(supported_entries)
-
-
-# a python recipe
-class OrderedCounter(Counter, OrderedDict):
-    """Counter that remembers the order elements are first encountered"""
-
-    def __repr__(self):
-        return '%s(%r)' % (self.__class__.__name__, OrderedDict(self))
-
-    def __reduce__(self):
-        return self.__class__, (OrderedDict(self),)
