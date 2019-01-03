@@ -82,7 +82,8 @@ def get_score_frequency(request):
 
 def get_compound_by_name(request, compound_name):
     rows = []
-    for datum in XML_READER.get_drugs():
+    compounds = db.get_compounds_by_name(compound_name)
+    for datum in compounds:
         if compound_name == datum['drug_name']:
             rows.append({
                 'id': datum['drugbank_id'],

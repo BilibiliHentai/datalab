@@ -156,10 +156,10 @@ class DB:
         return rows
 
     def get_compound_categories(self) -> list:
-        pipe = [{'$unwind': "$categories"}, {'$group': {'_id': "$categories"}}]
-        result = self._compound_coll.aggregate(pipeline=pipe)
-        return [x['_id'] for x in result]
-        # return ['Approved', 'Nutraceutical', 'Illicit', 'Investigational', 'WithDrawn', 'Experimental']
+        # pipe = [{'$unwind': "$categories"}, {'$group': {'_id': "$categories"}}]
+        # result = self._compound_coll.aggregate(pipeline=pipe)
+        # return [x['_id'] for x in result]
+        return ['approved', 'nutraceutical', 'illicit', 'investigational', 'withdrawn', 'experimental']
 
     def get_supported_entries_by_ids(self, target_id: str, drug_id) -> list:
         query = {
