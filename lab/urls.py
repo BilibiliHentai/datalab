@@ -31,5 +31,5 @@ urlpatterns = [
     ),
     path('statistics', views.statistics, name='statistics'),
     path('help', views.help, name='help'),
-    path('get_score_frequency', views.get_score_frequency, name='score-frequency')
+    path('get_score_frequency/<str:id>', views.get_score_frequency, name='score-frequency')
 ]

@@ -93,7 +93,7 @@
 
     let scores_frequency = '';
     let scores = [];
-    axios.get('/get_score_frequency')
+    axios.get('/get_score_frequency/' + $('#gene-id').text())
         .then(function (response) {
           scores_frequency = response.data;
           scores = Object.keys(scores_frequency);

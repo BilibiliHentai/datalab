@@ -75,8 +75,8 @@ def help(request):
     return render(request, 'lab/index.html', context=context)
 
 
-def get_score_frequency(request):
-    scores_frequency = db.get_score_frequency()
+def get_score_frequency(request, id):
+    scores_frequency = db.get_score_frequency(id)
     return JsonResponse(scores_frequency)
 
 

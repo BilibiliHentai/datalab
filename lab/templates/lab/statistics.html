@@ -55,7 +55,7 @@
   $(document).ready(function () {
     let scores_frequency = '';
     let scores = [];
-    axios.get('/get_score_frequency')
+    axios.get('/get_score_frequency/00')
         .then(function (response) {
           scores_frequency = response.data
           scores = Object.keys(scores_frequency)

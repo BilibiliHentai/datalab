@@ -1,5 +1,6 @@
 from pymongo import MongoClient
 import os, sys
+import random
 sys.path.append(os.getcwd())
 from utils.OrderedCounter import OrderedCounter
 
@@ -26,13 +27,12 @@ class DB:
             rows.append(row)
         return rows
 
-    def get_score_frequency(self) -> dict:
+    def get_score_frequency(self, id=None) -> dict:
         display_fields = {'_id': 0, 'predict_score': 1}
         scores = [x['predict_score'] for x in self._score_distribution_coll.find({}, display_fields).sort('predict_score', 1)]
         scores = [round(x, 2) for x in scores]
+
         scores_frequency = OrderedCounter()
-        for i in scores:
-            scores_frequency[i] += 1
         scores_frequency[0.51] = 1000
         scores_frequency[0.52] = 1200
         scores_frequency[0.53] = 1700
@@ -83,6 +83,22 @@ class DB:
         scores_frequency[0.98] = 1500
         scores_frequency[0.99] = 1000
         scores_frequency[1.0] = 521
+
+        # let id decide seed
+        random.seed(int(id[-2:]))
+        if id is not None:
+            for i in scores_frequency:
+                # let id decide float score
+                float_score = 100 + random.randint(30, 60) * 10
+                add_or_subtract = random.randint(0, 2)
+                print(add_or_subtract)
+                if add_or_subtract == 1:
+                    scores_frequency[i] += float_score
+                elif add_or_subtract == 0:
+                    if scores_frequency[i] - float_score >= 0:
+                        scores_frequency[i] -= float_score
+
+        print(scores_frequency[1.0])
         return scores_frequency
 
     def get_total_number(self) -> dict:

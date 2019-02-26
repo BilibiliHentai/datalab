@@ -124,7 +124,7 @@
     {#      log(error)#}
     {#    });#}
 
-    axios.get('/get_score_frequency')
+    axios.get('/get_score_frequency/' + $('#compound-id').text())
         .then(function (response) {
           let scores_frequency = response.data;
           let scores = Object.keys(scores_frequency);
