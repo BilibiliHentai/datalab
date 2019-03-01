@@ -84,13 +84,12 @@ def get_compound_by_name(request, compound_name):
     rows = []
     compounds = db.get_compounds_by_name(compound_name)
     for datum in compounds:
-        if compound_name == datum['drug_name']:
-            rows.append({
-                'id': datum['drugbank_id'],
-                'name': datum['drug_name'],
-                'categories': datum['categories'],
-                'associate_gene_number': len(datum['targets'])
-            })
+        rows.append({
+            'id': datum['drugbank_id'],
+            'name': datum['drug_name'],
+            'categories': datum['categories'],
+            'associate_gene_number': len(datum['targets'])
+        })
     return JsonResponse({'data': rows})
 
 

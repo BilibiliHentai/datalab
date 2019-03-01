@@ -1,5 +1,5 @@
 from pymongo import MongoClient
-import os, sys
+import os, sys, re
 import random
 sys.path.append(os.getcwd())
 from utils.OrderedCounter import OrderedCounter
@@ -120,11 +120,13 @@ class DB:
         return total_numbers
 
     def get_compounds_by_name(self, compound_name: str) -> list:
-        query = {'drug_name': compound_name}
+        query = {'drug_name': re.compile(compound_name, re.IGNORECASE)}
+        for i in self._compound_coll.find(query):
+            print(i)
         return self._compound_coll.find(query)
 
     def get_genes_by_name(self, gene_name: str) -> list:
-        query = {'name': gene_name}
+        query = {'name': re.compile(gene_name, re.IGNORECASE)}
         display_fields = {'_id': 0}
         return [x for x in self._gene_coll.find(query, display_fields)]
 
@@ -217,10 +219,13 @@ class DB:
         print(self._score_distribution_coll.find().count())
 
     def test(self):
-        cursor = self._score_distribution_coll.find(({'drug_id': 'BE0000048'}))
-        for i in cursor:
-            print(i)
+        display_fields = {'drug_name': 1}
+        # compounds = self._compound_coll.find({}, display_fields)
+        compound = self._compound_coll.find({'drug_name': re.compile('calcium', re.IGNORECASE)})
+        return compound
 
 if __name__ == '__main__':
     db = DB()
-    a = db.test()
+    compound = db.test()
+    for i in compound:
+        print(i)
