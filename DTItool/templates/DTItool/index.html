@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'css/reset.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+    <header class="y-vertical-center">
+        <img src="{% static 'images/logo.png' %}" class="logo" alt="">
+    </header>
+    <div class="tab-tit y-vertical-center">
+        <a href="{% url 'DTItool:startup' %}">起步</a>
+        <a href="#" class="cur">综合</a>
+    </div>
+    <div class="con">
+        <p class="choose-file">选择文件</p>
+        <div class="upload">
+            <span class="tit chosse-tit">选择</span>
+            <span id="upload-file" class="ipt-file">xxxxxxx.xxxx</span>
+            <label class="inputBtn" for="uploadipt">上传</label>
+            <input type="file" class="fileipt" id="uploadipt">
+        </div>
+        <div class="joint">
+            <span class="tit">已选择</span>
+            <span class="ipt-file">xxxxxxx.xxxx</span>
+            <label class="inputBtn" name='joint' for="1">joint</label>
+            <!-- <input type="file" name="joint" class="fileipt" id="1"> -->
+        </div>
+        <h2>ADVANCED：</h2>
+        <div class="item"><span class="tit">DTINet score：</span> <input type="text"> - <input type="text"></div>
+        <div class="item"><span class="tit">NeoDTI score：</span> <input type="text"> - <input type="text"></div>
+        <div class="item"><span class="tit">DTINet rank： </span> <input type="text"> - <input type="text"></div>
+        <div class="item"><span class="tit">NeoDTI rank： </span> <input type="text"> - <input type="text"></div>
+        <div class="btn">提交条件</div>
+        <!-- <button></button> -->
+    </div>
+    <div class="form-wrap clearfix">
+        <div class="btn">导出</div>
+        <div class="form">
+            <div class="tr">
+                <div class="td">GENE NAME</div>
+                <div class="td">CATAGORIES</div>
+                <div class="td">PROTEIN NAME</div>
+                <div class="td">ASSOCIATE COMPOUND NUMBER</div>
+            </div>
+            <div class="tr">
+                <div class="td">Bearinmind plus 5TD</div>
+                <div class="td">GPCR</div>
+                <div class="td">alcapa kinase</div>
+                <div class="td">12</div>
+            </div>
+            <div class="tr">
+                <div class="td">Bearinmind plus 5TD</div>
+                <div class="td">GPCR</div>
+                <div class="td">alcapa kinase</div>
+                <div class="td">12</div>
+            </div>
+            <div class="tr">
+                <div class="td">Bearinmind plus 5TD</div>
+                <div class="td">GPCR</div>
+                <div class="td">alcapa kinase</div>
+                <div class="td">12</div>
+            </div>
+            <div class="tr">
+                <div class="td">Bearinmind plus 5TD</div>
+                <div class="td">GPCR</div>
+                <div class="td">alcapa kinase</div>
+                <div class="td">12</div>
+            </div>
+            <div class="tr">
+                <div class="td">Bearinmind plus 5TD</div>
+                <div class="td">GPCR</div>
+                <div class="td">alcapa kinase</div>
+                <div class="td">12</div>
+            </div>
+            <div class="tr">
+                <div class="td"></div>
+                <div class="td"></div>
+                <div class="td"></div>
+                <div class="td"></div>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    document.getElementById('uploadipt').onchange = function (e) {
+        var uploadFile = document.getElementById('uploadipt').files[0];
+        // 文件名uploadFile
+        // console.log(uploadFile)
+        // 路径e.target.value
+        // console.log(e.target.value)
+        document.getElementById('upload-file').innerHTML = e.target.value
+
+    }
+</script>
+
+</html>
