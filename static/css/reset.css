@@ -1,0 +1,112 @@
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+div,
+br,
+hr,
+body,
+input,
+tr,
+td,
+th,
+table,
+ul,
+li,
+ol,
+form,
+html {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border: none;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  border: none;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+em {
+  font-style: normal;
+}
+
+img {
+  vertical-align: middle;
+  border: none;
+}
+
+input {
+  border: none;
+  outline: none;
+}
+
+body {
+  font-family: "微软雅黑", "Heiti SC", "Droidsansfallback", "Droid Sans", "Helvetica", "HelveticaNeue", "Dengxian";
+  overflow-x: hidden;
+}
+
+button {
+  border: none;
+}
+
+html {
+  font-size: 62.5%;
+}
+.clearfix {
+  overflow: hidden;
+  _zoom: 1;
+}
+
+@media only screen and (min-width: 321px) {
+  /*iphone5*/
+  html {
+    font-size: 62.5% !important;
+  }
+}
+
+@media only screen and (min-width: 361px) {
+  /*三星note*/
+  html {
+    font-size: 70.31% !important;
+  }
+}
+
+@media only screen and (min-width: 376px) {
+  /*iphone6*/
+  html {
+    font-size: 73.24% !important;
+  }
+}
+
+@media only screen and (min-width: 481px) {
+  html {
+    font-size: 94% !important;
+  }
+}
+
+@media only screen and (min-width: 561px) {
+  html {
+    font-size: 109% !important;
+  }
+}
+
+@media only screen and (min-width: 600px) {
+  html {
+    font-size: 125% !important;
+  }
+}

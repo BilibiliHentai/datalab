@@ -1,0 +1,208 @@
+body {
+  overflow: auto;
+  min-width: 1200px;
+}
+.clearfix {
+}
+.y-vertical-center:before {
+  content: "";
+  height: 100%;
+  width: 0;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+header {
+  height: 95px;
+  background: #e96ba2;
+  padding: 0 62px;
+}
+
+.logo {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.tab-tit {
+  height: 116px;
+  background: #eeeeee;
+  padding: 0 111px;
+}
+
+.tab-tit a {
+  width: 185px;
+  height: 70px;
+  line-height: 70px;
+  font-size: 25px;
+  border-radius: 25px;
+  color: #e96ba2;
+  border: #e96ba2 3px solid;
+  display: inline-block;
+  text-align: center;
+  vertical-align: middle;
+  margin: 0 7px;
+}
+
+.tab-tit a.cur,
+.tab-tit a:hover {
+  background: #e96ba2;
+  color: #ffffff;
+}
+.con {
+  padding: 68px 185px;
+  font-size: 30px;
+}
+.con .choose-file {
+  margin-bottom: 30px;
+  font-size: 35px;
+}
+.con .inputBtn {
+  min-width: 150px;
+  height: 60px;
+  line-height: 60px;
+  color: #ffffff;
+  background: #0075a9;
+  border-radius: 15px;
+  font-size: 23px;
+  text-align: center;
+  cursor: pointer;
+  display: inline-block;
+}
+.con div .tit {
+  min-width: 150px;
+  height: 60px;
+  line-height: 60px;
+  border-radius: 15px;
+  display: inline-block;
+  text-align: center;
+  margin-right: 120px;
+}
+
+.con .upload .chosse-tit {
+  background: #eeeeee;
+}
+.con .fileipt {
+  display: none;
+}
+.con div {
+  margin-bottom: 10px;
+}
+.con div .ipt-file {
+  margin-right: 56px;
+}
+.con .item {
+  margin: 12px 0;
+}
+
+.con .item .tit {
+  min-width: 8em;
+  font-size: 30px;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.con .item input {
+  width: 145px;
+  height: 40px;
+  font-size: 25px;
+  border-bottom: 1px solid #000;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.con .btn {
+  min-width: 250px;
+  height: 70px;
+  line-height: 70px;
+  text-align: center;
+  font-size: 23px;
+  background: #eeeeee;
+  display: inline-block;
+  border-radius: 15px;
+  margin-top: 42px;
+  cursor: pointer;
+}
+.con .btn:hover {
+  background: #d0cece;
+}
+.form-wrap {
+  background: #eeeeee;
+  padding: 0 115px;
+}
+
+.form-wrap .btn {
+  min-width: 225px;
+  height: 65px;
+  line-height: 65px;
+  text-align: center;
+  margin: 33px 0 25px 0;
+  background: #9ccdcd;
+  border-radius: 15px;
+  float: right;
+  cursor: pointer;
+  font-size: 26px;
+  font-weight: bold;
+}
+.form-wrap .btn:hover {
+  background: #349999;
+  color: #ffffff;
+}
+.form {
+  width: 100%;
+  background: #ffffff;
+  padding: 52px 193px 40px 65px;
+  /* display: flex; */
+  display: table;
+}
+.form .tr {
+  width: 100%;
+  /* display: flex; */
+  height: 55px;
+  line-height: 55px;
+  display: table-row;
+}
+.form .tr:first-child {
+  color: #86879b;
+  font-weight: bold;
+}
+.form .tr .td {
+  /* flex: 1; */
+  display: table-cell;
+  color: #a6a5b8;
+  border-bottom: 3px solid #3a374d;
+}
+.form .tr .td:last-child {
+  text-align: center;
+}
+
+.search .search-slet {
+  /*很关键：将默认的select选择框样式清除*/
+  appearance: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  /*在选择框的最右侧中间显示小箭头图片*/
+  background: url("../img/select.png") no-repeat scroll 90% center transparent;
+  background-size: auto 70%;
+  /*为下拉小箭头留出一点位置，避免被文字覆盖*/
+  /* padding-right: 14px; */
+  width: 250px;
+  height: 60px;
+  background-color: #eeeeee;
+  border-radius: 10px;
+  padding: 0 20px;
+  font-size: 20px;
+  border: none;
+}
+.search-ipt {
+  max-width: 1074px;
+  width: 100%;
+  height: 60px;
+  border-radius: 10px;
+  font-size: 20px;
+  padding: 0 30px;
+  background: #eeeeee;
+}
+.search-ipt,
+.search .search-sle {
+  margin: 45px 0;
+}

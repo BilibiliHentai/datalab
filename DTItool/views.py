@@ -51,3 +51,5 @@ def search_for_drug(request, drug_name):
     return JsonResponse(result)
 
     
+def search_for_protein(request, protein_name):
+    pass

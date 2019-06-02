@@ -15,10 +15,10 @@ class DB:
         self._dtinet_score = self._db['DTInet_score']
         self._neodti_score = self._db['NeoDTI_score']
 
-    """
-    argument which should be "DTInet" or "NeoDTI"
-    """
     def get_score_entries(self, drug_name, which):
+        """
+        argument which should be "DTInet" or "NeoDTI"
+        """
         query = {'drug_name': drug_name}
         try:
             drug = self._drug_vocabulary.find(query)[0]
@@ -69,8 +69,25 @@ class DB:
         query = {"protein_id": protein_id}
         docs = self._protein_vocabulary.find(query)
         return docs[0]['smiles']
+    
+    def get_drugs(self, protein_name):
+        query = {"protein_name": protein_name}
+        docs = self._protein_vocabulary.find(query)
+        protein = docs[0]
+
+        query = {
+            "score_entries": {
+                "$elemMatch": {"protein_id": protein['protein_id']}
+            }
+        }
+        project = {"line": 1}
+        docs = db._dtinet_score.find(query, project)
+        return docs
+        
 
 if __name__ == "__main__":
     db = DB()
-    s = db.get_score_entries('GSK-256066', 'DTInet')
-    print(s)
+    # s = db.get_score_entries('GSK-256066', 'DTInet')
+    d = db.get_drugs('CACNA1A') # CACNA1A
+    for i in d:
+        print(i)
