@@ -1,4 +1,5 @@
 import pymongo
+import time
 
 
 client = pymongo.MongoClient('mongodb://localhost:27017/')
@@ -27,13 +28,81 @@ class DB:
         line = drug['line']
         return self._get_score_entries_by_line(line, which)
         
-    
+    def get_score_entries_by_condition(self, which, drug_name, upper_limit, lower_limit):
+        query = {'drug_name': drug_name}
+        drug = self._drug_vocabulary.find_one(query)
+        line = drug['line']
+        pipeline = [
+            {"$unwind": "$score_entries"},
+            {
+                '$match': {
+                    'line': line,
+                    'score_entries.score': {'$lt': upper_limit, '$gt': lower_limit}
+                }
+            },
+            {"$sort": {"score_entries.score": -1}}
+        ]
+        if which == 'DTInet':
+            docs = self._dtinet_score.aggregate(pipeline)
+            score_name = 'DTInet_score'
+        elif which == 'NeoDTI':
+            docs = self._dtinet_score.aggregate(pipeline)
+            score_name = 'NeoDTI_score'
+            
+        score_entries = []
+        ranking = 1
+        for doc in docs:
+            score = doc['score_entries'].pop("score", None)
+            doc['score_entries'][score_name] = score
+
+            protein_name = self._get_protein_name(doc['score_entries']['protein_id'])
+            doc['score_entries']['protein_name'] = protein_name
+            score_entries.append(doc['score_entries'])
+            ranking += 1
+
+        return score_entries
+
+
+    def get_score_entries_by_ranking(self, which, drug_name, upper_ranking, lower_ranking):
+        query = {'drug_name': drug_name}
+        drug = self._drug_vocabulary.find_one(query)
+        line = drug['line']
+        pipeline = [
+            {"$unwind": "$score_entries"},
+            {
+                '$match': {
+                    'line': line,
+                }
+            },
+            {"$sort": {"score_entries.score": -1}}
+        ]
+
+        if which == 'DTInet':
+            docs = self._dtinet_score.aggregate(pipeline)
+            ranking_name = 'DTInet_ranking'
+        elif which == 'NeoDTI':
+            docs = self._neodti_score.aggregate(pipeline)
+            ranking_name = 'NeoDTI_ranking'
+            
+        score_entries = []
+        ranking = 1
+        for doc in docs:
+            if lower_ranking <= ranking <= upper_ranking:
+                doc['score_entries'][ranking_name] = ranking
+                protein_name = self._get_protein_name(doc['score_entries']['protein_id'])
+                doc['score_entries']['protein_name'] = protein_name
+                score_entries.append(doc['score_entries'])
+            ranking += 1
+
+        return score_entries       
+
+
     def _get_score_entries_by_line(self, line, which):
         pipeline = [
-            {"$match": {"line": str(line)}}, # TODO
+            {"$match": {"line": line}}, # TODO
             {"$unwind": "$score_entries"},
             {"$sort": {"score_entries.score": -1}},
-            {"$limit": 10}
+            {"$limit": 20}
         ]
         if which == 'DTInet':
             docs = self._dtinet_score.aggregate(pipeline)
@@ -70,24 +139,70 @@ class DB:
         docs = self._protein_vocabulary.find(query)
         return docs[0]['smiles']
     
-    def get_drugs(self, protein_name):
+    def get_drug_entries(self, protein_name):
+        result =[]
+        drug = {
+            'drug_id': '',
+            'drug_name': '',
+            'DTInet_score': 0,
+            'DTInet_ranking': 0,
+            'NeoDTI_score': 0,
+            'NeoDTI_ranking': 0,
+        }
         query = {"protein_name": protein_name}
-        docs = self._protein_vocabulary.find(query)
-        protein = docs[0]
+        protein = self._protein_vocabulary.find_one(query)
 
         query = {
             "score_entries": {
                 "$elemMatch": {"protein_id": protein['protein_id']}
             }
         }
-        project = {"line": 1}
-        docs = db._dtinet_score.find(query, project)
-        return docs
+
+        pipeline = [
+            {"$unwind": "$score_entries"},
+            {"$sort": {"score_entries.score": -1}},
+            {"$match": {"score_entries.protein_id": protein['protein_id']}},
+            # {"$limit": 20}
+        ]
+
+        dtinet_docs = self._dtinet_score.aggregate(pipeline)
+        ranking = 1
+        local_dtinet_docs = []
+        for doc in dtinet_docs:
+            doc['score_entries']['ranking'] = ranking
+            local_dtinet_docs.append(doc)
+            ranking += 1
+
+        neodti_docs = self._neodti_score.aggregate(pipeline)
+        ranking = 1
+        local_neodti_docs = []
+        for doc in neodti_docs:
+            doc['score_entries']['ranking'] = ranking
+            local_neodti_docs.append(doc)
+            ranking += 1
         
+        for doc in local_dtinet_docs:
+            drug = self._drug_vocabulary.find_one({'line': doc['line']})
+            for i in local_neodti_docs:
+                if i['line'] == doc['line']:
+                    score_ = i['score_entries']['score']
+                    ranking_ = i['score_entries']['ranking']
+            result.append({
+                'drug_id': drug['drug_id'],
+                'drug_name': drug['drug_name'],
+                'DTInet_score': doc['score_entries']['score'],
+                'DTInet_ranking': doc['score_entries']['ranking'],
+                'NeoDTI_score': score_,
+                'NeoDTI_ranking': ranking_
+            })
+        
+        return result
+
 
 if __name__ == "__main__":
+    start = time.time()
     db = DB()
-    # s = db.get_score_entries('GSK-256066', 'DTInet')
-    d = db.get_drugs('CACNA1A') # CACNA1A
-    for i in d:
-        print(i)
+    d = db.get_drug_entries('SUCLG2')
+    print(d)
+    end = time.time()
+    print(end-start)

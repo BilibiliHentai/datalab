@@ -32,7 +32,9 @@
   <div class="ui modal">
     <div class="header">Smiles</div>
     <div class="content">
-      <p id="smile" style="white-space: normal; word-break: break-all;">MDSAGQDINLNSPNKGLLSDSMTDVPVDTGVAARTPAVEGLTEAEEEELRAELTKVEEEIVTLRQVLAAKERHCGELKRRLGLSTLGELKQNLSRSWHDVQVSSAYVKTSEKLGEWNEKVTQSDLYKKTQETLSQAGQKTSAALSTVGSAISRKLGDMRNSATFKSFEDRVGTIKSKVVGDRENGSDNLPSSAGSGDKPLSDPAPF</p>
+      <p id="smile" style="white-space: normal; word-break: break-all;">
+        MDSAGQDINLNSPNKGLLSDSMTDVPVDTGVAARTPAVEGLTEAEEEELRAELTKVEEEIVTLRQVLAAKERHCGELKRRLGLSTLGELKQNLSRSWHDVQVSSAYVKTSEKLGEWNEKVTQSDLYKKTQETLSQAGQKTSAALSTVGSAISRKLGDMRNSATFKSFEDRVGTIKSKVVGDRENGSDNLPSSAGSGDKPLSDPAPF
+      </p>
     </div>
   </div>
   <header class="y-vertical-center">
@@ -45,68 +47,247 @@
   <div class="con">
     <div class="search">
       <h2>SEARCH FOR：</h2>
-      <select class="search-slet" name="" id="search-for">
+      <select class="search-slet" name="" id="search-for" style="display: block">
         <option>drug</option>
         <option>protein</option>
       </select>
-      <input id="input-drug-name" type="text" class="search-ipt">
+      <input id="input-drug-name" type="text" class="search-ipt" style="display: inline-block; width: 70%;">
+      <div id="search-btn" class="btn" style="display: inline-block;width:20%;">搜索</div>
     </div>
     <h2>ADVANCED：</h2>
-    <div class="item"><span class="tit">DTINet score：</span> <input type="text"> - <input type="text"></div>
-    <div class="item"><span class="tit">NeoDTI score：</span> <input type="text"> - <input type="text"></div>
-    <div class="item"><span class="tit">DTINet rank： </span> <input type="text"> - <input type="text"></div>
-    <div class="item"><span class="tit">NeoDTI rank： </span> <input type="text"> - <input type="text"></div>
+    <div class="search">
+      <select class="search-slet" name="" id="condition-for" style="display: block">
+        <option selected="selected" value="score">score</option>
+        <option value="rank">rank</option>
+      </select>
+    </div>
+    <div class="item score"><span class="tit">DTINet score：</span> <input id="dtinet-score-lower-limit" type="text"> -
+      <input id="dtinet-score-upper-limit" type="text"></div>
+    <div class="item score"><span class="tit">NeoDTI score：</span> <input id="neodti-score-lower-limit" type="text"> -
+      <input id="neodti-score-upper-limit" type="text"></div>
+    <div class="item rank"><span class="tit">DTINet rank： </span> <input id="dtinet-score-lower-ranking" type="text"> -
+      <input id="dtinet-score-upper-ranking" type="text"></div>
+    <div class="item rank"><span class="tit">NeoDTI rank： </span> <input id="neodti-score-lower-ranking" type="text"> -
+      <input id="neodti-score-upper-ranking" type="text"></div>
     <div id="submit-btn" class="btn">提交条件</div>
     <!-- <button></button> -->
   </div>
   <div class="form-wrap clearfix">
-    <div class="btn">导出</div>
-    <div id="list" class="form">
-      <div class="tr">
-        <div class="td">ID</div>
-        <div class="td">Target Name</div>
-        <div class="td">DTINet Score</div>
-        <div class="td">Rankings(DTINet)</div>
-        <div class="td">NeoDTI Score</div>
-        <div class="td">Rankings(NeoDTI)</div>
-        <div class="td">Smiles</div>
-      </div>
+    <div id="excel-btn" class="btn">导出初选表</div>
+    <div id="excel-btn-dtinet" class="btn">导出DTInet表</div>
+    <div id="excel-btn-neodti" class="btn">导出NeoDTI表</div>
+    <div id="excel-btn-condition" class="btn">导出</div>
+    <div id="excel-btn-ranking" class="btn">导出</div>
+    <div id="DTInet-list" class="form">
     </div>
+    <div id="NeoDTI-list" class="form">
+    </div>
+  </div>
+
   </div>
 </body>
 <script>
+  $(".rank").hide()
+  $("#excel-btn").css("visibility", "hidden")
+  $("#excel-btn-dtinet").css("visibility", "hidden")
+  $("#excel-btn-neodti").css("visibility", "hidden")
+  $("#excel-btn-condition").css("visibility", "hidden")
+  $("#excel-btn-ranking").css("visibility", "hidden")
 
   let submitBtn = document.getElementById("submit-btn")
   submitBtn.addEventListener("click", submit)
-  $("body").on("click", ".td.smiles",function() {
+  let searchBtn = document.getElementById("search-btn")
+  searchBtn.addEventListener("click", search)
+  $("#excel-btn").click(() => {
+    let drugName = document.getElementById("input-drug-name").value
+    window.open("/DTItool/excel/drug/" + drugName, "_blank")
+  })
+  $("#excel-btn-dtinet").click(() => {
+    let drugName = document.getElementById("input-drug-name").value
+    window.open("/DTItool/excel/drug/" + drugName + "/dtinet", "_blank")
+  })
+  $("#excel-btn-neodti").click(() => {
+    let drugName = document.getElementById("input-drug-name").value
+    window.open("/DTItool/excel/drug/" + drugName + "/neodti", "_blank")
+  })
+  $("#excel-btn-condition").click(() => {
+    let drugName = document.getElementById("input-drug-name").value
+    let dtinetUpperLimit = "/" + document.getElementById("dtinet-score-upper-limit").value
+    let dtinetLowerLimit = "/" + document.getElementById("dtinet-score-lower-limit").value
+    let neodtiUpperLimit = "/" + document.getElementById("neodti-score-upper-limit").value
+    let neodtiLowerLimit = "/" + document.getElementById("neodti-score-lower-limit").value
+    window.open("/DTItool/excel/condition/drug/" + drugName + dtinetUpperLimit + dtinetLowerLimit + neodtiUpperLimit + neodtiLowerLimit)
+  })
+  $("#excel-btn-ranking").click(() => {
+    let drugName = document.getElementById("input-drug-name").value
+    let dtinetUpperRanking = "/" + document.getElementById("dtinet-score-upper-ranking").value
+    let dtinetLowerRanking = "/" + document.getElementById("dtinet-score-lower-ranking").value
+    let neodtiUpperRanking = "/" + document.getElementById("neodti-score-upper-ranking").value
+    let neodtiLowerRanking = "/" + document.getElementById("neodti-score-lower-ranking").value
+    window.open("/DTItool/excel/ranking/drug/" + dtinetUpperRanking + dtinetLowerRanking + neodtiUpperRanking + neodtiLowerRanking)
+  })
+  $("#condition-for").change(() => {
+    if ($("#condition-for").val() == "score") {
+      $(".score").show()
+      $(".rank").hide()
+    } else {
+      $(".score").hide()
+      $(".rank").show()
+    }
+  })
+  $("body").on("click", ".td.smiles", function () {
     let smiles = $(this).attr("smiles")
     $('#smile').text(smiles)
     $('.ui.modal').modal('show')
   })
 
   function submit() {
+    $("#excel-btn").css("visibility", "hidden")
+    $("#excel-btn-dtinet").css("visibility", "hidden")
+    $("#excel-btn-neodti").css("visibility", "hidden")
+    $("#NeoDTI-list").html('')
     let drugName = document.getElementById("input-drug-name").value
-    console.log(drugName)
-    axios.get("/DTItool/search/" + drugName)
-      .then(function (response) {
-
-        if (response.data["ok"] == true) {
+    if ($("#condition-for").val() == "score") {
+      let dtinetUpperLimit = "/" + document.getElementById("dtinet-score-upper-limit").value
+      let dtinetLowerLimit = "/" + document.getElementById("dtinet-score-lower-limit").value
+      let neodtiUpperLimit = "/" + document.getElementById("neodti-score-upper-limit").value
+      let neodtiLowerLimit = "/" + document.getElementById("neodti-score-lower-limit").value
+      axios.get("/DTItool/condition/drug/" + drugName + dtinetUpperLimit + dtinetLowerLimit + neodtiUpperLimit + neodtiLowerLimit)
+        .then((response) => {
+          if (response.data["ok"] == true) {
+            $("#excel-btn-condition").css("visibility", "visible")
+            $("#DTInet-list").html(`
+              <div class="tr">
+                <div class="td">ID</div>
+                <div class="td">Target Name</div>
+                <div class="td">DTINet Score</div>
+                <div class="td">NeoDTI Score</div>
+              </div>`
+            )
+          }
           response.data['content'].forEach(element => {
-            formatted = format(element)
-            $("#list").append(formatted)
-          });
-        }
-        
-
-      })
+            formatted = formatCondition(element)
+            $("#DTInet-list").append(formatted)
+          })
+        })
+    }
+    if ($("#condition-for").val() == "rank") {
+      let dtinetUpperRanking = "/" + document.getElementById("dtinet-score-upper-ranking").value
+      let dtinetLowerRanking = "/" + document.getElementById("dtinet-score-lower-ranking").value
+      let neodtiUpperRanking = "/" + document.getElementById("neodti-score-upper-ranking").value
+      let neodtiLowerRanking = "/" + document.getElementById("neodti-score-lower-ranking").value
+      axios.get("/DTItool/ranking/drug/" + drugName + dtinetUpperRanking + dtinetLowerRanking + neodtiUpperRanking + neodtiLowerRanking)
+        .then((response) => {
+          if (response.data["ok"] == true) {
+            $("#excel-btn-ranking").css("visibility", "hidden")
+            $("#DTInet-list").html(`
+              <div class="tr">
+                <div class="td">ID</div>
+                <div class="td">Target Name</div>
+                <div class="td">DTINet Ranking</div>
+                <div class="td">NeoDTI Ranking</div>
+              </div>`
+            )
+          }
+          response.data['content'].forEach(element => {
+            formatted = formatRanking(element)
+            $("#DTInet-list").append(formatted)
+          })
+        })
+    }
   }
-  function format(scoreEntry) {
-    let proteinId = scoreEntry['protein_id']
-    let proteinName = scoreEntry['protein_name']
+
+  function search() {
+    $("#excel-btn-condition").css("visibility", "hidden")
+    $("#excel-btn-ranking").css("visibility", "hidden")
+    let drugName = document.getElementById("input-drug-name").value
+    console.log($("#search-for").val())
+    if ($("#search-for").val() == "drug") {
+      axios.get("/DTItool/search/drug/" + drugName)
+        .then(function (response) {
+          if (response.data["ok"] == true) {
+            $("#excel-btn").css("visibility", "visible")
+            $("#excel-btn-dtinet").css("visibility", "visible")
+            $("#excel-btn-neodti").css("visibility", "visible")
+            $("#DTInet-list").html(`      <div class="tr">
+          <div class="td">ID</div>
+          <div class="td">Target Name</div>
+          <div class="td">DTINet Score</div>
+          <div class="td">Rankings(DTINet)</div>
+          <div class="td">Sequence</div>
+        </div>`)
+            $("#NeoDTI-list").html(`      <div class="tr">
+          <div class="td">ID</div>
+          <div class="td">Target Name</div>
+          <div class="td">NeoDTI Score</div>
+          <div class="td">Rankings(NeoDTI)</div>
+          <div class="td">Sequence</div>
+        </div>`)
+            response.data['content']['DTInet'].forEach(element => {
+              formatted = formatDTInet(element)
+              $("#DTInet-list").append(formatted)
+            });
+            response.data['content']['NeoDTI'].forEach(element => {
+              formatted = formatNeoDTI(element)
+              $('#NeoDTI-list').append(formatted)
+            })
+          }
+        })
+    } else {
+      let proteinName = document.getElementById("input-drug-name").value
+      axios.get("/DTItool/search/protein/" + proteinName)
+        .then(function (response) {
+          if (response.data["ok"] == true) {
+            $("#excel-btn").css("visibility", "hidden")
+            $("#excel-btn-dtinet").css("visibility", "hidden")
+            $("#excel-btn-neodti").css("visibility", "hidden")
+            $("#DTInet-list").html(`      <div class="tr">
+          <div class="td">ID</div>
+          <div class="td">Drug Name</div>
+          <div class="td">DTINet Score</div>
+          <div class="td">Rankings(DTINet)</div>
+          <div class="td">NeoDTI Score</div>
+          <div class="td">Rankings(NeoDTI)</div>
+        </div>`)
+            $("#NeoDTI-list").html('')
+            response.data['content'].forEach(element => {
+              formatted = formatForDrugs(element)
+              $("#DTInet-list").append(formatted)
+            });
+          }
+        })
+    }
+  }
+
+  function formatForDrugs(scoreEntry) {
+    let drugId = scoreEntry['drug_id']
+    if (drugId.length > 10) {
+      drugId = drugId.slice(0,10) + "  "
+    }
+    let drugName = scoreEntry['drug_name']
     let dtinetScore = scoreEntry['DTInet_score']
     let dtinetRanking = scoreEntry['DTInet_ranking']
     let neodtiScore = scoreEntry['NeoDTI_score']
     let neodtiRanking = scoreEntry['NeoDTI_ranking']
+
+    let start = "<div class=\"tr\">"
+    let end = "</div>"
+    let content = `
+      <div class=\"td\">${drugId}</div>
+      <div class=\"td\">${drugName}</div>
+      <div class=\"td\">${dtinetScore}</div>
+      <div class=\"td\">${dtinetRanking}</div>
+      <div class=\"td\">${neodtiScore}</div>
+      <div class=\"td\">${neodtiRanking}</div>
+    `
+    return start + content + end
+  }
+
+  function formatDTInet(scoreEntry) {
+    let proteinId = scoreEntry['protein_id']
+    let proteinName = scoreEntry['protein_name']
+    let dtinetScore = scoreEntry['DTInet_score']
+    let dtinetRanking = scoreEntry['DTInet_ranking']
     let real_smiles = scoreEntry['smiles']
     let display_smiles = real_smiles.slice(0, 10)
 
@@ -117,15 +298,65 @@
       <div class=\"td\">${proteinName}</div>
       <div class=\"td\">${dtinetScore}</div>
       <div class=\"td\">${dtinetRanking}</div>
+      <div smiles="${real_smiles}"class=\"td smiles\" style=\"cursor: pointer;\">${display_smiles}...</div>
+    `
+    return start + content + end
+  }
+
+  function formatNeoDTI(scoreEntry) {
+    let proteinId = scoreEntry['protein_id']
+    let proteinName = scoreEntry['protein_name']
+    // let dtinetScore = scoreEntry['DTInet_score']
+    // let dtinetRanking = scoreEntry['DTInet_ranking']
+    let neodtiScore = scoreEntry['NeoDTI_score']
+    let neodtiRanking = scoreEntry['NeoDTI_ranking']
+    let real_smiles = scoreEntry['smiles']
+    let display_smiles = real_smiles.slice(0, 10)
+
+    let start = "<div class=\"tr\">"
+    let end = "</div>"
+    let content = `
+      <div class=\"td\">${proteinId}</div>
+      <div class=\"td\">${proteinName}</div>
       <div class=\"td\">${neodtiScore}</div>
       <div class=\"td\">${neodtiRanking}</div>
       <div smiles="${real_smiles}"class=\"td smiles\" style=\"cursor: pointer;\">${display_smiles}...</div>
     `
     return start + content + end
   }
-  function exhibit(content) {
-    list = document.getElementById("list")
-    list.append(content)
+
+  function formatCondition(scoreEntry) {
+    let proteinId = scoreEntry['protein_id']
+    let proteinName = scoreEntry['protein_name']
+    let dtinetScore = scoreEntry['DTInet_score']
+    let neodtiScore = scoreEntry['NeoDTI_score']
+
+    let start = "<div class=\"tr\">"
+    let end = "</div>"
+    let content = `
+      <div class=\"td\">${proteinId}</div>
+      <div class=\"td\">${proteinName}</div>
+      <div class=\"td\">${dtinetScore}</div>
+      <div class=\"td\">${neodtiScore}</div>
+    `
+    return start + content + end
+  }
+
+  function formatRanking(scoreEntry) {
+    let proteinId = scoreEntry['protein_id']
+    let proteinName = scoreEntry['protein_name']
+    let dtinetRanking = scoreEntry['DTInet_ranking']
+    let neodtiRanking = scoreEntry['NeoDTI_ranking']
+
+    let start = "<div class=\"tr\">"
+    let end = "</div>"
+    let content = `
+      <div class=\"td\">${proteinId}</div>
+      <div class=\"td\">${proteinName}</div>
+      <div class=\"td\">${dtinetRanking}</div>
+      <div class=\"td\">${neodtiRanking}</div>
+    `
+    return start + content + end
   }
 </script>
 

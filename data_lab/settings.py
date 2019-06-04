@@ -76,10 +76,10 @@ WSGI_APPLICATION = 'data_lab.wsgi.application'
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
 DATABASES = {
-    # 'default': {
-    #     'ENGINE': 'django_mongodb_engine',
-    #     'NAME': 'datalab'
-    # }
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'DTItoolDatabase',
+    }
 }
 
 
