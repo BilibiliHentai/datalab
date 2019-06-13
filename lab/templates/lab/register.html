@@ -78,10 +78,10 @@
     <div class="column">
       <h2 class="ui image header">
         <div class="content">
-          Log-in to your account
+          Resigter
         </div>
       </h2>
-      <form id="form" action="{% url 'DTItool:login' %}" method="POST" class="ui large form">
+      <form id="form" action="{% url 'DTItool:register' %}" method="POST" class="ui large form">
         {% csrf_token %}
         <div class="ui stacked secondary  segment">
           <div class="field">
@@ -98,16 +98,16 @@
               {{ form.password }}
             </div>
           </div>
-          <div id="submit-btn" class="ui fluid large teal submit button" style="background: #e96ba2">Login</div>
+          <div id="submit-btn" class="ui fluid large teal submit button"style="background: #e96ba2">Submit</div>
         </div>
 
         <div class="ui error message"></div>
 
       </form>
 
-      <!-- <div class="ui message">
-        New to us? <a href="{% url 'DTItool:register' %}">Register</a>
-      </div> -->
+      <div class="ui message">
+        Welcome!
+      </div>
     </div>
   </div>
 

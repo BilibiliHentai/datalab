@@ -7,20 +7,39 @@ from django.contrib.auth import authenticate, login as f_login, logout as f_logo
 from django.contrib.auth.decorators import login_required
 
 
-from .forms import LoginForm, RegisterForm
-from .mongo_model import DB
-from utils import export
+from openpyxl import load_workbook
+from io import BytesIO
 
+from DTItool.forms import LoginForm, RegisterForm, UploadExcelForm
+from DTItool.mongo_model import db
+from utils import export, excel_append
 
-db = DB()
+GLOBAL_ENTRIES = {}
 # Create your views here.
 @login_required(login_url='/DTItool/login')
 def index(request):
-    return render(request, 'DTItool/index.html')
+    if request.method == 'POST':
+        form = UploadExcelForm(request.POST, request.FILES)
+        if form.is_valid():
+            excel = request.FILES['file']
+            buffered_stream = BytesIO(excel.read())
+            workbook = load_workbook(filename=buffered_stream)
+            buffered_stream.close()
+            excel_append.append_score(workbook)
+            
+            workbook.close()
+            return HttpResponse('upload succeed')
+        else:
+            return render(request, 'DTItool/index.html', context={'form': form})
+    else:
+        f_logout(request)
+        form = UploadExcelForm()
+    return render(request, 'DTItool/index.html', context={'form': form})
 
 
-@login_required(login_url='/DTItool/login', redirect_field_name='holyshit')
+@login_required(login_url='/DTItool/login')
 def startup(request):
+    f_logout(request)
     return render(request, 'DTItool/startup.html')
 
 def login(request):
@@ -79,23 +98,42 @@ def search_for_drug(request, drug_name):
 
 
 def search_for_protein(request, protein_name):
-    # return HttpResponse("你妈死了")
     result = {
         "ok": True,
         "content": "shit"
     }
     result['content'] = db.get_drug_entries(protein_name)
-    # print(result['content'])
+    global GLOBAL_ENTRIES
+    GLOBAL_ENTRIES = {
+        'protein_name': protein_name,
+        'score_entries': result['content']
+    }
     return JsonResponse(result)
 
 
 def drug_excel(request, drug_name):
     dtinet_score_entries = db.get_score_entries(drug_name, 'DTInet')
     neodti_score_entries = db.get_score_entries(drug_name, 'NeoDTI')
-    content = export.excel_both(dtinet_score_entries, neodti_score_entries)
+    content = export.excel_both(drug_name, dtinet_score_entries, neodti_score_entries)
     response = HttpResponse(content, content_type="application/vnd.ms-excel")
     response['Content-Disposition'] = "attachment; filename={}.xlsx".format(drug_name)
 
+    return response
+
+
+def excel_for_protein(request, protein_name):
+    if GLOBAL_ENTRIES.get('protein_name') != protein_name:
+        name = protein_name
+        score_entries = db.get_drug_entries(protein_name)
+        titles = score_entries[0].keys()
+        content = export.common_singlesheet_excel(score_entries, titles, 'scores')
+    else:
+        name = GLOBAL_ENTRIES['protein_name']
+        titles = GLOBAL_ENTRIES['score_entries'][0].keys()
+        content = export.common_singlesheet_excel(GLOBAL_ENTRIES['score_entries'], titles, 'scores')
+    response = HttpResponse(content, content_type="application/vnd.ms-excel")
+    response['Content-Disposition'] = "attachment; filename={} DTInet.xlsx".format('protein ' + name)
+    
     return response
 
 
@@ -115,6 +153,7 @@ def drug_excel_neodti(request, drug_name):
     response['Content-Disposition'] = "attachment; filename={} NeoDTI.xlsx".format(drug_name)
     
     return response
+
 
 def condition_for_drug(request, drug_name, dtinet_upper_limit, dtinet_lower_limit, neodti_upper_limit, neodti_lower_limit):
     result = {
@@ -204,3 +243,4 @@ def excel_ranking(request, drug_name, dtinet_upper_ranking, dtinet_lower_ranking
     response['Content-Disposition'] = "attachment; filename={} DTInet.xlsx".format(drug_name + ' rankings advanced')
     
     return response
+

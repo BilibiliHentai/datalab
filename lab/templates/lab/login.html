@@ -81,7 +81,7 @@
           Log-in to your account
         </div>
       </h2>
-      <form id="form" action="{% url 'DTItool:login' %}" method="POST" class="ui large form">
+      <form id="form" action="{% url 'lab:login' %}" method="POST" class="ui large form">
         {% csrf_token %}
         <div class="ui stacked secondary  segment">
           <div class="field">
@@ -98,7 +98,7 @@
               {{ form.password }}
             </div>
           </div>
-          <div id="submit-btn" class="ui fluid large teal submit button" style="background: #e96ba2">Login</div>
+          <div id="submit-btn" class="ui fluid large teal submit button" style="background: #28293d">Login</div>
         </div>
 
         <div class="ui error message"></div>

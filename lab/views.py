@@ -1,17 +1,21 @@
 from collections import Counter, OrderedDict
 from django.http import JsonResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login as f_login, logout as f_logout
+from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
+
+
 import copy
 
-from .mongo_models import DB
 
+from lab.mongo_models import DB
+from DTItool.forms import LoginForm, RegisterForm
 
 db = DB()
 
-
+@login_required(login_url='/login')
 def index(request):
-    # total_numbers = JSON_READER.get_total_number()
-    # data = JSON_READER.get_score_sorted_data()
     total_numbers = db.get_total_number()
     data = db.get_score_sorted_data()
     context = {
@@ -24,6 +28,7 @@ def index(request):
     return render(request, 'lab/index.html', context=context)
 
 
+@login_required(login_url='/login')
 def statistics(request):
     total_numbers = db.get_total_number()
     context = {
@@ -35,6 +40,7 @@ def statistics(request):
     return render(request, 'lab/index.html', context=context)
 
 
+@login_required(login_url='/login')
 def gene(request):
     context = {
         'subtemplate': 'lab/gene.html',
@@ -42,6 +48,7 @@ def gene(request):
     return render(request, 'lab/index.html', context=context)
 
 
+@login_required(login_url='/login')
 def gene_detail(request, gene_id):
     gene = db.get_gene_by_id(gene_id)
     context = {
@@ -51,6 +58,7 @@ def gene_detail(request, gene_id):
     return render(request, 'lab/index.html', context=context)
 
 
+@login_required(login_url='/login')
 def compound(request, category=None):
     categories = db.get_compound_categories()
     context = {
@@ -61,6 +69,7 @@ def compound(request, category=None):
     return render(request, 'lab/index.html', context=context)
 
 
+@login_required(login_url='/login')
 def compound_detail(request, compound_id):
     compound = db.get_compound_by_drugbank_id(compound_id)
     context = {
@@ -70,6 +79,7 @@ def compound_detail(request, compound_id):
     return render(request, 'lab/index.html', context=context)
 
 
+@login_required(login_url='/login')
 def help(request):
     context = {'subtemplate': 'lab/help.html'}
     return render(request, 'lab/index.html', context=context)
@@ -147,3 +157,36 @@ def get_supported_entries_by_ids(request, target_id, drug_id):
 def get_supported_entries_by_drug_id(request, drug_id):
     supported_entries = db.get_supported_entries_by_drug_id(drug_id)
     return JsonResponse(supported_entries)
+
+
+def login(request):
+    if request.method == 'POST':
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                f_login(request, user)
+                request.session.set_expiry(10*60)
+                return redirect('lab:index')
+            else:
+                return render(request, 'lab/login.html', context={'form': form})
+    else:
+        form = LoginForm()
+    return render(request, 'lab/login.html', context={'form': form})
+
+
+def register(request):
+    if request.method == 'POST':
+        form = RegisterForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+            user = User.objects.create_user(username=username, password=password)
+            f_login(request, user)
+            request.session.set_expiry(10*60)
+            return redirect('lab:index')
+    else:
+        form = RegisterForm()
+    return render(request, 'lab/register.html', context={'form': form})

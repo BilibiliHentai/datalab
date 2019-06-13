@@ -1,11 +1,12 @@
 from django.urls import path
-from . import views
-
+from lab import views
 app_name = 'lab'
 
 
 urlpatterns = [
     path('', views.index, name='index'),
+    path('login/', views.login, name='login'),
+    path('register/', views.register, name='register'),
     path('gene', views.gene, name='gene'),
     path('gene/<str:gene_name>', views.gene_detail, name='gene-detail'),
     # path('search_compound/<str:compound_name>', views.compound, name='compound'),

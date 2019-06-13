@@ -2,9 +2,9 @@ import pymongo
 import time
 
 
-client = pymongo.MongoClient('mongodb://localhost:27017/')
-db = client['dtitool']
-coll = db['protein_vocabulary']
+# client = pymongo.MongoClient('mongodb://localhost:27017/')
+# dtitool_db = client['dtitool']
+# coll = dtitool_db['protein_vocabulary']
 
 
 class DB:
@@ -15,6 +15,24 @@ class DB:
         self._drug_vocabulary = self._db['drug_vocabulary']
         self._dtinet_score = self._db['DTInet_score']
         self._neodti_score = self._db['NeoDTI_score']
+        self._dtinet_score_entries = self._db['DTInet_score_entries']
+        self._neodti_score_entries = self._db['NeoDTI_score_entries']
+
+    def get_scores_by_protein_id(self, protein_id, top_x=10):
+        pipeline = [
+            {'$match': {'protein_id': protein_id}},
+            {"$sort": {"score_entries.score": -1}},
+            {"$limit": top_x},
+        ]
+        query = {"protein_id": protein_id}
+        print('shit')
+        dtinet_scores = self._dtinet_score_entries.find().sort('score', -1).limit(top_x)
+        # dtinet_scores = self._neodti_score.aggregate(pipeline)
+        print('shit')
+        print(dtinet_scores)
+        for i in dtinet_scores:
+            print(i)
+        
 
     def get_score_entries(self, drug_name, which):
         """
@@ -148,6 +166,7 @@ class DB:
             'DTInet_ranking': 0,
             'NeoDTI_score': 0,
             'NeoDTI_ranking': 0,
+            'Smiles': ''
         }
         query = {"protein_name": protein_name}
         protein = self._protein_vocabulary.find_one(query)
@@ -193,16 +212,18 @@ class DB:
                 'DTInet_score': doc['score_entries']['score'],
                 'DTInet_ranking': doc['score_entries']['ranking'],
                 'NeoDTI_score': score_,
-                'NeoDTI_ranking': ranking_
+                'NeoDTI_ranking': ranking_,
+                'smiles': protein['smiles']
             })
         
         return result
+
+db = DB()
 
 
 if __name__ == "__main__":
     start = time.time()
     db = DB()
-    d = db.get_drug_entries('SUCLG2')
-    print(d)
+    d = db.get_scores_by_protein_id('Q9BZV2')
     end = time.time()
-    print(end-start)
+    print(end - start)

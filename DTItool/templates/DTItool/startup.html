@@ -100,7 +100,11 @@
   searchBtn.addEventListener("click", search)
   $("#excel-btn").click(() => {
     let drugName = document.getElementById("input-drug-name").value
-    window.open("/DTItool/excel/drug/" + drugName, "_blank")
+    if ($("#search-for").val() == 'drug') {
+      window.open("/DTItool/excel/drug/" + drugName, "_blank")
+    } else {
+      window.open('/DTItool/excel/protein/' + drugName, "_blank")
+    }
   })
   $("#excel-btn-dtinet").click(() => {
     let drugName = document.getElementById("input-drug-name").value
@@ -124,7 +128,7 @@
     let dtinetLowerRanking = "/" + document.getElementById("dtinet-score-lower-ranking").value
     let neodtiUpperRanking = "/" + document.getElementById("neodti-score-upper-ranking").value
     let neodtiLowerRanking = "/" + document.getElementById("neodti-score-lower-ranking").value
-    window.open("/DTItool/excel/ranking/drug/" + dtinetUpperRanking + dtinetLowerRanking + neodtiUpperRanking + neodtiLowerRanking)
+    window.open("/DTItool/excel/ranking/drug/" + drugName +  dtinetUpperRanking + dtinetLowerRanking + neodtiUpperRanking + neodtiLowerRanking)
   })
   $("#condition-for").change(() => {
     if ($("#condition-for").val() == "score") {
@@ -156,6 +160,7 @@
         .then((response) => {
           if (response.data["ok"] == true) {
             $("#excel-btn-condition").css("visibility", "visible")
+            $("#excel-btn-ranking").css("visibility", "hidden")
             $("#DTInet-list").html(`
               <div class="tr">
                 <div class="td">ID</div>
@@ -179,7 +184,8 @@
       axios.get("/DTItool/ranking/drug/" + drugName + dtinetUpperRanking + dtinetLowerRanking + neodtiUpperRanking + neodtiLowerRanking)
         .then((response) => {
           if (response.data["ok"] == true) {
-            $("#excel-btn-ranking").css("visibility", "hidden")
+            $("#excel-btn-condition").css("visibility", "hiddenS")
+            $("#excel-btn-ranking").css("visibility", "visible")
             $("#DTInet-list").html(`
               <div class="tr">
                 <div class="td">ID</div>
@@ -238,7 +244,7 @@
       axios.get("/DTItool/search/protein/" + proteinName)
         .then(function (response) {
           if (response.data["ok"] == true) {
-            $("#excel-btn").css("visibility", "hidden")
+            $("#excel-btn").css("visibility", "visible")
             $("#excel-btn-dtinet").css("visibility", "hidden")
             $("#excel-btn-neodti").css("visibility", "hidden")
             $("#DTInet-list").html(`      <div class="tr">
@@ -248,6 +254,7 @@
           <div class="td">Rankings(DTINet)</div>
           <div class="td">NeoDTI Score</div>
           <div class="td">Rankings(NeoDTI)</div>
+          <div class="td">Smiles</div>
         </div>`)
             $("#NeoDTI-list").html('')
             response.data['content'].forEach(element => {
@@ -269,6 +276,9 @@
     let dtinetRanking = scoreEntry['DTInet_ranking']
     let neodtiScore = scoreEntry['NeoDTI_score']
     let neodtiRanking = scoreEntry['NeoDTI_ranking']
+    let real_smiles = scoreEntry['smiles']
+    let display_smiles = real_smiles.slice(0, 10)
+
 
     let start = "<div class=\"tr\">"
     let end = "</div>"
@@ -279,6 +289,7 @@
       <div class=\"td\">${dtinetRanking}</div>
       <div class=\"td\">${neodtiScore}</div>
       <div class=\"td\">${neodtiRanking}</div>
+      <div smiles="${real_smiles}"class=\"td smiles\" style=\"cursor: pointer;\">${display_smiles}...</div>
     `
     return start + content + end
   }

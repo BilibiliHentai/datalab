@@ -8,6 +8,11 @@
     <title>Document</title>
     <link rel="stylesheet" href="{% static 'css/reset.css' %}">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/semantic.min.css' %}">
+    <script src="{% static 'js/axios.min.js' %}"></script>
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'js/semantic.js' %}"></script>
+    <script src="https://cdn.staticfile.org/axios/0.19.0-beta.1/axios.min.js"></script>
 </head>
 
 <body>
@@ -18,18 +23,27 @@
         <a href="{% url 'DTItool:startup' %}">起步</a>
         <a href="#" class="cur">综合</a>
     </div>
-    <div class="con">
+    <!-- <form method="POST", action="{% url 'DTItool:index' %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit">
+    </form> -->
+    <form id="form" class="con" method="POST", action="{% url 'DTItool:index' %}" enctype="multipart/form-data">
         <p class="choose-file">选择文件</p>
         <div class="upload">
             <span class="tit chosse-tit">选择</span>
             <span id="upload-file" class="ipt-file">xxxxxxx.xxxx</span>
-            <label class="inputBtn" for="uploadipt">上传</label>
-            <input type="file" class="fileipt" id="uploadipt">
+            <!-- {{ form.excel }} -->
+            {% csrf_token %}
+            <label class="inputBtn" for="{{ form.file.id_for_label}}">上传</label>
+            {{ form.file }}
+            <!-- <input type="submit"> -->
+            <!-- <input type="file" name="myFile" class="fileipt" id="uploadipt"> -->
         </div>
         <div class="joint">
             <span class="tit">已选择</span>
-            <span class="ipt-file">xxxxxxx.xxxx</span>
-            <label class="inputBtn" name='joint' for="1">joint</label>
+            <span id="upload-file2" class="ipt-file">xxxxxxx.xxxx</span>
+            <label id="joint" class="inputBtn" name='joint' for="1">joint</label>
             <!-- <input type="file" name="joint" class="fileipt" id="1"> -->
         </div>
         <h2>ADVANCED：</h2>
@@ -39,7 +53,7 @@
         <div class="item"><span class="tit">NeoDTI rank： </span> <input type="text"> - <input type="text"></div>
         <div class="btn">提交条件</div>
         <!-- <button></button> -->
-    </div>
+    </form>
     <div class="form-wrap clearfix">
         <div class="btn">导出</div>
         <div class="form">
@@ -89,15 +103,31 @@
     </div>
 </body>
 <script>
-    document.getElementById('uploadipt').onchange = function (e) {
-        var uploadFile = document.getElementById('uploadipt').files[0];
+    document.getElementById('id_file').onchange = function (e) {
+        var uploadFile = document.getElementById('id_file').files[0];
         // 文件名uploadFile
         // console.log(uploadFile)
         // 路径e.target.value
         // console.log(e.target.value)
         document.getElementById('upload-file').innerHTML = e.target.value
+        document.getElementById('upload-file2').innerHTML = e.target.value
 
     }
+    document.getElementById("joint").onclick = function(e) {
+        // let bodyFormData = new FormData()
+        // bodyFormData.set('')
+        // axios({
+        //     method: 'post',
+        //     url: "{% url 'DTItool:index' %}",
+        //     headers: {
+        //         'Content-Type': "multipart/form-data"
+        //     }
+        // }).then((response) => {
+        //     console.log('ok')
+        // })
+        document.getElementById("form").submit()
+    }
+    
 </script>
 
 </html>
