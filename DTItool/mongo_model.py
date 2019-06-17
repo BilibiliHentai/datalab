@@ -18,6 +18,68 @@ class DB:
         self._dtinet_score_entries = self._db['DTInet_score_entries']
         self._neodti_score_entries = self._db['NeoDTI_score_entries']
 
+    def _get_protein_name(self, protein_id):
+        query = {"protein_id": protein_id}
+        docs = self._protein_vocabulary.find(query)
+        return docs[0]['protein_name']
+
+    def _get_protein_smiles(self, protein_id):
+        query = {"protein_id": protein_id}
+        docs = self._protein_vocabulary.find(query)
+        return docs[0]['smiles']
+
+    def _get_score_entries_by_line(self, line, which):
+        pipeline = [
+            {"$match": {"line": line}}, # TODO
+            {"$unwind": "$score_entries"},
+            {"$sort": {"score_entries.score": -1}},
+            {"$limit": 20}
+        ]
+        if which == 'DTInet':
+            docs = self._dtinet_score.aggregate(pipeline)
+            score_name = 'DTInet_score'
+            ranking_name = 'DTInet_ranking'
+        elif which == 'NeoDTI':
+            docs = self._neodti_score.aggregate(pipeline)
+            score_name = 'NeoDTI_score'
+            ranking_name = 'NeoDTI_ranking'
+
+        score_entries = []
+        ranking = 1
+        for doc in docs:
+            score = doc['score_entries'].pop("score", None)
+            doc['score_entries'][score_name] = score
+
+            protein_name = self._get_protein_name(doc['score_entries']['protein_id'])
+            smiles = self._get_protein_smiles(doc['score_entries']['protein_id'])
+            doc['score_entries'][ranking_name] = ranking
+            doc['score_entries']['protein_name'] = protein_name
+            doc['score_entries']['smiles'] = smiles
+            score_entries.append(doc['score_entries'])
+            ranking += 1
+
+        return score_entries
+
+    def _get_one_drug(self, attribute):
+        query = {
+            '$or': [
+                {'drug_id': attribute},
+                {'drug_name': attribute}
+            ]
+        }
+        drug = self._drug_vocabulary.find_one(query)
+        return drug
+    
+    def _get_one_protein(self, attribute):
+        query = {
+            '$or': [
+                {'protein_id': attribute},
+                {'protein_name': attribute},
+            ]
+        }
+        protein = self._protein_vocabulary.find_one(query)
+        return protein
+
     def get_scores_by_protein_id(self, protein_id, top_x=10):
         pipeline = [
             {'$match': {'protein_id': protein_id}},
@@ -25,30 +87,25 @@ class DB:
             {"$limit": top_x},
         ]
         query = {"protein_id": protein_id}
-        print('shit')
         dtinet_scores = self._dtinet_score_entries.find().sort('score', -1).limit(top_x)
         # dtinet_scores = self._neodti_score.aggregate(pipeline)
-        print('shit')
         print(dtinet_scores)
         for i in dtinet_scores:
             print(i)
         
 
-    def get_score_entries(self, drug_name, which):
+    def get_score_entries(self, attribute, which):
         """
         argument which should be "DTInet" or "NeoDTI"
         """
-        query = {'drug_name': drug_name}
-        try:
-            drug = self._drug_vocabulary.find(query)[0]
-        except IndexError as e:
-            return None
+        drug = self._get_one_drug(attribute)
+        if drug is None:
+            return 
         line = drug['line']
         return self._get_score_entries_by_line(line, which)
         
-    def get_score_entries_by_condition(self, which, drug_name, upper_limit, lower_limit):
-        query = {'drug_name': drug_name}
-        drug = self._drug_vocabulary.find_one(query)
+    def get_score_entries_by_condition(self, which, attribute, upper_limit, lower_limit):
+        drug = self._get_one_drug(attribute)
         line = drug['line']
         pipeline = [
             {"$unwind": "$score_entries"},
@@ -81,9 +138,8 @@ class DB:
         return score_entries
 
 
-    def get_score_entries_by_ranking(self, which, drug_name, upper_ranking, lower_ranking):
-        query = {'drug_name': drug_name}
-        drug = self._drug_vocabulary.find_one(query)
+    def get_score_entries_by_ranking(self, which, attribute, upper_ranking, lower_ranking):
+        drug = self._get_one_drug(attribute)
         line = drug['line']
         pipeline = [
             {"$unwind": "$score_entries"},
@@ -146,18 +202,8 @@ class DB:
             ranking += 1
 
         return score_entries
-        
-    def _get_protein_name(self, protein_id):
-        query = {"protein_id": protein_id}
-        docs = self._protein_vocabulary.find(query)
-        return docs[0]['protein_name']
-
-    def _get_protein_smiles(self, protein_id):
-        query = {"protein_id": protein_id}
-        docs = self._protein_vocabulary.find(query)
-        return docs[0]['smiles']
     
-    def get_drug_entries(self, protein_name):
+    def get_drug_entries(self, attribute):
         result =[]
         drug = {
             'drug_id': '',
@@ -169,9 +215,7 @@ class DB:
             'label': 0,
             'Smiles': ''
         }
-        query = {"protein_name": protein_name}
-        protein = self._protein_vocabulary.find_one(query)
-
+        protein = self._get_one_protein(attribute)
         query = {
             "score_entries": {
                 "$elemMatch": {"protein_id": protein['protein_id']}
