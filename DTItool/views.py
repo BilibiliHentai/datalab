@@ -132,7 +132,7 @@ def excel_for_protein(request, protein_name):
         titles = GLOBAL_ENTRIES['score_entries'][0].keys()
         content = export.common_singlesheet_excel(GLOBAL_ENTRIES['score_entries'], titles, 'scores')
     response = HttpResponse(content, content_type="application/vnd.ms-excel")
-    response['Content-Disposition'] = "attachment; filename={} DTInet.xlsx".format('protein ' + name)
+    response['Content-Disposition'] = "attachment; filename={} .xlsx".format('protein ' + name)
     
     return response
 

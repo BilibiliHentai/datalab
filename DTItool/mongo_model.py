@@ -166,6 +166,7 @@ class DB:
             'DTInet_ranking': 0,
             'NeoDTI_score': 0,
             'NeoDTI_ranking': 0,
+            'label': 0,
             'Smiles': ''
         }
         query = {"protein_name": protein_name}
@@ -202,17 +203,22 @@ class DB:
         
         for doc in local_dtinet_docs:
             drug = self._drug_vocabulary.find_one({'line': doc['line']})
+            try:
+                drug_name = drug['drug_name']
+            except KeyError as e:
+                drug_name = ''
             for i in local_neodti_docs:
                 if i['line'] == doc['line']:
                     score_ = i['score_entries']['score']
                     ranking_ = i['score_entries']['ranking']
             result.append({
                 'drug_id': drug['drug_id'],
-                'drug_name': drug['drug_name'],
+                'drug_name': drug_name,
                 'DTInet_score': doc['score_entries']['score'],
                 'DTInet_ranking': doc['score_entries']['ranking'],
                 'NeoDTI_score': score_,
                 'NeoDTI_ranking': ranking_,
+                'label': doc['score_entries']['label'],
                 'smiles': protein['smiles']
             })
         

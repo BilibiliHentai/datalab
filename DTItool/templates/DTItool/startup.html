@@ -220,6 +220,7 @@
           <div class="td">Target Name</div>
           <div class="td">DTINet Score</div>
           <div class="td">Rankings(DTINet)</div>
+          <div class="td">Label</div>
           <div class="td">Sequence</div>
         </div>`)
             $("#NeoDTI-list").html(`      <div class="tr">
@@ -227,6 +228,7 @@
           <div class="td">Target Name</div>
           <div class="td">NeoDTI Score</div>
           <div class="td">Rankings(NeoDTI)</div>
+          <div class="td">Label</div>
           <div class="td">Sequence</div>
         </div>`)
             response.data['content']['DTInet'].forEach(element => {
@@ -254,6 +256,7 @@
           <div class="td">Rankings(DTINet)</div>
           <div class="td">NeoDTI Score</div>
           <div class="td">Rankings(NeoDTI)</div>
+          <div class="td">Label</div>
           <div class="td">Smiles</div>
         </div>`)
             $("#NeoDTI-list").html('')
@@ -276,6 +279,7 @@
     let dtinetRanking = scoreEntry['DTInet_ranking']
     let neodtiScore = scoreEntry['NeoDTI_score']
     let neodtiRanking = scoreEntry['NeoDTI_ranking']
+    let label = scoreEntry['label']
     let real_smiles = scoreEntry['smiles']
     let display_smiles = real_smiles.slice(0, 10)
 
@@ -289,6 +293,7 @@
       <div class=\"td\">${dtinetRanking}</div>
       <div class=\"td\">${neodtiScore}</div>
       <div class=\"td\">${neodtiRanking}</div>
+      <div class=\"td\">${label}</div>
       <div smiles="${real_smiles}"class=\"td smiles\" style=\"cursor: pointer;\">${display_smiles}...</div>
     `
     return start + content + end
@@ -299,6 +304,7 @@
     let proteinName = scoreEntry['protein_name']
     let dtinetScore = scoreEntry['DTInet_score']
     let dtinetRanking = scoreEntry['DTInet_ranking']
+    let label = scoreEntry['label']
     let real_smiles = scoreEntry['smiles']
     let display_smiles = real_smiles.slice(0, 10)
 
@@ -309,6 +315,7 @@
       <div class=\"td\">${proteinName}</div>
       <div class=\"td\">${dtinetScore}</div>
       <div class=\"td\">${dtinetRanking}</div>
+      <div class=\"td\">${label}</div>
       <div smiles="${real_smiles}"class=\"td smiles\" style=\"cursor: pointer;\">${display_smiles}...</div>
     `
     return start + content + end
@@ -321,6 +328,7 @@
     // let dtinetRanking = scoreEntry['DTInet_ranking']
     let neodtiScore = scoreEntry['NeoDTI_score']
     let neodtiRanking = scoreEntry['NeoDTI_ranking']
+    let label = scoreEntry['label']
     let real_smiles = scoreEntry['smiles']
     let display_smiles = real_smiles.slice(0, 10)
 
@@ -331,6 +339,7 @@
       <div class=\"td\">${proteinName}</div>
       <div class=\"td\">${neodtiScore}</div>
       <div class=\"td\">${neodtiRanking}</div>
+      <div class=\"td\">${label}</div>
       <div smiles="${real_smiles}"class=\"td smiles\" style=\"cursor: pointer;\">${display_smiles}...</div>
     `
     return start + content + end
