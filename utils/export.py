@@ -12,7 +12,7 @@ def excel_both(drug_name, dtinet_score_entries, neodti_score_entries):
         'DTInet ranking', 'Sequence'
     ]
     display_keys = [
-        'Drug name', 'Smiles', 'Uniprot', 'gene name', 'Label'
+        'Drug name', 'Sequence', 'Uniprot', 'gene name', 'Label'
     ]
     for i, j in enumerate(display_keys):
         dtinet_sheet.write(0, i, j)
@@ -108,7 +108,10 @@ def common_singlesheet_excel(score_entries, titles, sheet_name):
     dtinet_sheet = f.add_worksheet(sheet_name)
     keys = titles
     for i, j in enumerate(keys):
-        dtinet_sheet.write(0, i, j)
+        if j == 'smiles':
+            dtinet_sheet.write(0, i, 'Sequence')
+        else:
+            dtinet_sheet.write(0, i, j)
     dtinet_sheet.set_column(0, len(keys)-1, 15)
     for i, d in enumerate(score_entries):
         for j, v in enumerate(keys):

@@ -219,7 +219,8 @@ class DB:
                 'NeoDTI_score': score_,
                 'NeoDTI_ranking': ranking_,
                 'label': doc['score_entries']['label'],
-                'smiles': protein['smiles']
+                'smiles': protein['smiles'],
+                # 'smiles': drug['unknown']
             })
         
         return result
