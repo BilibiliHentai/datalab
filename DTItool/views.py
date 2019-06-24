@@ -39,7 +39,7 @@ def index(request):
 
 @login_required(login_url='/DTItool/login')
 def startup(request):
-    f_logout(request)
+    # f_logout(request)
     return render(request, 'DTItool/startup.html')
 
 def login(request):
@@ -165,8 +165,8 @@ def condition_for_drug(request, drug_name, dtinet_upper_limit, dtinet_lower_limi
     neodti_upper_limit = float(neodti_upper_limit)
     neodti_lower_limit = float(neodti_lower_limit)
 
-    dtinet_score_entries = db.get_score_entries_by_condition('DTInet', drug_name, dtinet_upper_limit, dtinet_lower_limit)
-    neodti_score_entries = db.get_score_entries_by_condition('NeoDTI', drug_name, neodti_upper_limit, neodti_lower_limit)
+    dtinet_score_entries = db.get_score_entries_by_drug_condition('DTInet', drug_name, dtinet_upper_limit, dtinet_lower_limit)
+    neodti_score_entries = db.get_score_entries_by_drug_condition('NeoDTI', drug_name, neodti_upper_limit, neodti_lower_limit)
     if dtinet_score_entries is None or neodti_score_entries is None:
         return JsonResponse(result)
     else:
@@ -180,6 +180,34 @@ def condition_for_drug(request, drug_name, dtinet_upper_limit, dtinet_lower_limi
     result['content'] = dtinet_score_entries
     return JsonResponse(result)
 
+def condition_for_protein(request, protein_name, dtinet_upper_limit, dtinet_lower_limit, neodti_upper_limit, neodti_lower_limit):
+    result = {
+        "ok": True,
+        "content": ""
+    }
+    dtinet_upper_limit = float(dtinet_upper_limit)
+    dtinet_lower_limit = float(dtinet_lower_limit)
+    neodti_upper_limit = float(neodti_upper_limit)
+    neodti_lower_limit = float(neodti_lower_limit)
+
+    dtinet_score_entries = db.get_score_entries_by_protein_condition("DTInet", protein_name, dtinet_upper_limit, dtinet_lower_limit)
+    neodti_score_entries = db.get_score_entries_by_protein_condition("NeoDTI", protein_name, neodti_upper_limit, neodti_lower_limit)
+
+    if dtinet_score_entries is None or neodti_score_entries is None:
+        return JsonResponse(result)
+    else:
+        result['ok'] = True
+
+    for dtinet in dtinet_score_entries:
+        for neodti in neodti_score_entries:
+            if dtinet['drug_id'] == neodti['drug_id']:
+                dtinet['NeoDTI_score'] = neodti['NeoDTI_score']
+                dtinet["NeoDTI_ranking"] = neodti["NeoDTI_ranking"]
+            else:
+                dtinet['NeoDTI_score'] = ""
+                dtinet["NeoDTI_ranking"] = ""
+    result['content'] = dtinet_score_entries
+    return JsonResponse(result)
 
 def ranking_for_drug(request, drug_name, dtinet_upper_ranking, dtinet_lower_ranking, neodti_upper_ranking, neodti_lower_ranking):
     result = {
@@ -202,6 +230,30 @@ def ranking_for_drug(request, drug_name, dtinet_upper_ranking, dtinet_lower_rank
     result['content'] = dtinet_score_entries
     return JsonResponse(result)
 
+def ranking_for_protein(request, drug_name, dtinet_upper_ranking, dtinet_lower_ranking, neodti_upper_ranking, neodti_lower_ranking):
+    result = {
+        "ok": False,
+        "content": ""
+    }
+
+    dtinet_score_entries = db.get_score_entries_by_protein_ranking('DTInet', drug_name, dtinet_upper_ranking, dtinet_lower_ranking)
+    neodti_score_entries = db.get_score_entries_by_protein_ranking('NeoDTI', drug_name, neodti_upper_ranking, neodti_lower_ranking)
+
+    if dtinet_score_entries is None or neodti_score_entries is None:
+        return JsonResponse(result)
+    else:
+        result['ok'] = True
+    
+    for dtinet in dtinet_score_entries:
+        for neodti in neodti_score_entries:
+            if dtinet['drug_id'] == neodti['drug_id']:
+                dtinet['NeoDTI_score'] = neodti['NeoDTI_score']
+                dtinet["NeoDTI_ranking"] = neodti["NeoDTI_ranking"]
+            else:
+                dtinet['NeoDTI_score'] = ""
+                dtinet["NeoDTI_ranking"] = ""
+    result['content'] = dtinet_score_entries
+    return JsonResponse(result)    
 
 def excel_condition(request, drug_name, dtinet_upper_limit, dtinet_lower_limit, neodti_upper_limit, neodti_lower_limit):
     dtinet_upper_limit = float(dtinet_upper_limit)
@@ -209,8 +261,8 @@ def excel_condition(request, drug_name, dtinet_upper_limit, dtinet_lower_limit, 
     neodti_upper_limit = float(neodti_upper_limit)
     neodti_lower_limit = float(neodti_lower_limit)
 
-    dtinet_score_entries = db.get_score_entries_by_condition('DTInet', drug_name, dtinet_upper_limit, dtinet_lower_limit)
-    neodti_score_entries = db.get_score_entries_by_condition('NeoDTI', drug_name, neodti_upper_limit, neodti_lower_limit)
+    dtinet_score_entries = db.get_score_entries_by_drug_condition('DTInet', drug_name, dtinet_upper_limit, dtinet_lower_limit)
+    neodti_score_entries = db.get_score_entries_by_drug_condition('NeoDTI', drug_name, neodti_upper_limit, neodti_lower_limit)
     for dtinet in dtinet_score_entries:
         for neodti in neodti_score_entries:
             if dtinet['protein_id'] == neodti['protein_id']:
@@ -227,8 +279,8 @@ def excel_condition(request, drug_name, dtinet_upper_limit, dtinet_lower_limit, 
 
 
 def excel_ranking(request, drug_name, dtinet_upper_ranking, dtinet_lower_ranking, neodti_upper_ranking, neodti_lower_ranking):
-    dtinet_score_entries = db.get_score_entries_by_ranking('DTInet', drug_name, dtinet_upper_ranking, dtinet_lower_ranking)
-    neodti_score_entries = db.get_score_entries_by_ranking('NeoDTI', drug_name, neodti_upper_ranking, neodti_lower_ranking)
+    dtinet_score_entries = db.get_score_entries_by_drug_ranking('DTInet', drug_name, dtinet_upper_ranking, dtinet_lower_ranking)
+    neodti_score_entries = db.get_score_entries_by_drug_ranking('NeoDTI', drug_name, neodti_upper_ranking, neodti_lower_ranking)
 
     for dtinet in dtinet_score_entries:
         for neodti in neodti_score_entries:
@@ -244,3 +296,42 @@ def excel_ranking(request, drug_name, dtinet_upper_ranking, dtinet_lower_ranking
     
     return response
 
+def excel_condition_protein(request, protein_name, dtinet_upper_limit, dtinet_lower_limit, neodti_upper_limit, neodti_lower_limit):
+    dtinet_upper_limit = float(dtinet_upper_limit)
+    dtinet_lower_limit = float(dtinet_lower_limit)
+    neodti_upper_limit = float(neodti_upper_limit)
+    neodti_lower_limit = float(neodti_lower_limit)
+
+    dtinet_score_entries = db.get_score_entries_by_protein_condition('DTInet', protein_name, dtinet_upper_limit, dtinet_lower_limit)
+    neodti_score_entries = db.get_score_entries_by_protein_condition('NeoDTI', protein_name, neodti_upper_limit, neodti_lower_limit)
+    for dtinet in dtinet_score_entries:
+        for neodti in neodti_score_entries:
+            if dtinet['drug_id'] == neodti['drug_id']:
+                dtinet['NeoDTI_score'] = neodti['NeoDTI_score']
+            else:
+                dtinet['NeoDTI_score'] = ''
+
+    titles = dtinet_score_entries[0].keys()
+    content = export.common_singlesheet_excel(dtinet_score_entries, titles, 'scores')
+    response = HttpResponse(content, content_type="application/vnd.ms-excel")
+    response['Content-Disposition'] = "attachment; filename={} DTInet.xlsx".format(protein_name + ' scores advanced')
+    
+    return response
+
+def excel_ranking_protein(request, protein_name, dtinet_upper_ranking, dtinet_lower_ranking, neodti_upper_ranking, neodti_lower_ranking):
+    dtinet_score_entries = db.get_score_entries_by_protein_ranking('DTInet', protein_name, dtinet_upper_ranking, dtinet_lower_ranking)
+    neodti_score_entries = db.get_score_entries_by_protein_ranking('NeoDTI', protein_name, neodti_upper_ranking, neodti_lower_ranking)
+
+    for dtinet in dtinet_score_entries:
+        for neodti in neodti_score_entries:
+            if dtinet['drug_id'] == neodti['drug_id']:
+                dtinet['NeoDTI_ranking'] = neodti['NeoDTI_ranking']
+            else:
+                dtinet['NeoDTI_ranking'] = ''
+    
+    titles = dtinet_score_entries[0].keys()
+    content = export.common_singlesheet_excel(dtinet_score_entries, titles, 'rankings')
+    response = HttpResponse(content, content_type="application/vnd.ms-excel")
+    response['Content-Disposition'] = "attachment; filename={} DTInet.xlsx".format(protein_name + ' rankings advanced')
+    
+    return response
