@@ -108,6 +108,12 @@ def common_singlesheet_excel(score_entries, titles, sheet_name):
     dtinet_sheet = f.add_worksheet(sheet_name)
     keys = titles
     for i, j in enumerate(keys):
+        if j == "smiles":
+            dtinet_sheet.write(0, i, "sequence")
+            continue
+        if j == "sequence":
+            dtinet_sheet.write(0, i, "smiles")
+            continue
         dtinet_sheet.write(0, i, j)
     dtinet_sheet.set_column(0, len(keys)-1, 15)
     for i, d in enumerate(score_entries):
